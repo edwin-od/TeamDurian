@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialDelay: 0
-  beatsPerMinute: 100
+  beatsPerMinute: 60
 --- !u!4 &1269308346
 Transform:
   m_ObjectHideFlags: 0

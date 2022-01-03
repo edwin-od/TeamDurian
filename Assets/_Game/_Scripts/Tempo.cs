@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Tempo : MonoBehaviour
 {
-    [SerializeField] private float initialDelay = 0f;
-    [SerializeField] private int beatsPerMinute = 100;
+    [SerializeField, Range(0f, 120f)] private float initialDelay = 0f;
+    [SerializeField, Range(1, 10000)] private int beatsPerMinute = 60;
 
-    private bool isTempoRunning = false;
-    private bool isTempoPaused = false;
-    private int totalBeats = 0;
+    private static bool isTempoRunning = false;
+    private static bool isTempoPaused = false;
+    private static int totalBeats = 0;
+    private static double elapsedTime = 0f;
 
     [HideInInspector] public delegate void Beat();
     [HideInInspector] public static event Beat OnBeat;
@@ -49,7 +50,8 @@ public class Tempo : MonoBehaviour
         isTempoRunning = true;
         isTempoPaused = false;
         totalBeats = 0;
-        StartCoroutine(TempoLoop(60.0f / beatsPerMinute));
+        elapsedTime = 0f;
+        StartCoroutine(TempoLoop());
     }
 
     public void StopTempo()
@@ -77,45 +79,92 @@ public class Tempo : MonoBehaviour
         isTempoPaused = false;
     }
 
-    public float ElapsedTime()
+    public static double ElapsedTime()
     {
-        return totalBeats * (60.0f / beatsPerMinute);
+        return elapsedTime;
     }
 
-    public int TotalBeats()
+    public static int TotalBeats()
     {
         return totalBeats;
     }
 
-    public bool IsTempoActive()
+    public static bool IsTempoActive()  // Started and NOT Ended Yet
     {
         return isTempoRunning;
     }
 
-    public bool IsTempoPaused()
+    public static bool IsTempoPaused()  // Started and Paused
     {
-        return isTempoPaused;
+        return isTempoRunning && isTempoPaused;
     }
 
-    IEnumerator TempoLoop(float tempoPeriod)
+    public int BPM
     {
-        Debug.Log("Tempo Started");
+        get { return beatsPerMinute; }
+        set { beatsPerMinute = value; }
+    }
 
+    IEnumerator TempoLoop()
+    {
         yield return new WaitForSeconds(initialDelay);
+
+        double t0 = Time.realtimeSinceStartupAsDouble; // Used to get to elapsed time
+
+        int prevBPM = beatsPerMinute;
+        float tempoPeriod = 60f / prevBPM;
+
+        // timer temporary variables
+        double tx_1 = t0;   // t(x-1)
+        double tx = tx_1 + tempoPeriod;    // t(x)  -> + tempoPeriod to start immidiately
+
+        double t_pause = 0;
+
+        bool paused = false;
 
         while (isTempoRunning)
         {
+            if(prevBPM != beatsPerMinute)   // BPM changed dynamically
+            {
+                prevBPM = beatsPerMinute;
+                tempoPeriod = 60f / prevBPM;
+            }
+
             if (!isTempoPaused)
             {
-                totalBeats++;
-                if (OnBeat != null) // Check if there are subscribers to the event OnBeat
-                    OnBeat();
+                if (paused)
+                {
+                    double pause_delay = Time.realtimeSinceStartupAsDouble - t_pause;
+                    t0 += pause_delay;
+                    tx_1 += pause_delay;
+                    tx += pause_delay;
 
-                yield return new WaitForSeconds(tempoPeriod);
+                    t_pause = 0f;
+                    paused = false;
+                }
+
+                if (tx - tx_1 >= tempoPeriod)
+                {
+                    totalBeats++;
+                    if (OnBeat != null) // Check if there are subscribers to the event OnBeat
+                        OnBeat();
+
+                    tx_1 = Time.realtimeSinceStartupAsDouble;
+                }
+                tx = Time.realtimeSinceStartupAsDouble;
+                elapsedTime = tx - t0;
+
+                yield return null;
             }
             else
+            {
+                if (!paused)
+                {
+                    paused = true;
+                    t_pause = Time.realtimeSinceStartupAsDouble;
+                }
                 yield return null;
+            }
         }
-        Debug.Log("Tempo Ended");
     }
 }
