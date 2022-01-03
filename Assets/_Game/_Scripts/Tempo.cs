@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tempo : MonoBehaviour
 {
     [SerializeField, Range(0f, 120f)] private float initialDelay = 0f;
-    [SerializeField, Range(1, 10000)] private int beatsPerMinute = 60;
+    [SerializeField, Range(1, 1000)] private int beatsPerMinute = 60;
 
     private static bool isTempoRunning = false;
     private static bool isTempoPaused = false;
@@ -22,7 +22,8 @@ public class Tempo : MonoBehaviour
         else Destroy(this.gameObject);
     }
 
-    
+    #region TEST
+    ///////////    TEST    ///////////
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Tab))
@@ -34,6 +35,8 @@ public class Tempo : MonoBehaviour
             TogglePauseTempo();
         }
     }
+    ///////////////////////////////////
+    #endregion
 
     public bool ToggleTempo()
     {
@@ -79,24 +82,24 @@ public class Tempo : MonoBehaviour
         isTempoPaused = false;
     }
 
-    public static double ElapsedTime()
+    public static double ElapsedTime
     {
-        return elapsedTime;
+        get { return elapsedTime; }
     }
 
-    public static int TotalBeats()
+    public static int TotalBeats
     {
-        return totalBeats;
+        get { return totalBeats; }
     }
 
-    public static bool IsTempoActive()  // Started and NOT Ended Yet
+    public static bool IsTempoActive  // Started and NOT Ended Yet
     {
-        return isTempoRunning;
+        get { return isTempoRunning; }
     }
 
-    public static bool IsTempoPaused()  // Started and Paused
+    public static bool IsTempoPaused  // Started and Paused
     {
-        return isTempoRunning && isTempoPaused;
+        get { return isTempoRunning && isTempoPaused; }
     }
 
     public int BPM
