@@ -6,6 +6,6 @@ public class BPMTrigger1 : TempoTrigger
 {
     public override void Beat()
     {
-        Debug.Log("Beat 1");
+        Debug.Log("Beat 1 " + Tempo.ElapsedTime());
     }
 }

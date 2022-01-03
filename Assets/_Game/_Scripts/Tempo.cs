@@ -110,15 +110,11 @@ public class Tempo : MonoBehaviour
         yield return new WaitForSeconds(initialDelay);
 
         double t0 = Time.realtimeSinceStartupAsDouble; // Used to get to elapsed time
+        double tx = t0;    // t(x) -> Current time in-between beats
+        double t_pause = 0; // Time after pause
 
         int prevBPM = beatsPerMinute;
         float tempoPeriod = 60f / prevBPM;
-
-        // timer temporary variables
-        double tx_1 = t0;   // t(x-1)
-        double tx = tx_1 + tempoPeriod;    // t(x)  -> + tempoPeriod to start immidiately
-
-        double t_pause = 0;
 
         bool paused = false;
 
@@ -136,21 +132,19 @@ public class Tempo : MonoBehaviour
                 {
                     double pause_delay = Time.realtimeSinceStartupAsDouble - t_pause;
                     t0 += pause_delay;
-                    tx_1 += pause_delay;
                     tx += pause_delay;
 
                     t_pause = 0f;
                     paused = false;
                 }
 
-                if (tx - tx_1 >= tempoPeriod)
+                if (tx - t0 >= totalBeats * tempoPeriod)
                 {
                     totalBeats++;
                     if (OnBeat != null) // Check if there are subscribers to the event OnBeat
                         OnBeat();
-
-                    tx_1 = Time.realtimeSinceStartupAsDouble;
                 }
+
                 tx = Time.realtimeSinceStartupAsDouble;
                 elapsedTime = tx - t0;
 
