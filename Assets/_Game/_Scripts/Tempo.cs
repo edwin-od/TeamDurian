@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tempo : MonoBehaviour
 {
     [SerializeField, Range(0f, 120f)] private float initialDelay = 0f;
-    [SerializeField, Range(1, 1000)] private int beatsPerMinute = 60;
+    [SerializeField, Range(1, 150)] private int beatsPerMinute = 60;
     [SerializeField, Range(0.02f, 1f)] private float onBeatAcceptablePercentage = 0.25f;
 
     private bool isTempoRunning = false;
@@ -119,7 +119,7 @@ public class Tempo : MonoBehaviour
     public int BPM
     {
         get { return beatsPerMinute; }
-        set { beatsPerMinute = value; }
+        set { beatsPerMinute = Mathf.Clamp(value, 1, 150); ; }
     }
 
     public float PercentageToBeat
@@ -140,34 +140,41 @@ public class Tempo : MonoBehaviour
         int prevBPM = beatsPerMinute;
         float tempoPeriod = 60f / prevBPM;
 
-        bool paused = false;
-
         while (isTempoRunning)
         {
-            if(prevBPM != beatsPerMinute)   // BPM changed dynamically
-            {
-                prevBPM = beatsPerMinute;
-                tempoPeriod = 60f / prevBPM;
-            }
 
             if (!isTempoPaused)
             {
+                // Manage Dynamic BPM
+                if (prevBPM != beatsPerMinute)
+                {
+                    float oldPeriod = tempoPeriod;
+                    tempoPeriod = 60f / beatsPerMinute;
+
+                    totalBeats = Mathf.FloorToInt((totalBeats * oldPeriod) / tempoPeriod);
+                    beatIntervalCurrentBeats = Mathf.FloorToInt((beatIntervalCurrentBeats * oldPeriod) / tempoPeriod);
+
+                    Debug.Log(totalBeats);
+
+                    prevBPM = beatsPerMinute;
+                }
+
                 // Manage Pause Interval Compensation
-                if (paused)
+                if (t_pause != 0)
                 {
                     double pause_delay = Time.realtimeSinceStartupAsDouble - t_pause;
                     t0 += pause_delay;
                     tx += pause_delay;
 
                     t_pause = 0f;
-                    paused = false;
                 }
 
                 double oldElapsedTime = tx - t0;
 
-                // Manage OnBeat Interval
                 float currentBeatTimeline = beatIntervalCurrentBeats * tempoPeriod;
                 float halfBeatInterval = tempoPeriod * (onBeatAcceptablePercentage / 2);
+
+                // Manage OnBeat Interval Start and End Events
                 if (oldElapsedTime >= currentBeatTimeline - halfBeatInterval && oldElapsedTime < currentBeatTimeline + halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; OnIntervalBeatStart?.Invoke(); } }
                 else { if (isOnBeat) { isOnBeat = false; OnIntervalBeatEnd?.Invoke(); beatIntervalCurrentBeats++; } }
 
@@ -181,11 +188,9 @@ public class Tempo : MonoBehaviour
             }
             else
             {
-                if (!paused)
-                {
-                    paused = true;
+                if (t_pause == 0)
                     t_pause = Time.realtimeSinceStartupAsDouble;
-                }
+
                 yield return null;
             }
         }

@@ -13,11 +13,6 @@ public class Player : GridMoveable
         else Destroy(this.gameObject);
     }
 
-    public override void Beat()
-    {
-        
-    }
-
     private void OnEnable()
     {
         Tempo.OnBeat += Beat;
@@ -34,14 +29,19 @@ public class Player : GridMoveable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        /*if (Input.GetKeyDown(KeyCode.W))
             MoveTile(DIRECTION.UP);
         if (Input.GetKeyDown(KeyCode.S))
-            MoveTile(DIRECTION.DOWN);
+            MoveTile(DIRECTION.DOWN);*/
         if (Input.GetKeyDown(KeyCode.D))
             MoveTile(DIRECTION.RIGHT);
         if (Input.GetKeyDown(KeyCode.A))
             MoveTile(DIRECTION.LEFT);
+
+        if(Input.GetKeyDown(KeyCode.Q))
+            Tempo.Get.BPM -= 5;
+        if (Input.GetKeyDown(KeyCode.E))
+            Tempo.Get.BPM += 5;
     }
 
     private void MoveTile(DIRECTION Direction)
@@ -59,18 +59,13 @@ public class Player : GridMoveable
                 }
             }
 
-            if (!IsMoving)
-                StartCoroutine(Move(Direction));
+            Move(Direction);
         }
     }
 
-    private void BeatIntervalStart()
-    {
-        
-    }
+    public override void Beat() { }
 
-    private void BeatIntervalEnd()
-    {
-        skipBeat = false;
-    }
+    private void BeatIntervalStart() { }
+
+    private void BeatIntervalEnd() { skipBeat = false; }
 }
