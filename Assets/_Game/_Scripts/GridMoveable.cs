@@ -7,11 +7,10 @@ public class GridMoveable : TempoTrigger
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
 
-    private Vector2 tile = Vector3.zero;
-    public Vector2 Tile { get { return tile; } }
+    private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
+    public GridManager.IntVector2 Tile { get { return tile; } }
 
-    public static readonly float TILE_SIZE = 1f;
-    public static readonly float MOVE_SPEED = 0.15f;
+    public static readonly float MOVE_SPEED = 0.075f;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
@@ -22,25 +21,37 @@ public class GridMoveable : TempoTrigger
 
     protected IEnumerator Move(DIRECTION Direction)
     {
-        if (!IsMoving)
+        if (!IsMoving && GridManager.Get)
         {
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
+            Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
+
+            if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= GridManager.Get.Grid.tiles.x || targetTile.y >= GridManager.Get.Grid.tiles.y)
+                yield break;
 
             isMoving = true;
-
             float elapsedTime = 0f;
-            Vector2 targetTile = tile + direction;
-            while(elapsedTime < MOVE_SPEED)
+            while (elapsedTime < MOVE_SPEED)
             {
-                Vector2 interm = Vector2.Lerp(tile * TILE_SIZE, targetTile * TILE_SIZE, (elapsedTime / MOVE_SPEED));
+                Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Get.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Get.Grid.tileSize), (elapsedTime / MOVE_SPEED));
                 transform.position = new Vector3(interm.x, transform.position.y, interm.y);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            transform.position = new Vector3(targetTile.x * TILE_SIZE, transform.position.y, targetTile.y * TILE_SIZE);
-            tile = targetTile;
+
+            transform.position = new Vector3(targetTile.x * GridManager.Get.Grid.tileSize.x, transform.position.y, targetTile.y * GridManager.Get.Grid.tileSize.y);
+            tile = new GridManager.IntVector2(Mathf.FloorToInt(targetTile.x), Mathf.FloorToInt(targetTile.y));
 
             isMoving = false;
+        }
+    }
+
+    public void Teleport(GridManager.IntVector2 newTile, Vector3 Offset)
+    {
+        if (GridManager.Get)
+        {
+            transform.position = Offset + new Vector3(newTile.x * GridManager.Get.Grid.tileSize.x, 0, newTile.y * GridManager.Get.Grid.tileSize.y);
+            tile = newTile;
         }
     }
 
