@@ -6,6 +6,6 @@ public class EnemyController : GridMoveable
 {
     public override void Beat()
     {
-        StartCoroutine(Move(DIRECTION.DOWN));
+        Move(DIRECTION.DOWN);
     }
 }

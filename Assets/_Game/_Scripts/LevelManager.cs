@@ -5,9 +5,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public Levels levels;
-    public int highestTile = 6;
-    public int gridLength = 13;
     public GameObject enemyPrefab;
+
+    [HideInInspector] public static LevelManager Get;
+    void Awake()
+    {
+        if (Get == null) Get = this;
+        else Destroy(this.gameObject);
+    }
 
     private void Start()
     {
@@ -16,16 +21,20 @@ public class LevelManager : MonoBehaviour
 
     public void StartLevel(int levelIndex)
     {
-        for (int i = 0; i < levels.levels[levelIndex].waves.Length; i++)
+        if (GridManager.Get)
         {
-            for(int j = 0; j < levels.levels[levelIndex].waves[i].lines.Count; j++)
+            for (int i = 0; i < levels.levels[levelIndex].waves.Length; i++)
             {
-                int startingTile = gridLength - levels.levels[levelIndex].waves[i].lines[j].lineLength;
-                startingTile = (startingTile - gridLength) / 2;
-
-                for (int k = 0; k < levels.levels[levelIndex].waves[i].lines[j].lineLength; k++)
+                for (int j = 0; j < levels.levels[levelIndex].waves[i].lines.Count; j++)
                 {
-                    Instantiate(enemyPrefab, new Vector3(startingTile + k, 0, highestTile - j), Quaternion.identity);
+                    int startingTile = (GridManager.Get.Grid.tiles.x - levels.levels[levelIndex].waves[i].lines[j].lineLength) / 2;
+                    for (int k = 0; k < levels.levels[levelIndex].waves[i].lines[j].lineLength; k++)
+                    {
+                        GridManager.IntVector2 spawnTile = new GridManager.IntVector2(startingTile + k, GridManager.Get.Grid.tiles.y - j - 1);
+                        GameObject enemy = Instantiate(enemyPrefab, transform);
+                        enemy.transform.parent = transform;
+                        enemy.GetComponent<EnemyController>().TeleportOnGrid(spawnTile);
+                    }
                 }
             }
         }

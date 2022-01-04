@@ -22,17 +22,21 @@ public class UITest : MonoBehaviour
             overshoot = true;
         else
             skippedFirst = true;
+
+        //Debug.Log("BEAT");
     }
 
     private void BeatIntervalStart()
     {
         TopProgressBar.gameObject.GetComponent<Image>().color = OnBeatColor;
+        //Debug.Log("START");
     }
 
     private void BeatIntervalEnd()
     {
         overshoot = false;
         BottomProgressBar.localScale = new Vector3(1, 0, 1);
+        //Debug.Log("END");
     }
 
     private void OnEnable()

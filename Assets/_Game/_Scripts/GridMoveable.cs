@@ -19,9 +19,15 @@ public class GridMoveable : TempoTrigger
 
     public enum DIRECTION { UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3 };
 
-    protected IEnumerator Move(DIRECTION Direction)
+    public void Move(DIRECTION Direction)
     {
-        if (!IsMoving && GridManager.Get)
+        if (!isMoving)
+            StartCoroutine(MoveTransition(Direction));
+    }
+
+    private IEnumerator MoveTransition(DIRECTION Direction)
+    {
+        if (GridManager.Get)
         {
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
@@ -39,18 +45,25 @@ public class GridMoveable : TempoTrigger
                 yield return null;
             }
 
-            transform.position = new Vector3(targetTile.x * GridManager.Get.Grid.tileSize.x, transform.position.y, targetTile.y * GridManager.Get.Grid.tileSize.y);
-            tile = new GridManager.IntVector2(Mathf.FloorToInt(targetTile.x), Mathf.FloorToInt(targetTile.y));
-
+            Teleport(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y), Vector3.zero);
             isMoving = false;
         }
     }
 
     public void Teleport(GridManager.IntVector2 newTile, Vector3 Offset)
     {
-        if (GridManager.Get)
+        if (GridManager.Get && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Get.Grid.tiles.x && newTile.y < GridManager.Get.Grid.tiles.y)
         {
             transform.position = Offset + new Vector3(newTile.x * GridManager.Get.Grid.tileSize.x, 0, newTile.y * GridManager.Get.Grid.tileSize.y);
+            tile = newTile;
+        }
+    }
+
+    public void TeleportOnGrid(GridManager.IntVector2 newTile)
+    {
+        if (GridManager.Get && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Get.Grid.tiles.x && newTile.y < GridManager.Get.Grid.tiles.y)
+        {
+            transform.position = GridManager.Get.transform.position + new Vector3(newTile.x * GridManager.Get.Grid.tileSize.x, 0, newTile.y * GridManager.Get.Grid.tileSize.y);
             tile = newTile;
         }
     }
