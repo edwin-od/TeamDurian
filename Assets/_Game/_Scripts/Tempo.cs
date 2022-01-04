@@ -6,14 +6,22 @@ public class Tempo : MonoBehaviour
 {
     [SerializeField, Range(0f, 120f)] private float initialDelay = 0f;
     [SerializeField, Range(1, 1000)] private int beatsPerMinute = 60;
+    [SerializeField, Range(0.02f, 1f)] private float onBeatAcceptablePercentage = 0.25f;
 
-    private static bool isTempoRunning = false;
-    private static bool isTempoPaused = false;
-    private static int totalBeats = 0;
-    private static double elapsedTime = 0f;
+    private bool isTempoRunning = false;
+    private bool isTempoPaused = false;
+    private bool isOnBeat = false;
+    private int totalBeats = 0;
+    private double elapsedTime = 0f;
 
     [HideInInspector] public delegate void Beat();
     [HideInInspector] public static event Beat OnBeat;
+
+    [HideInInspector] public delegate void IntervalBeatStart();
+    [HideInInspector] public static event Beat OnIntervalBeatStart;
+
+    [HideInInspector] public delegate void IntervalBeatEnd();
+    [HideInInspector] public static event Beat OnIntervalBeatEnd;
 
     [HideInInspector] public static Tempo Get;
     void Awake()
@@ -22,8 +30,6 @@ public class Tempo : MonoBehaviour
         else Destroy(this.gameObject);
     }
 
-    #region TEST
-    ///////////    TEST    ///////////
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Tab))
@@ -35,8 +41,6 @@ public class Tempo : MonoBehaviour
             TogglePauseTempo();
         }
     }
-    ///////////////////////////////////
-    #endregion
 
     public bool ToggleTempo()
     {
@@ -82,24 +86,34 @@ public class Tempo : MonoBehaviour
         isTempoPaused = false;
     }
 
-    public static double ElapsedTime
+    public double ElapsedTime
     {
         get { return elapsedTime; }
     }
 
-    public static int TotalBeats
+    public int TotalBeats
     {
         get { return totalBeats; }
     }
 
-    public static bool IsTempoActive  // Started and NOT Ended Yet
+    public bool IsTempoRunning  // Started and NOT Ended Yet
     {
         get { return isTempoRunning; }
     }
 
-    public static bool IsTempoPaused  // Started and Paused
+    public bool IsTempoPaused  // Started and Paused
     {
         get { return isTempoRunning && isTempoPaused; }
+    }
+
+    public bool IsTempoActive  // Started and NOT Ended Yet and NOT Paused
+    {
+        get { return isTempoRunning && !isTempoPaused; }
+    }
+
+    public bool IsOnBeat
+    {
+        get { return isOnBeat; }
     }
 
     public int BPM
@@ -108,9 +122,16 @@ public class Tempo : MonoBehaviour
         set { beatsPerMinute = value; }
     }
 
+    public float PercentageToBeat
+    {
+        get { return ((totalBeats * (60f / beatsPerMinute)) - (float)elapsedTime) / (60f / beatsPerMinute); }
+    }
+
     IEnumerator TempoLoop()
     {
         yield return new WaitForSeconds(initialDelay);
+
+        int beatIntervalCurrentBeats = 0;
 
         double t0 = Time.realtimeSinceStartupAsDouble; // Used to get to elapsed time
         double tx = t0;    // t(x) -> Current time in-between beats
@@ -131,6 +152,7 @@ public class Tempo : MonoBehaviour
 
             if (!isTempoPaused)
             {
+                // Manage Pause Interval Compensation
                 if (paused)
                 {
                     double pause_delay = Time.realtimeSinceStartupAsDouble - t_pause;
@@ -141,12 +163,16 @@ public class Tempo : MonoBehaviour
                     paused = false;
                 }
 
-                if (tx - t0 >= totalBeats * tempoPeriod)
-                {
-                    totalBeats++;
-                    if (OnBeat != null) // Check if there are subscribers to the event OnBeat
-                        OnBeat();
-                }
+                double oldElapsedTime = tx - t0;
+
+                // Manage OnBeat Interval
+                float currentBeatTimeline = beatIntervalCurrentBeats * tempoPeriod;
+                float halfBeatInterval = tempoPeriod * (onBeatAcceptablePercentage / 2);
+                if (oldElapsedTime >= currentBeatTimeline - halfBeatInterval && oldElapsedTime < currentBeatTimeline + halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; OnIntervalBeatStart?.Invoke(); } }
+                else { if (isOnBeat) { isOnBeat = false; OnIntervalBeatEnd?.Invoke(); beatIntervalCurrentBeats++; } }
+
+                // Manage Beat Broadcast Event
+                if (oldElapsedTime >= totalBeats * tempoPeriod) { totalBeats++; OnBeat?.Invoke(); }
 
                 tx = Time.realtimeSinceStartupAsDouble;
                 elapsedTime = tx - t0;
