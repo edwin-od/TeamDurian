@@ -6,7 +6,7 @@ public class BPMTrigger1 : GridMoveable
 {
     public override void Beat()
     {
-        Debug.Log("Beat 1 " + Tempo.ElapsedTime);
+        Debug.Log("Beat 1");
     }
 
     private void Update()
