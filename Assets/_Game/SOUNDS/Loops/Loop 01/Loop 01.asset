@@ -15,5 +15,4 @@ MonoBehaviour:
   BPM: 130
   instruments:
   - {fileID: 8300000, guid: ca232c8d4593a25428a0e062ad11f546, type: 3}
-  - {fileID: 8300000, guid: 72ef2fac66f5c864ba5927bb5588337f, type: 3}
   - {fileID: 8300000, guid: bd1ac08a72cad3a4eacdca594c868113, type: 3}

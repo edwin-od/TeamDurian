@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : TempoTrigger
+public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundLevels soundLevels;
 
@@ -10,6 +10,8 @@ public class SoundManager : TempoTrigger
     private int currentLoop = -1;
     private int loopCount = -1;
     private bool isLevelActive = false;
+
+    private AudioSource backgroundMusic;
     private List<AudioSource> instruments;
 
     public delegate void LevelStart();
@@ -31,7 +33,21 @@ public class SoundManager : TempoTrigger
         StartLevel(0);
     }
 
-    public override void Beat() 
+    private void OnEnable()
+    {
+        Tempo.OnBeat += Beat;
+        Tempo.OnPause += Pause;
+        Tempo.OnUnpause += Unpause;
+    }
+
+    private void OnDisable()
+    {
+        Tempo.OnBeat -= Beat;
+        Tempo.OnPause -= Pause;
+        Tempo.OnUnpause -= Unpause;
+    }
+
+    public void Beat() 
     {
         if(isLevelActive)
         {
@@ -69,6 +85,14 @@ public class SoundManager : TempoTrigger
         currentLoop = 0;
         loopCount = soundLevels.soundLevels[levelIndex].level.soundLoops[0].loopCount - 1;
 
+        if (soundLevels.soundLevels[levelIndex].level.backgroundMusic)
+        {
+            backgroundMusic = gameObject.AddComponent<AudioSource>();
+            backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic;
+            backgroundMusic.loop = true;
+            backgroundMusic.Play();
+        }
+
         instruments = new List<AudioSource>();
         for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments.Count; i++)
         {
@@ -86,11 +110,16 @@ public class SoundManager : TempoTrigger
     public void StopLevel()
     {
         Tempo.Instance?.StopTempo();
+
         isLevelActive = false;
         currentLevel = -1;
         currentLoop = -1;
         loopCount = -1;
+
         RemoveAllAudioSources();
+
+        Destroy(backgroundMusic);
+        backgroundMusic = null;
     }
 
     private void RemoveAllAudioSources()
@@ -107,5 +136,21 @@ public class SoundManager : TempoTrigger
         }
 
         loopCount--;
+    }
+
+    private void Pause()
+    {
+        if (backgroundMusic)
+            backgroundMusic.Pause();
+
+        foreach(AudioSource instrument in instruments) { instrument.Pause(); }
+    }
+
+    private void Unpause()
+    {
+        if (backgroundMusic)
+            backgroundMusic.UnPause();
+
+        foreach (AudioSource instrument in instruments) { instrument.UnPause(); }
     }
 }
