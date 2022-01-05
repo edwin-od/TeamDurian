@@ -164,11 +164,9 @@ public class Tempo : MonoBehaviour
 
                 // Manage Beat Broadcast Event
                 if (currentPeriod >= tempoPeriod) { currentPeriod -= tempoPeriod; OnBeat?.Invoke(); }
-
-                yield return null;
             }
-            else
-                yield return null;
+
+            yield return null;
         }
     }
 }

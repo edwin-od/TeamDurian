@@ -32,6 +32,7 @@ public class UITest : MonoBehaviour
     {
         overshoot = false;
         BottomProgressBar.localScale = new Vector3(1, 0, 1);
+        TopProgressBar.gameObject.GetComponent<Image>().color = OutOfBeatColor;
 
         Debug.Log("END");
     }
