@@ -25,10 +25,11 @@ public class Tempo : MonoBehaviour
     [HideInInspector] public delegate void IntervalBeatEnd();
     [HideInInspector] public static event Beat OnIntervalBeatEnd;
 
-    [HideInInspector] public static Tempo Get;
+    private static Tempo _instance;
+    public static Tempo Instance { get { return _instance; } }
     void Awake()
     {
-        if (Get == null) Get = this;
+        if (_instance == null) _instance = this;
         else Destroy(this.gameObject);
     }
 

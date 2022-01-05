@@ -27,19 +27,19 @@ public class GridMoveable : TempoTrigger
 
     private IEnumerator MoveTransition(DIRECTION Direction)
     {
-        if (GridManager.Get)
+        if (GridManager.Instance)
         {
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
-            if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= GridManager.Get.Grid.tiles.x || targetTile.y >= GridManager.Get.Grid.tiles.y)
+            if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= GridManager.Instance.Grid.tiles.x || targetTile.y >= GridManager.Instance.Grid.tiles.y)
                 yield break;
 
             isMoving = true;
             float elapsedTime = 0f;
             while (elapsedTime < MOVE_SPEED)
             {
-                Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Get.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Get.Grid.tileSize), (elapsedTime / MOVE_SPEED));
+                Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_SPEED));
                 transform.position = new Vector3(interm.x, transform.position.y, interm.y);
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -52,18 +52,18 @@ public class GridMoveable : TempoTrigger
 
     public void Teleport(GridManager.IntVector2 newTile, Vector3 Offset)
     {
-        if (GridManager.Get && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Get.Grid.tiles.x && newTile.y < GridManager.Get.Grid.tiles.y)
+        if (GridManager.Instance && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Instance.Grid.tiles.x && newTile.y < GridManager.Instance.Grid.tiles.y)
         {
-            transform.position = Offset + new Vector3(newTile.x * GridManager.Get.Grid.tileSize.x, 0, newTile.y * GridManager.Get.Grid.tileSize.y);
+            transform.position = Offset + new Vector3(newTile.x * GridManager.Instance.Grid.tileSize.x, 0, newTile.y * GridManager.Instance.Grid.tileSize.y);
             tile = newTile;
         }
     }
 
     public void TeleportOnGrid(GridManager.IntVector2 newTile)
     {
-        if (GridManager.Get && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Get.Grid.tiles.x && newTile.y < GridManager.Get.Grid.tiles.y)
+        if (GridManager.Instance && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Instance.Grid.tiles.x && newTile.y < GridManager.Instance.Grid.tiles.y)
         {
-            transform.position = GridManager.Get.transform.position + new Vector3(newTile.x * GridManager.Get.Grid.tileSize.x, 0, newTile.y * GridManager.Get.Grid.tileSize.y);
+            transform.position = GridManager.Instance.transform.position + new Vector3(newTile.x * GridManager.Instance.Grid.tileSize.x, 0, newTile.y * GridManager.Instance.Grid.tileSize.y);
             tile = newTile;
         }
     }

@@ -66,12 +66,12 @@ public class UITest : MonoBehaviour
 
     void Update()
     {
-        if(TopProgressBar && BottomProgressBar && Tempo.Get)
+        if(TopProgressBar && BottomProgressBar && Tempo.Instance)
         {
             if(overshoot)
-                BottomProgressBar.localScale = new Vector3(1, Mathf.Clamp(1 - Tempo.Get.PercentageToBeat, 0, 1), 1);
+                BottomProgressBar.localScale = new Vector3(1, Mathf.Clamp(1 - Tempo.Instance.PercentageToBeat, 0, 1), 1);
 
-            TopProgressBar.localScale = new Vector3(1, Mathf.Clamp(Tempo.Get.PercentageToBeat, 0 ,1), 1);
+            TopProgressBar.localScale = new Vector3(1, Mathf.Clamp(Tempo.Instance.PercentageToBeat, 0 ,1), 1);
         }
     }
 }

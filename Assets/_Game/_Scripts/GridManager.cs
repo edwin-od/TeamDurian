@@ -11,17 +11,18 @@ public class GridManager : MonoBehaviour
 
     public GridXY Grid { get { return grid; } }
 
-    [HideInInspector] public static GridManager Get;
+    private static GridManager _instance;
+    public static GridManager Instance { get { return _instance; } }
     void Awake()
     {
-        if (Get == null) Get = this;
+        if (_instance == null) _instance = this;
         else Destroy(this.gameObject);
     }
 
     void Start()
     {
-        if (Player.Get)
-            Player.Get.TeleportOnGrid(new IntVector2(grid.tiles.x / 2, 0));
+        if (Player.Instance)
+            Player.Instance.TeleportOnGrid(new IntVector2(grid.tiles.x / 2, 0));
 
         if (gridAxisPrefab)
         {

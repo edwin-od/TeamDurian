@@ -6,10 +6,11 @@ public class Player : GridMoveable
 {
     private bool skipBeat = false;
 
-    [HideInInspector] public static Player Get;
+    public static Player _instance;
+    public static Player Instance { get { return _instance; } }
     void Awake()
     {
-        if (Get == null) Get = this;
+        if (_instance == null) _instance = this;
         else Destroy(this.gameObject);
     }
 
@@ -39,20 +40,20 @@ public class Player : GridMoveable
             MoveTile(DIRECTION.LEFT);
 
         if(Input.GetKeyDown(KeyCode.Q))
-            Tempo.Get.BPM -= 5;
+            Tempo.Instance.BPM -= 5;
         if (Input.GetKeyDown(KeyCode.E))
-            Tempo.Get.BPM += 5;
+            Tempo.Instance.BPM += 5;
     }
 
     private void MoveTile(DIRECTION Direction)
     {
         if (!skipBeat)
         {
-            if (Tempo.Get)
+            if (Tempo.Instance)
             {
-                if (Tempo.Get.IsTempoPaused || !Tempo.Get.IsTempoRunning)
+                if (Tempo.Instance.IsTempoPaused || !Tempo.Instance.IsTempoRunning)
                     return;
-                if (Tempo.Get.IsTempoActive && !Tempo.Get.IsOnBeat)
+                if (Tempo.Instance.IsTempoActive && !Tempo.Instance.IsOnBeat)
                 {
                     skipBeat = true;
                     return;
