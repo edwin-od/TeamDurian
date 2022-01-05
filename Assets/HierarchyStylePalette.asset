@@ -15,9 +15,51 @@ MonoBehaviour:
   saturation: 70
   value: 100
   styles:
-  - key: _lmb
+  - key: _lm
     ignoreSV: 0
     backgroundColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _g
+    ignoreSV: 0
+    backgroundColor: {r: 0.3, g: 1, b: 0.48672625, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _tmp
+    ignoreSV: 0
+    backgroundColor: {r: 0.3, g: 1, b: 0.9593327, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _ui
+    ignoreSV: 0
+    backgroundColor: {r: 0.46452916, g: 0.3, b: 1, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _c
+    ignoreSV: 0
+    backgroundColor: {r: 1, g: 0.6877945, b: 0.3, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _p
+    ignoreSV: 0
+    backgroundColor: {r: 0.8307398, g: 1, b: 0.3, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: __s
+    ignoreSV: 1
+    backgroundColor: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
