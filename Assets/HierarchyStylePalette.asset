@@ -14,11 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saturation: 70
   value: 100
-  styles:
-  - key: _lm
-    ignoreSV: 0
-    backgroundColor: {r: 1, g: 0.3, b: 0.3, a: 1}
-    textColor: {r: 1, g: 1, b: 1, a: 1}
-    textSize: 12
-    fontStyle: 1
-    textAlignement: 4
+  styles: []
