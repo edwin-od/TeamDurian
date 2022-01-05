@@ -7,11 +7,12 @@ public class LevelManager : MonoBehaviour
     public Levels levels;
     public GameObject enemyPrefab;
 
-    [HideInInspector] public static LevelManager Get;
+    private static LevelManager _instance;
+    public static LevelManager Instance { get { return _instance; } }
+
     void Awake()
     {
-        if (Get == null) Get = this;
-        else Destroy(this.gameObject);
+        _instance = this;
     }
 
     private void Start()
