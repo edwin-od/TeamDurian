@@ -13,6 +13,8 @@ public class Tempo : MonoBehaviour
     private bool isOnBeat = false;
     private int totalBeats = 0;
     private double elapsedTime = 0f;
+    private float currentPeriod = 0f;
+    private float tempoPeriod = 0f;
 
     [HideInInspector] public delegate void Beat();
     [HideInInspector] public static event Beat OnBeat;
@@ -54,10 +56,6 @@ public class Tempo : MonoBehaviour
 
     public void StartTempo()
     {
-        isTempoRunning = true;
-        isTempoPaused = false;
-        totalBeats = 0;
-        elapsedTime = 0f;
         StartCoroutine(TempoLoop());
     }
 
@@ -124,75 +122,51 @@ public class Tempo : MonoBehaviour
 
     public float PercentageToBeat
     {
-        get { return ((totalBeats * (60f / beatsPerMinute)) - (float)elapsedTime) / (60f / beatsPerMinute); }
+        get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
     }
 
     IEnumerator TempoLoop()
     {
+        isTempoRunning = true;
+        isTempoPaused = false;
+        elapsedTime = 0f;
+        currentPeriod = 0f;
+
         yield return new WaitForSeconds(initialDelay);
 
-        int beatIntervalCurrentBeats = 0;
-
-        double t0 = Time.realtimeSinceStartupAsDouble; // Used to get to elapsed time
-        double tx = t0;    // t(x) -> Current time in-between beats
-        double t_pause = 0; // Time after pause
+        float tx = Time.realtimeSinceStartup;
 
         int prevBPM = beatsPerMinute;
-        float tempoPeriod = 60f / prevBPM;
+        tempoPeriod = 60f / prevBPM;
 
         while (isTempoRunning)
         {
 
             if (!isTempoPaused)
             {
+                float deltaTime = Time.realtimeSinceStartup - tx;
+                tx = Time.realtimeSinceStartup;
+                currentPeriod += deltaTime;
+                elapsedTime += deltaTime;
+
                 // Manage Dynamic BPM
                 if (prevBPM != beatsPerMinute)
                 {
-                    float oldPeriod = tempoPeriod;
-                    tempoPeriod = 60f / beatsPerMinute;
-
-                    totalBeats = Mathf.FloorToInt((totalBeats * oldPeriod) / tempoPeriod);
-                    beatIntervalCurrentBeats = Mathf.FloorToInt((beatIntervalCurrentBeats * oldPeriod) / tempoPeriod);
-
-                    Debug.Log(totalBeats);
-
                     prevBPM = beatsPerMinute;
+                    tempoPeriod = 60f / prevBPM;
+                    while (currentPeriod - tempoPeriod >= 0) { currentPeriod -= tempoPeriod; }
                 }
-
-                // Manage Pause Interval Compensation
-                if (t_pause != 0)
-                {
-                    double pause_delay = Time.realtimeSinceStartupAsDouble - t_pause;
-                    t0 += pause_delay;
-                    tx += pause_delay;
-
-                    t_pause = 0f;
-                }
-
-                double oldElapsedTime = tx - t0;
-
-                float currentBeatTimeline = beatIntervalCurrentBeats * tempoPeriod;
-                float halfBeatInterval = tempoPeriod * (onBeatAcceptablePercentage / 2);
 
                 // Manage OnBeat Interval Start and End Events
-                if (oldElapsedTime >= currentBeatTimeline - halfBeatInterval && oldElapsedTime < currentBeatTimeline + halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; OnIntervalBeatStart?.Invoke(); } }
-                else { if (isOnBeat) { isOnBeat = false; OnIntervalBeatEnd?.Invoke(); beatIntervalCurrentBeats++; } }
+                float halfBeatInterval = tempoPeriod * Mathf.Clamp(onBeatAcceptablePercentage / 2, 0.01f, 0.499f);
+                if(currentPeriod >= tempoPeriod - halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; OnIntervalBeatStart?.Invoke(); } }
+                else if(currentPeriod >= halfBeatInterval) { if (isOnBeat) { isOnBeat = false; OnIntervalBeatEnd?.Invoke(); } }
 
                 // Manage Beat Broadcast Event
-                if (oldElapsedTime >= totalBeats * tempoPeriod) { totalBeats++; OnBeat?.Invoke(); }
-
-                tx = Time.realtimeSinceStartupAsDouble;
-                elapsedTime = tx - t0;
-
-                yield return null;
+                if (currentPeriod >= tempoPeriod) { currentPeriod -= tempoPeriod; OnBeat?.Invoke(); }
             }
-            else
-            {
-                if (t_pause == 0)
-                    t_pause = Time.realtimeSinceStartupAsDouble;
 
-                yield return null;
-            }
+            yield return null;
         }
     }
 }

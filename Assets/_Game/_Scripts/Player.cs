@@ -60,6 +60,7 @@ public class Player : GridMoveable
             }
 
             Move(Direction);
+            skipBeat = true;
         }
     }
 
