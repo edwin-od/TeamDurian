@@ -6,7 +6,7 @@ public class Player : GridMoveable
 {
     private bool skipBeat = false;
 
-    public static Player _instance;
+    private static Player _instance;
     public static Player Instance { get { return _instance; } }
     void Awake()
     {
