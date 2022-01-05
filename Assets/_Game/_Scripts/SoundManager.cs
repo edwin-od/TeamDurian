@@ -90,7 +90,6 @@ public class SoundManager : MonoBehaviour
             backgroundMusic = gameObject.AddComponent<AudioSource>();
             backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic;
             backgroundMusic.loop = true;
-            backgroundMusic.pitch = 1.15f;
             backgroundMusic.Play();
         }
 

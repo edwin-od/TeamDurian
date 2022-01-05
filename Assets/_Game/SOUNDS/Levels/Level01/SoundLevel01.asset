@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SoundLevel01
   m_EditorClassIdentifier: 
   backgroundMusic: {fileID: 8300000, guid: 99b9b021d45c1a6408ee66473f39b9fb, type: 3}
-  initialDelayTempo: 1
+  initialDelayTempo: 5.5
   soundLoops:
   - loopName: Loop 01
     loop: {fileID: 11400000, guid: f54ac833df9d69440a3eb7068bf6d49d, type: 2}
-    loopCount: 10
+    loopCount: 5
   - loopName: Loop 02
     loop: {fileID: 11400000, guid: 709304ac7a5165346a627dc3bbfdfb45, type: 2}
-    loopCount: 20
+    loopCount: 25
   - loopName: Loop 03
     loop: {fileID: 11400000, guid: 83957e12266cf0448b91fea4af343b52, type: 2}
-    loopCount: 10
+    loopCount: 30
