@@ -12,31 +12,28 @@ public class UITest : MonoBehaviour
     public Color OnBeatColor;
 
     private bool overshoot = false;
-    private bool skippedFirst = false;
 
     private void Beat()
     {
+        overshoot = true;
         TopProgressBar.gameObject.GetComponent<Image>().color = OutOfBeatColor;
 
-        if (skippedFirst)
-            overshoot = true;
-        else
-            skippedFirst = true;
-
-        //Debug.Log("BEAT");
+        Debug.Log("BEAT ");
     }
 
     private void BeatIntervalStart()
     {
         TopProgressBar.gameObject.GetComponent<Image>().color = OnBeatColor;
-        //Debug.Log("START");
+
+        Debug.Log("START");
     }
 
     private void BeatIntervalEnd()
     {
         overshoot = false;
         BottomProgressBar.localScale = new Vector3(1, 0, 1);
-        //Debug.Log("END");
+
+        Debug.Log("END");
     }
 
     private void OnEnable()

@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialDelay: 0
-  beatsPerMinute: 15
+  beatsPerMinute: 30
   onBeatAcceptablePercentage: 0.5
 --- !u!4 &1269308346
 Transform:
