@@ -39,9 +39,12 @@ public class GridMoveable : TempoTrigger
             float elapsedTime = 0f;
             while (elapsedTime < MOVE_SPEED)
             {
-                Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_SPEED));
-                transform.position = new Vector3(interm.x, transform.position.y, interm.y);
-                elapsedTime += Time.deltaTime;
+                if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
+                {
+                    Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_SPEED));
+                    transform.position = new Vector3(interm.x, transform.position.y, interm.y);
+                    elapsedTime += Time.deltaTime;
+                }
                 yield return null;
             }
 

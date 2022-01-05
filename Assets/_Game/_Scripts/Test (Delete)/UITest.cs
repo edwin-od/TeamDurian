@@ -18,14 +18,14 @@ public class UITest : MonoBehaviour
         overshoot = true;
         TopProgressBar.gameObject.GetComponent<Image>().color = OutOfBeatColor;
 
-        Debug.Log("BEAT ");
+        //Debug.Log("BEAT ");
     }
 
     private void BeatIntervalStart()
     {
         TopProgressBar.gameObject.GetComponent<Image>().color = OnBeatColor;
 
-        Debug.Log("START");
+        //Debug.Log("START");
     }
 
     private void BeatIntervalEnd()
@@ -34,7 +34,7 @@ public class UITest : MonoBehaviour
         BottomProgressBar.localScale = new Vector3(1, 0, 1);
         TopProgressBar.gameObject.GetComponent<Image>().color = OutOfBeatColor;
 
-        Debug.Log("END");
+        //Debug.Log("END");
     }
 
     private void OnEnable()

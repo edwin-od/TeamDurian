@@ -30,13 +30,13 @@ public class Player : GridMoveable
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Z))
             MoveTile(DIRECTION.UP);
         if (Input.GetKeyDown(KeyCode.S))
-            MoveTile(DIRECTION.DOWN);*/
+            MoveTile(DIRECTION.DOWN);
         if (Input.GetKeyDown(KeyCode.D))
             MoveTile(DIRECTION.RIGHT);
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Q))
             MoveTile(DIRECTION.LEFT);
 
         if(Input.GetKeyDown(KeyCode.Q))
