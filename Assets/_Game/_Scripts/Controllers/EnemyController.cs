@@ -11,6 +11,7 @@ public class EnemyController : GridMoveable
     private void Awake()
     {
         beat = 1;
+        LevelManager.Instance.RegisterEnemy(this);
     }
 
     public override void Beat()
@@ -30,5 +31,10 @@ public class EnemyController : GridMoveable
     void Action()
     {
         Move(DIRECTION.DOWN);
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.Instance.UnregisterEnemy(this);
     }
 }
