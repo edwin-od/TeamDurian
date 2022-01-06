@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb23ab084803445b31a92a741f2071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatEvery: 4
+  movementPattern: {fileID: 11400000, guid: 8eadb374b7a99fc42aa9f3c9d44ab2ce, type: 2}
 --- !u!1 &3397720010315509988
 GameObject:
   m_ObjectHideFlags: 0

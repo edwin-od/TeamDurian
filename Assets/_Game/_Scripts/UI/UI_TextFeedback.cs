@@ -15,6 +15,11 @@ public class UI_TextFeedback : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        StartCoroutine(DisplayStartingTimer());
+    }
+
     IEnumerator DisplayStartingTimer()
     {
         for(int i = Tempo.Instance.InitialDelay; i < 0; i--)
