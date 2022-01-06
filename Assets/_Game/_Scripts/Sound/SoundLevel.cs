@@ -14,8 +14,8 @@ public class SoundLevel : ScriptableObject
         [Range(1, 1000)] public int loopCount = 1;
     }
 
-    public AudioClip backgroundMusic;
-    [Range(0f, 120f)] public float initialDelayTempo = 0f;
+    public SoundLoop.Instrument backgroundMusic;
+    [Range(0f, 120)] public int initialDelayTempo = 0;
     public List<Loop> soundLoops = new List<Loop>();
 
 }

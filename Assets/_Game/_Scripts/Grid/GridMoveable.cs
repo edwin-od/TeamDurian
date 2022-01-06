@@ -29,6 +29,7 @@ public class GridMoveable : TempoTrigger
     {
         if (GridManager.Instance)
         {
+
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
@@ -36,15 +37,29 @@ public class GridMoveable : TempoTrigger
                 yield break;
 
             isMoving = true;
+            float tx = Time.realtimeSinceStartup;
+            float tpause = 0;
             float elapsedTime = 0f;
             while (elapsedTime < MOVE_SPEED)
             {
                 if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
                 {
+                    float deltaTime = 0;
+
+                    // Manage Pause Compensation
+                    if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; }
+                    else { deltaTime = Time.realtimeSinceStartup - tx; }
+
+                    tx = Time.realtimeSinceStartup;
+
                     Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_SPEED));
                     transform.position = new Vector3(interm.x, transform.position.y, interm.y);
-                    elapsedTime += Time.deltaTime;
+
+                    elapsedTime += deltaTime;
                 }
+                else if(Tempo.Instance && Tempo.Instance.IsTempoPaused && tpause == 0)
+                    tpause = Time.realtimeSinceStartup;
+
                 yield return null;
             }
 

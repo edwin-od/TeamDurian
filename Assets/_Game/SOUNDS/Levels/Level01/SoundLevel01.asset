@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79380c5146365948bd58e7de4d6375c, type: 3}
   m_Name: SoundLevel01
   m_EditorClassIdentifier: 
-  backgroundMusic: {fileID: 8300000, guid: 99b9b021d45c1a6408ee66473f39b9fb, type: 3}
+  backgroundMusic:
+    instrument: {fileID: 8300000, guid: 99b9b021d45c1a6408ee66473f39b9fb, type: 3}
+    volume: 1
   initialDelayTempo: 5.5
   soundLoops:
   - loopName: Loop 01

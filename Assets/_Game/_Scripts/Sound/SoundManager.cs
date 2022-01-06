@@ -67,7 +67,8 @@ public class SoundManager : MonoBehaviour
                 for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments.Count; i++)
                 {
                     AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-                    audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments[i];
+                    audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments[i].instrument;
+                    audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments[i].volume;
                     audioSource.playOnAwake = false;
                     instruments.Add(audioSource);
                 }
@@ -85,10 +86,11 @@ public class SoundManager : MonoBehaviour
         currentLoop = 0;
         loopCount = soundLevels.soundLevels[levelIndex].level.soundLoops[0].loopCount - 1;
 
-        if (soundLevels.soundLevels[levelIndex].level.backgroundMusic)
+        if (soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument)
         {
             backgroundMusic = gameObject.AddComponent<AudioSource>();
-            backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic;
+            backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument;
+            backgroundMusic.volume = soundLevels.soundLevels[levelIndex].level.backgroundMusic.volume;
             backgroundMusic.loop = true;
             backgroundMusic.Play();
         }
@@ -97,7 +99,8 @@ public class SoundManager : MonoBehaviour
         for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments.Count; i++)
         {
             AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments[i];
+            audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments[i].instrument;
+            audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments[i].volume;
             audioSource.playOnAwake = false;
             instruments.Add(audioSource);
         }
@@ -152,5 +155,10 @@ public class SoundManager : MonoBehaviour
             backgroundMusic.UnPause();
 
         foreach (AudioSource instrument in instruments) { instrument.UnPause(); }
+    }
+
+    public void ForceNextLoop()
+    {
+        loopCount = -1;
     }
 }

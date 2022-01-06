@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BPM: 130
   instruments:
-  - {fileID: 8300000, guid: ca232c8d4593a25428a0e062ad11f546, type: 3}
-  - {fileID: 8300000, guid: bd1ac08a72cad3a4eacdca594c868113, type: 3}
+  - instrument: {fileID: 8300000, guid: ca232c8d4593a25428a0e062ad11f546, type: 3}
+    volume: 1
+  - instrument: {fileID: 8300000, guid: bd1ac08a72cad3a4eacdca594c868113, type: 3}
+    volume: 1
