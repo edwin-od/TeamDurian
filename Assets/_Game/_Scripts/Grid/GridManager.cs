@@ -21,8 +21,8 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        if (Player.Instance)
-            Player.Instance.TeleportOnGrid(new IntVector2(grid.tiles.x / 2, grid.tiles.y / 2));
+        if (PlayerController.Instance)
+            PlayerController.Instance.TeleportOnGrid(new IntVector2(grid.tiles.x / 2, grid.tiles.y / 2));
 
         if (gridAxisPrefab)
         {
