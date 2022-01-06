@@ -19,6 +19,8 @@ public class Wave : ScriptableObject
 
     public List<Line> lines = new List<Line>();
 
+    public SoundLoop soundLoop;
+
     private void OnValidate()
     {
         for(int i = 0; i < lines.Count; i++)

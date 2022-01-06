@@ -64,11 +64,11 @@ public class SoundManager : MonoBehaviour
                     Tempo.Instance.BPM = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.BPM;
 
                 RemoveAllAudioSources();
-                for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments.Count; i++)
+                for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.loops.Count; i++)
                 {
                     AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-                    audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments[i].instrument;
-                    audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.instruments[i].volume;
+                    //audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.loops[i].instrument;
+                    audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[currentLoop].loop.loops[i].volume;
                     audioSource.playOnAwake = false;
                     instruments.Add(audioSource);
                 }
@@ -86,24 +86,24 @@ public class SoundManager : MonoBehaviour
         currentLoop = 0;
         loopCount = soundLevels.soundLevels[levelIndex].level.soundLoops[0].loopCount - 1;
 
-        if (soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument)
-        {
-            backgroundMusic = gameObject.AddComponent<AudioSource>();
-            backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument;
-            backgroundMusic.volume = soundLevels.soundLevels[levelIndex].level.backgroundMusic.volume;
-            backgroundMusic.loop = true;
-            backgroundMusic.Play();
-        }
+        //if (soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument)
+        //{
+        //    backgroundMusic = gameObject.AddComponent<AudioSource>();
+        //    backgroundMusic.clip = soundLevels.soundLevels[levelIndex].level.backgroundMusic.instrument;
+        //    backgroundMusic.volume = soundLevels.soundLevels[levelIndex].level.backgroundMusic.volume;
+        //    backgroundMusic.loop = true;
+        //    backgroundMusic.Play();
+        //}
 
         instruments = new List<AudioSource>();
-        for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments.Count; i++)
-        {
-            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments[i].instrument;
-            audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.instruments[i].volume;
-            audioSource.playOnAwake = false;
-            instruments.Add(audioSource);
-        }
+        //for (int i = 0; i < soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.loops.Count; i++)
+        //{
+        //    AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        //    audioSource.clip = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.loops[i].instrument;
+        //    audioSource.volume = soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.loops[i].volume;
+        //    audioSource.playOnAwake = false;
+        //    instruments.Add(audioSource);
+        //}
 
         Tempo.Instance?.StartTempo(soundLevels.soundLevels[currentLevel].level.soundLoops[0].loop.BPM, soundLevels.soundLevels[currentLevel].level.initialDelayTempo);
         isLevelActive = true;

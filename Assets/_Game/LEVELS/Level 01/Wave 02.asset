@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 452dbb61663e6ac4cbcf92a918daa5eb, type: 3}
-  m_Name: Wave 01
+  m_Name: Wave 02
   m_EditorClassIdentifier: 
-  waveName: Wave 01
+  waveName: Wave 02
   lines:
   - lineNumber: 0
+    lineLength: 5
+    enemyType: 0
+  - lineNumber: 1
     lineLength: 3
     enemyType: 0
-  soundLoop: {fileID: 11400000, guid: f54ac833df9d69440a3eb7068bf6d49d, type: 2}
+  soundLoop: {fileID: 11400000, guid: 709304ac7a5165346a627dc3bbfdfb45, type: 2}

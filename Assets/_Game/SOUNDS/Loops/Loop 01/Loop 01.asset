@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13af9fcce2387244b5748dc529542db, type: 3}
   m_Name: Loop 01
   m_EditorClassIdentifier: 
-  BPM: 130
-  instruments:
-  - instrument: {fileID: 8300000, guid: ca232c8d4593a25428a0e062ad11f546, type: 3}
-    volume: 1
-  - instrument: {fileID: 8300000, guid: bd1ac08a72cad3a4eacdca594c868113, type: 3}
+  BPM: 60
+  loops:
+  - loop: {fileID: 8300000, guid: 56363010cdbdee347b826eaa64f55c1d, type: 3}
     volume: 1

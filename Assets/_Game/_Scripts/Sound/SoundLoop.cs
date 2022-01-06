@@ -6,12 +6,12 @@ using UnityEngine;
 public class SoundLoop : ScriptableObject
 {
     [System.Serializable]
-    public class Instrument
+    public class Loop
     {
-        public AudioClip instrument;
+        public AudioClip loop;
         [Range(0f, 1f)] public float volume = 1f;
     }
 
-    [SerializeField, Range(1, 500)] public int BPM = 130;
-    public List<Instrument> instruments = new List<Instrument>();
+    [SerializeField, Range(30, 300)] public int BPM = 130;
+    public List<Loop> loops = new List<Loop>();
 }

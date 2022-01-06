@@ -7,8 +7,13 @@ public class LevelManager : MonoBehaviour
     public Levels levels;
     public GameObject enemyPrefab;
 
+    public AudioSource audioSource;
+
     private static LevelManager _instance;
     public static LevelManager Instance { get { return _instance; } }
+
+    public bool changeWave;
+    public int currentWave = 1;
 
     void Awake()
     {
@@ -17,7 +22,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        //StartLevel(0);
+        StartMusicLevel(0);
         StartLevel(0);
+        Tempo.Instance.StartTempo();
     }
 
     public void StartLevel(int levelIndex)
@@ -39,5 +47,29 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StartMusicLevel(int levelIndex)
+    {
+        Tempo.Instance.BPM = levels.levels[levelIndex].waves[currentWave - 1].soundLoop.BPM;
+
+        foreach (SoundLoop.Loop loop in levels.levels[levelIndex].waves[currentWave - 1].soundLoop.loops)
+        {
+            Debug.Log("loop : " + loop.loop.name);
+            audioSource.PlayOneShot(loop.loop);
+        }
+
+        StartCoroutine(CallbackEndLoop(levels.levels[levelIndex].waves[currentWave - 1].soundLoop.loops[0].loop.length,
+        delegate
+        {
+            StartMusicLevel(levelIndex);
+        }));
+    }
+
+    IEnumerator CallbackEndLoop(float length, System.Action action)
+    {
+        yield return new WaitForSeconds(length);
+
+        action.Invoke();
     }
 }

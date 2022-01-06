@@ -15,6 +15,8 @@ public class EnemyController : GridMoveable
 
     public override void Beat()
     {
+        Debug.Log("Beat");
+
         if (beat == (int)movementPattern.beatEvery)
         {
             Action();

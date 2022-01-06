@@ -15,7 +15,10 @@ MonoBehaviour:
   backgroundMusic:
     instrument: {fileID: 8300000, guid: 99b9b021d45c1a6408ee66473f39b9fb, type: 3}
     volume: 1
-  initialDelayTempo: 5.5
+  initialDelayTempo: 5
+  intro:
+    soundLoop: {fileID: 0}
+    loopCount: 9
   soundLoops:
   - loopName: Loop 01
     loop: {fileID: 11400000, guid: f54ac833df9d69440a3eb7068bf6d49d, type: 2}
@@ -26,3 +29,6 @@ MonoBehaviour:
   - loopName: Loop 03
     loop: {fileID: 11400000, guid: 83957e12266cf0448b91fea4af343b52, type: 2}
     loopCount: 30
+  outro:
+    soundLoop: {fileID: 0}
+    loopCount: 1

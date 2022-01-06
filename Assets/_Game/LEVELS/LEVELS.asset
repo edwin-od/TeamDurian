@@ -16,3 +16,5 @@ MonoBehaviour:
   - levelName: Level 01
     waves:
     - {fileID: 11400000, guid: d9fab31dabeb8d74d86d3b18d5698885, type: 2}
+    - {fileID: 11400000, guid: ff89610f67935ea43a97589a2f398da5, type: 2}
+    - {fileID: 11400000, guid: ff89610f67935ea43a97589a2f398da5, type: 2}
