@@ -4,7 +4,28 @@ using UnityEngine;
 
 public class EnemyController : GridMoveable
 {
+    private int beat;
+
+    public EnemyPattern movementPattern;
+
+    private void Awake()
+    {
+        beat = 1;
+    }
+
     public override void Beat()
+    {
+        if (beat == (int)movementPattern.beatEvery)
+        {
+            Action();
+            beat = 1;
+        }
+        else
+            beat++;
+
+    }
+
+    void Action()
     {
         Move(DIRECTION.DOWN);
     }
