@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3397720008747908659}
   - component: {fileID: 374230813477069754}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy (Three Beat)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb23ab084803445b31a92a741f2071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatEvery: 3
 --- !u!1 &3397720010315509988
 GameObject:
   m_ObjectHideFlags: 0

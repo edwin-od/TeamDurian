@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tempo : MonoBehaviour
 {
-    [SerializeField, Range(0f, 120f)] private float initialDelay = 0f;
+    [SerializeField, Range(0, 120)] private int initialDelay = 3;
     [SerializeField, Range(1, 500)] private int beatsPerMinute = 60;
     [SerializeField, Range(0.02f, 1f)] private float onBeatAcceptablePercentage = 0.25f;
 
@@ -66,7 +66,7 @@ public class Tempo : MonoBehaviour
         StartCoroutine(TempoLoop());
     }
 
-    public void StartTempo(int BPM, float InitialDelay)
+    public void StartTempo(int BPM, int InitialDelay)
     {
         this.BPM = BPM;
         this.InitialDelay = InitialDelay;
@@ -134,10 +134,10 @@ public class Tempo : MonoBehaviour
         set { beatsPerMinute = Mathf.Clamp(value, 1, 500); }
     }
 
-    public float InitialDelay
+    public int InitialDelay
     {
         get { return initialDelay; }
-        set { initialDelay = Mathf.Clamp(value, 0f, 120f); }
+        set { initialDelay = Mathf.Clamp(value, 0, 120); }
     }
 
     public float PercentageToBeat
