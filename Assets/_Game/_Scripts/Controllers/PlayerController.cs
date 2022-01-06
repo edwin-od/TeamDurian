@@ -5,7 +5,13 @@ using UnityEngine;
 public class PlayerController : GridMoveable
 {
     [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 5f;
-    [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 1.15f;
+    [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 2f;
+    [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
+    [SerializeField, Range(1f, 10000)] private int projectileHitScore = 1;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject projectileSpawn;
+
+    private int score = 0;
 
     private bool skipBeat = false;
 
@@ -45,6 +51,8 @@ public class PlayerController : GridMoveable
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Q))
             MoveTile(DIRECTION.LEFT);
     }
+
+    public int Score { get { return score; } }
 
     private void MoveTile(DIRECTION Direction)
     {
@@ -86,6 +94,12 @@ public class PlayerController : GridMoveable
         }
     }
 
+    private void KilledEnemy(EnemyController enemy)
+    {
+        Destroy(enemy.gameObject);
+        score += projectileHitScore;
+    }
+
     public override void Beat() { }
 
     private void BeatIntervalStart() { }
@@ -96,10 +110,15 @@ public class PlayerController : GridMoveable
     {
         if (GridManager.Instance)
         {
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.transform.parent = null;
+            projectile.transform.position = projectileSpawn.transform.position;
+            Vector3 direction = transform.forward;
+
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
-            while (elapsedTime < MOVE_SPEED)
+            while (elapsedTime < projectileLifetime)
             {
                 if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
                 {
@@ -111,7 +130,17 @@ public class PlayerController : GridMoveable
 
                     tx = Time.realtimeSinceStartup;
 
-                    // Shoot
+                    projectile.transform.position += direction * deltaTime * projectileSpeed;
+                    Collider[] hits = Physics.OverlapSphere(projectile.transform.position, projectileHitRadius);
+                    foreach (Collider hit in hits) 
+                    {
+                        EnemyController enemy = hit.gameObject.GetComponentInParent<EnemyController>();
+                        if (enemy)
+                        {
+                            KilledEnemy(enemy);
+                            elapsedTime = projectileLifetime;
+                        }
+                    }
 
                     elapsedTime += deltaTime;
                 }
@@ -120,6 +149,8 @@ public class PlayerController : GridMoveable
 
                 yield return null;
             }
+
+            Destroy(projectile);
         }
     }
 }

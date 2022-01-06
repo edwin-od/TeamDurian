@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Tempo : MonoBehaviour
 {
-    [SerializeField, Range(0, 120)] private int initialDelay = 3;
     [SerializeField, Range(1, 500)] private int beatsPerMinute = 60;
     [SerializeField, Range(0.02f, 1f)] private float onBeatAcceptablePercentage = 0.25f;
 
     private bool isTempoRunning = false;
     private bool isTempoPaused = false;
+    private bool canGenerateBeatEvents = true;
     private bool isOnBeat = false;
     private int totalBeats = 0;
     private double elapsedTime = 0f;
@@ -18,6 +18,9 @@ public class Tempo : MonoBehaviour
 
     public delegate void Beat();
     public static event Beat OnBeat;
+
+    public delegate void SilentBeat();
+    public static event SilentBeat OnSilentBeat;
 
     public delegate void IntervalBeatStart();
     public static event Beat OnIntervalBeatStart;
@@ -66,10 +69,15 @@ public class Tempo : MonoBehaviour
         StartCoroutine(TempoLoop());
     }
 
-    public void StartTempo(int BPM, int InitialDelay)
+    public void StartTempo(int BPM)
     {
         this.BPM = BPM;
-        this.InitialDelay = InitialDelay;
+        StartCoroutine(TempoLoop());
+    }
+
+    public void StartTempo(int BPM, float initialDelay) //////////////// DELETE
+    {
+        this.BPM = BPM;
         StartCoroutine(TempoLoop());
     }
 
@@ -96,6 +104,12 @@ public class Tempo : MonoBehaviour
     public void UnpauseTempo()
     {
         isTempoPaused = false;
+    }
+
+    public bool CanGenerateBeatEvents
+    {
+        get { return canGenerateBeatEvents; }
+        set { canGenerateBeatEvents = value; }
     }
 
     public double ElapsedTime
@@ -134,12 +148,6 @@ public class Tempo : MonoBehaviour
         set { beatsPerMinute = Mathf.Clamp(value, 1, 500); }
     }
 
-    public int InitialDelay
-    {
-        get { return initialDelay; }
-        set { initialDelay = Mathf.Clamp(value, 0, 120); }
-    }
-
     public float PercentageToBeat
     {
         get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
@@ -147,18 +155,15 @@ public class Tempo : MonoBehaviour
 
     IEnumerator TempoLoop()
     {
-        isTempoRunning = true;
-        isTempoPaused = false;
-        elapsedTime = 0f;
-        currentPeriod = 0f;
-
-        yield return new WaitForSeconds(initialDelay);
-
-        float tx = Time.realtimeSinceStartup;
-
         int prevBPM = beatsPerMinute;
         tempoPeriod = 60f / prevBPM;
 
+        isTempoRunning = true;
+        isTempoPaused = false;
+        elapsedTime = 0f;
+        currentPeriod = -tempoPeriod;
+
+        float tx = Time.realtimeSinceStartup;
         float tpause = 0;
 
         while (isTempoRunning)
@@ -176,7 +181,6 @@ public class Tempo : MonoBehaviour
                 currentPeriod += deltaTime;
                 elapsedTime += deltaTime;
 
-
                 // Manage Dynamic BPM
                 if (prevBPM != beatsPerMinute)
                 {
@@ -187,11 +191,11 @@ public class Tempo : MonoBehaviour
 
                 // Manage OnBeat Interval Start and End Events
                 float halfBeatInterval = tempoPeriod * Mathf.Clamp(onBeatAcceptablePercentage / 2, 0.01f, 0.499f);
-                if (currentPeriod >= tempoPeriod - halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; OnIntervalBeatStart?.Invoke(); } }
-                else if (currentPeriod >= halfBeatInterval) { if (isOnBeat) { isOnBeat = false; OnIntervalBeatEnd?.Invoke(); } }
+                if (currentPeriod >= tempoPeriod - halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; if (canGenerateBeatEvents) { OnIntervalBeatStart?.Invoke(); } } }
+                else if (currentPeriod > halfBeatInterval) { if (isOnBeat) { isOnBeat = false; if (canGenerateBeatEvents) { OnIntervalBeatEnd?.Invoke(); } } }
 
                 // Manage Beat Broadcast Event
-                if (currentPeriod >= tempoPeriod) { currentPeriod -= tempoPeriod; OnBeat?.Invoke(); }
+                if (currentPeriod >= tempoPeriod) { currentPeriod -= tempoPeriod; if (canGenerateBeatEvents) { OnBeat?.Invoke(); } else { OnSilentBeat?.Invoke(); } }
             }
             else if (tpause == 0) { tpause = Time.realtimeSinceStartup; OnPause?.Invoke(); }
 
