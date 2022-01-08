@@ -164,9 +164,9 @@ public class Tempo : MonoBehaviour
         isTempoRunning = true;
         isTempoPaused = false;
         elapsedTime = 0f;
-        currentPeriod = -tempoPeriod;
+        currentPeriod = 0f;
 
-        float tx = Time.realtimeSinceStartup;
+        float tx = Time.realtimeSinceStartup - tempoPeriod;
         float tpause = 0;
 
         while (isTempoRunning)
@@ -189,7 +189,8 @@ public class Tempo : MonoBehaviour
                 {
                     prevBPM = beatsPerMinute;
                     tempoPeriod = 60f / prevBPM;
-                    while (currentPeriod - tempoPeriod >= 0) { currentPeriod -= tempoPeriod; }
+                    //while (currentPeriod - tempoPeriod >= 0) { currentPeriod -= tempoPeriod; }
+                    currentPeriod = tempoPeriod;
                 }
 
                 // Manage OnBeat Interval Start and End Events

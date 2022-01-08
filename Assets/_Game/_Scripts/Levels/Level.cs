@@ -162,7 +162,6 @@ public class LevelEditor : Editor
                         }
                         EditorGUILayout.EndHorizontal();
                     }
-                    //Debug.Log(spawnIndex);
                     EditorGUILayout.EndScrollView();
 
                     break;
