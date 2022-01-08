@@ -11,6 +11,8 @@ public class PlayerController : GridMoveable
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
 
+    [SerializeField] private bool ignoreBeatRestriction = false;
+
     private int score = 0;
 
     private DIRECTION currentDirection = DIRECTION.UP;
@@ -64,6 +66,8 @@ public class PlayerController : GridMoveable
 
     private void MoveTile(DIRECTION Direction)
     {
+        if (ignoreBeatRestriction) { Move(Direction); return; }
+
         if (!skipBeat)
         {
             if (Tempo.Instance)
@@ -84,6 +88,8 @@ public class PlayerController : GridMoveable
 
     private void Shoot(DIRECTION direction)
     {
+        if(ignoreBeatRestriction) { StartCoroutine(ShootProjectile(direction)); return; }
+
         if (!skipBeat)
         {
             if (Tempo.Instance)

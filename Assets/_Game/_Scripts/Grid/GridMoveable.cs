@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridMoveable : TempoTrigger
 {
+    [SerializeField] private AnimationCurve movement = AnimationCurve.Linear(0, 0, 1, 1);
+
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
 
@@ -33,15 +35,29 @@ public class GridMoveable : TempoTrigger
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
+            Vector2 loopTargetTile = targetTile;
+            Vector2 loopTargetTilePrevious = targetTile;
             if (targetTile.x < 0)
-                targetTile.x = GridManager.Instance.Grid.tiles.x - 1;
-            else if(targetTile.x >= GridManager.Instance.Grid.tiles.x)
-                targetTile.x = 0;
+            {
+                loopTargetTile.x = GridManager.Instance.Grid.tiles.x - 1;
+                loopTargetTilePrevious.x = GridManager.Instance.Grid.tiles.x;
+            }
+            else if (targetTile.x >= GridManager.Instance.Grid.tiles.x)
+            {
+                loopTargetTile.x = 0;
+                loopTargetTilePrevious.x = - 1;
+            }
 
             if (targetTile.y < 0)
-                targetTile.y = GridManager.Instance.Grid.tiles.y - 1;
+            {
+                loopTargetTile.y = GridManager.Instance.Grid.tiles.y - 1;
+                loopTargetTilePrevious.y = GridManager.Instance.Grid.tiles.y;
+            }
             else if (targetTile.y >= GridManager.Instance.Grid.tiles.y)
-                targetTile.y = 0;
+            {
+                loopTargetTile.y = 0;
+                loopTargetTilePrevious.y = -1;
+            }
 
             isMoving = true;
             float tx = Time.realtimeSinceStartup;
@@ -58,8 +74,21 @@ public class GridMoveable : TempoTrigger
                     else { deltaTime = Time.realtimeSinceStartup - tx; }
 
                     tx = Time.realtimeSinceStartup;
+                    Vector2 interm = Vector2.zero;
 
-                    Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_DURATION));
+                    float realT = elapsedTime / MOVE_DURATION;
+                    float t = movement.Evaluate(realT);
+
+                    if (targetTile == loopTargetTile)
+                        interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
+                    else
+                    {
+                        if(t < 0.5)
+                            interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t / 0.5f);
+                        else
+                            interm = Vector2.Lerp(Vector2.Scale(loopTargetTilePrevious, GridManager.Instance.Grid.tileSize), Vector2.Scale(loopTargetTile, GridManager.Instance.Grid.tileSize), (t - 0.5f) / 0.5f);
+                    }
+
                     transform.position = new Vector3(interm.x, transform.position.y, interm.y);
 
                     elapsedTime += deltaTime;
@@ -70,7 +99,11 @@ public class GridMoveable : TempoTrigger
                 yield return null;
             }
 
-            Teleport(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y), Vector3.zero);
+            if (targetTile == loopTargetTile)
+                Teleport(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y), Vector3.zero);
+            else
+                Teleport(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y), Vector3.zero);
+
             isMoving = false;
         }
     }

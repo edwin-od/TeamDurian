@@ -362,7 +362,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels: {fileID: 11400000, guid: 1180e3484364ab3409f16327f437eb4f, type: 2}
   enemyPrefab: {fileID: 3397720008747908658, guid: d83787dbc2261ab4886b8ed7c877ffda, type: 3}
-  initialTempoDelay: 0
 --- !u!4 &822482204
 Transform:
   m_ObjectHideFlags: 0
@@ -899,6 +898,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4612205616256255505, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612205616256255510, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
+      propertyPath: ignoreBeatRestriction
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612205616256255511, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
