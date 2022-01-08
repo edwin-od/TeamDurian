@@ -8,6 +8,9 @@ public class MenuController : MonoBehaviour
     public Transform levelsMenu;
     public Transform settingsMenu;
 
+    [Header("Return")]
+    public GameObject returnButton;
+
     [Header("Levels")]
     public Levels levels;
     public GameObject levelButtonPrefab;
@@ -75,9 +78,10 @@ public class MenuController : MonoBehaviour
     {
         this.currentPanel = newPanel;
 
-        mainMenu.gameObject.SetActive(currentPanel == Panels.Main ? true : false);
-        levelsMenu.gameObject.SetActive(currentPanel == Panels.Levels ? true : false);
-        settingsMenu.gameObject.SetActive(currentPanel == Panels.Settings ? true : false);
+        returnButton.gameObject.SetActive(currentPanel == Panels.Levels || currentPanel == Panels.Settings);
+        mainMenu.gameObject.SetActive(currentPanel == Panels.Main);
+        levelsMenu.gameObject.SetActive(currentPanel == Panels.Levels);
+        settingsMenu.gameObject.SetActive(currentPanel == Panels.Settings);
     }
     #endregion
 }
