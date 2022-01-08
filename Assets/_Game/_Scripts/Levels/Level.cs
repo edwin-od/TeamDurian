@@ -53,6 +53,9 @@ public class Level : ScriptableObject
 [CustomEditor(typeof(Level))]
 public class LevelEditor : Editor
 {
+
+    void Start() { PopulateWaveSpawns(target as Level, false); }
+
     override public void OnInspectorGUI()
     {
         Level level = target as Level;
@@ -73,27 +76,7 @@ public class LevelEditor : Editor
                     EditorGUI.BeginChangeCheck();
                     level.gridWidth = EditorGUILayout.IntSlider("Grid Width", level.gridWidth, 3, 100);
                     level.gridHeight = EditorGUILayout.IntSlider("Grid Height", level.gridHeight, 3, 100);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        if (level.waves != null)
-                        {
-                            for (int wave = 0; wave < level.waves.Count; wave++)
-                            {
-                                level.waves[wave].spawns = new List<bool>();
-                                if (level.waves[wave].spawns != null)
-                                {
-                                    for (int y = 0; y < level.gridHeight; y++)
-                                    {
-                                        for (int x = 0; x < level.gridWidth; x++)
-                                        {
-                                            if (x == 0 || x == level.gridWidth - 1 || y == 0 || y == level.gridHeight - 1)
-                                                level.waves[wave].spawns.Add(false);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    if (EditorGUI.EndChangeCheck()) { PopulateWaveSpawns(level, true); }
 
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
@@ -113,9 +96,11 @@ public class LevelEditor : Editor
 
                     DrawUILine(Color.grey);
 
+                    EditorGUI.BeginChangeCheck();
                     serializedLevel.Update();
                     EditorGUILayout.PropertyField(serializedLevel.FindProperty("waves"), true);
                     serializedLevel.ApplyModifiedProperties();
+                    if (EditorGUI.EndChangeCheck()) { PopulateWaveSpawns(level, false); }
 
                     break;
                 }
@@ -183,6 +168,38 @@ public class LevelEditor : Editor
         r.width += 6;
         EditorGUI.DrawRect(r, color);
         GUILayout.Space(Level.VAR_SPACE);
+    }
+
+    public void PopulateWaveSpawns(Level level, bool reset)
+    {
+        if (level.waves != null)
+        {
+            for (int wave = 0; wave < level.waves.Count; wave++)
+            {
+                if (level.waves[wave].spawns == null || level.waves[wave].spawns.Count == 0 || reset)
+                {
+                    level.waves[wave].spawns = new List<bool>();
+                    if (level.waves[wave].spawns != null)
+                    {
+                        for (int y = 0; y < level.gridHeight; y++)
+                        {
+                            for (int x = 0; x < level.gridWidth; x++)
+                            {
+                                if (x == 0 || x == level.gridWidth - 1 || y == 0 || y == level.gridHeight - 1)
+                                    level.waves[wave].spawns.Add(false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(target as Level);
+#endif
     }
 }
 #endif
