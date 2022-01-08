@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class MenuController : MonoBehaviour
@@ -18,19 +17,42 @@ public class MenuController : MonoBehaviour
     public Panels currentPanel;
     public enum Panels { Main, Levels, Settings };
 
+    [Header("Game Scene")]
+    public string gameSceneName;
+
+    [Header("Level")]
+    public int currentLevel;
+
     public void Awake()
     {
         _GenerateButtonLevels();
 
         Toggle(Panels.Main);
+
+        DontDestroyOnLoad(this);
     }
 
     void _GenerateButtonLevels()
     {
+        int i = 0;
+
         foreach(var level in levels.levels)
         {
-            Instantiate(levelButtonPrefab, levelButtonContainer);
+            i++;
+            GameObject go = Instantiate(levelButtonPrefab, levelButtonContainer);
+            go.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadGameScene(i));
+            go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = i.ToString();
+
+            //Je récupèrerai le vrai nom dans level, étant donné que j'ai pas encore le push avec la variable dans le scriptable object..
+            //go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = level.name;
         }
+    }
+
+    void LoadGameScene(int levelIndex)
+    {
+        Debug.Log("Start level < " + levelIndex + " >");
+        currentLevel = levelIndex;
+        SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
     }
 
     #region Buttons funcs
