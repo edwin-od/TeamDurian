@@ -48,6 +48,7 @@ MonoBehaviour:
   projectileLifetime: 5
   projectileSpeed: 2
   projectileHitRadius: 0.1
+  projectileHitScore: 1
   projectilePrefab: {fileID: 3660727220632822144, guid: e0ccd4b62b3ef8f46a88d5e6226a6b0f, type: 3}
   projectileSpawn: {fileID: 6283640611864928250}
 --- !u!1 &4612205616947575406
@@ -140,7 +141,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4612205616947575406}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

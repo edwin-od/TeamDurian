@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tempo : MonoBehaviour
 {
     [SerializeField, Range(1, 500)] private int beatsPerMinute = 60;
-    [SerializeField, Range(0.02f, 1f)] private float onBeatAcceptablePercentage = 0.25f;
+    [SerializeField, Range(0.01f, 0.499f)] private float onBeatAcceptablePercentage = 0.25f;
 
     private bool isTempoRunning = false;
     private bool isTempoPaused = false;
@@ -45,13 +45,9 @@ public class Tempo : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Tab))
-        {
             ToggleTempo();
-        }
         if(Input.GetKeyDown(KeyCode.Escape))
-        {
             TogglePauseTempo();
-        }
     }
 
     public bool ToggleTempo()
@@ -66,19 +62,24 @@ public class Tempo : MonoBehaviour
 
     public void StartTempo()
     {
-        StartCoroutine(TempoLoop());
+        StartCoroutine(TempoLoop(0));
+    }
+
+    public void StartTempo(float initialDelay)
+    {
+        StartCoroutine(TempoLoop(initialDelay));
     }
 
     public void StartTempo(int BPM)
     {
         this.BPM = BPM;
-        StartCoroutine(TempoLoop());
+        StartCoroutine(TempoLoop(0));
     }
 
-    public void StartTempo(int BPM, float initialDelay) //////////////// DELETE
+    public void StartTempo(int BPM, float initialDelay)
     {
         this.BPM = BPM;
-        StartCoroutine(TempoLoop());
+        StartCoroutine(TempoLoop(initialDelay));
     }
 
     public void StopTempo()
@@ -153,8 +154,10 @@ public class Tempo : MonoBehaviour
         get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
     }
 
-    IEnumerator TempoLoop()
+    IEnumerator TempoLoop(float initialDelay)
     {
+        yield return new WaitForSeconds(initialDelay);
+
         int prevBPM = beatsPerMinute;
         tempoPeriod = 60f / prevBPM;
 
@@ -190,7 +193,7 @@ public class Tempo : MonoBehaviour
                 }
 
                 // Manage OnBeat Interval Start and End Events
-                float halfBeatInterval = tempoPeriod * Mathf.Clamp(onBeatAcceptablePercentage / 2, 0.01f, 0.499f);
+                float halfBeatInterval = tempoPeriod * onBeatAcceptablePercentage;
                 if (currentPeriod >= tempoPeriod - halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; if (canGenerateBeatEvents) { OnIntervalBeatStart?.Invoke(); } } }
                 else if (currentPeriod > halfBeatInterval) { if (isOnBeat) { isOnBeat = false; if (canGenerateBeatEvents) { OnIntervalBeatEnd?.Invoke(); } } }
 
