@@ -62,24 +62,13 @@ public class Tempo : MonoBehaviour
 
     public void StartTempo()
     {
-        StartCoroutine(TempoLoop(0));
-    }
-
-    public void StartTempo(float initialDelay)
-    {
-        StartCoroutine(TempoLoop(initialDelay));
+        StartCoroutine(TempoLoop());
     }
 
     public void StartTempo(int BPM)
     {
         this.BPM = BPM;
-        StartCoroutine(TempoLoop(0));
-    }
-
-    public void StartTempo(int BPM, float initialDelay)
-    {
-        this.BPM = BPM;
-        StartCoroutine(TempoLoop(initialDelay));
+        StartCoroutine(TempoLoop());
     }
 
     public void StopTempo()
@@ -154,10 +143,8 @@ public class Tempo : MonoBehaviour
         get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
     }
 
-    IEnumerator TempoLoop(float initialDelay)
+    IEnumerator TempoLoop()
     {
-        yield return new WaitForSeconds(initialDelay);
-
         int prevBPM = beatsPerMinute;
         tempoPeriod = 60f / prevBPM;
 
@@ -189,7 +176,6 @@ public class Tempo : MonoBehaviour
                 {
                     prevBPM = beatsPerMinute;
                     tempoPeriod = 60f / prevBPM;
-                    //while (currentPeriod - tempoPeriod >= 0) { currentPeriod -= tempoPeriod; }
                     currentPeriod = tempoPeriod;
                 }
 

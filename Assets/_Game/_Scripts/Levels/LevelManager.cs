@@ -7,8 +7,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Levels levels;
     [SerializeField] private GameObject enemyPrefab;
 
-    [SerializeField, Range(0f, 5f)] private float initialTempoDelay = 0.1f;
-
     private int waveIndex = 0;
     private int levelIndex = 0;
 
@@ -36,26 +34,29 @@ public class LevelManager : MonoBehaviour
         levelIndex = level;
         waveIndex = 0;
 
-        OnLevelStarted?.Invoke();
-
-        if (GridManager.Instance)
+        if (levels && levelIndex >= 0 && levelIndex < levels.levels.Count)
         {
-            GridManager.Instance.StartLevel(
-                levels.levels[levelIndex].gridWidth, 
-                levels.levels[levelIndex].gridHeight, 
-                levels.levels[levelIndex].gridTileSizeX, 
-                levels.levels[levelIndex].gridTileSizeY, 
-                levels.levels[levelIndex].cameraHeight, 
-                levels.levels[levelIndex].tileColor1, 
-                levels.levels[levelIndex].tileColor2
-                );
-        }
+            OnLevelStarted?.Invoke();
 
-        EmptyClips();
-        FillClips();
-        SpawnEnemies();
-        StartLoop();
-        Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM, initialTempoDelay) ;
+            if (GridManager.Instance)
+            {
+                GridManager.Instance.StartLevel(
+                    levels.levels[levelIndex].gridWidth,
+                    levels.levels[levelIndex].gridHeight,
+                    levels.levels[levelIndex].gridTileSizeX,
+                    levels.levels[levelIndex].gridTileSizeY,
+                    levels.levels[levelIndex].cameraHeight,
+                    levels.levels[levelIndex].tileColor1,
+                    levels.levels[levelIndex].tileColor2
+                    );
+            }
+
+            EmptyClips();
+            FillClips();
+            SpawnEnemies();
+            StartLoop();
+            Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM);
+        }
     }
 
     private void StartLoop()
@@ -80,7 +81,6 @@ public class LevelManager : MonoBehaviour
 
                 float deltaTime = 0f;
 
-                // Manage Pause Compensation
                 if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; UnPauseLoop(); }
                 else { deltaTime = Time.realtimeSinceStartup - tx; }
 
@@ -150,9 +150,15 @@ public class LevelManager : MonoBehaviour
         {
             for (int x = 0; x < levels.levels[levelIndex].gridWidth; x++)
             {
-                if (x == 0 || x == levels.levels[levelIndex].gridWidth - 1 || y == 0 || y == levels.levels[levelIndex].gridHeight - 1)
+                bool isNotSpawnable = (x != 0 && x != levels.levels[levelIndex].gridWidth - 1 && y != 0 && y != levels.levels[levelIndex].gridHeight - 1) ||
+                                        (x == 0 && y == 0) ||
+                                        (x == 0 && y == levels.levels[levelIndex].gridHeight - 1) ||
+                                        (x == levels.levels[levelIndex].gridWidth - 1 && y == 0) ||
+                                        (x == levels.levels[levelIndex].gridWidth - 1 && y == levels.levels[levelIndex].gridHeight - 1);
+
+                if (!isNotSpawnable)
                 {
-                    if (levels.levels[levelIndex].waves[waveIndex].spawns[spawnIndex])
+                    if (levels.levels[levelIndex].waves[waveIndex].spawns[spawnIndex].spawn)
                     {
                         GridManager.IntVector2 spawnTile = new GridManager.IntVector2(x, levels.levels[levelIndex].gridHeight - y - 1);
                         GameObject enemy = Instantiate(enemyPrefab, transform);

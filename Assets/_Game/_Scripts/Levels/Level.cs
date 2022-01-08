@@ -12,9 +12,15 @@ public class Level : ScriptableObject
     public class Wave
     {
         [HideInInspector] public string waveName = "Wave 0";
-        public EnemyType enemyType = EnemyType.Default;
         public Loop loop = null;
-        [HideInInspector] public List<bool> spawns = new List<bool>();
+        [HideInInspector] public List<EnemySpawn> spawns = new List<EnemySpawn>();
+    }
+
+    [System.Serializable]
+    public class EnemySpawn
+    {
+        public bool spawn = false;
+        public EnemyType enemyType = EnemyType.Default;
     }
 
     public string levelName = "Level 0";
@@ -131,12 +137,17 @@ public class LevelEditor : Editor
                         EditorGUILayout.BeginHorizontal();
                         for (int x = 0; x < level.gridWidth; x++)
                         {
-                            bool isNotSpawnable = x != 0 && x != level.gridWidth - 1 && y != 0 && y != level.gridHeight - 1;
+                            bool isNotSpawnable = 
+                                (x != 0 && x != level.gridWidth - 1 && y != 0 && y != level.gridHeight - 1) || 
+                                (x == 0 && y == 0) || 
+                                (x == 0 && y == level.gridHeight - 1) || 
+                                (x == level.gridWidth - 1 && y == 0) ||
+                                (x == level.gridWidth - 1 && y == level.gridHeight - 1);
                             
                             EditorGUI.BeginDisabledGroup(isNotSpawnable);
 
                             if(!isNotSpawnable && level.waves != null && level.waves[level.selectedWave].spawns != null && spawnIndex < level.waves[level.selectedWave].spawns.Count)
-                                level.waves[level.selectedWave].spawns[spawnIndex] = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex], "");
+                                level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
                             else
                                 GUILayout.Toggle(false, "");
 
@@ -178,15 +189,19 @@ public class LevelEditor : Editor
             {
                 if (level.waves[wave].spawns == null || level.waves[wave].spawns.Count == 0 || reset)
                 {
-                    level.waves[wave].spawns = new List<bool>();
+                    level.waves[wave].spawns = new List<Level.EnemySpawn>();
                     if (level.waves[wave].spawns != null)
                     {
                         for (int y = 0; y < level.gridHeight; y++)
                         {
                             for (int x = 0; x < level.gridWidth; x++)
                             {
-                                if (x == 0 || x == level.gridWidth - 1 || y == 0 || y == level.gridHeight - 1)
-                                    level.waves[wave].spawns.Add(false);
+                                if ((x != 0 && x != level.gridWidth - 1 && y != 0 && y != level.gridHeight - 1) ||
+                                    (x == 0 && y == 0) ||
+                                    (x == 0 && y == level.gridHeight - 1) ||
+                                    (x == level.gridWidth - 1 && y == 0) ||
+                                    (x == level.gridWidth - 1 && y == level.gridHeight - 1))
+                                { level.waves[wave].spawns.Add(new Level.EnemySpawn()); }
                             }
                         }
                     }
@@ -195,12 +210,7 @@ public class LevelEditor : Editor
         }
     }
 
-    private void OnDisable()
-    {
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(target as Level);
-#endif
-    }
+    private void OnDisable() { EditorUtility.SetDirty(target as Level); }
 }
 #endif
 #endregion
