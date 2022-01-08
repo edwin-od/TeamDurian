@@ -15,6 +15,7 @@ MonoBehaviour:
   levelName: Test Level
   waves:
   - waveName: Wave 1
+    isTransition: 0
     loop: {fileID: 11400000, guid: 85cdaa53a41ecff44bb13f6733221440, type: 2}
     spawns:
     - spawn: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
     - spawn: 0
       pattern: 0
   - waveName: Wave 2
+    isTransition: 0
     loop: {fileID: 11400000, guid: 6ef10edd84a24d4489da9f74a7bc2acc, type: 2}
     spawns:
     - spawn: 0
@@ -521,6 +523,7 @@ MonoBehaviour:
     - spawn: 0
       pattern: 0
   - waveName: Wave 3
+    isTransition: 0
     loop: {fileID: 11400000, guid: 49314b2b2c8a1774f9d39327f77ef523, type: 2}
     spawns:
     - spawn: 0
@@ -780,6 +783,6 @@ MonoBehaviour:
   cameraHeight: 3
   tileColor1: {r: 1, g: 1, b: 1, a: 1}
   tileColor2: {r: 0, g: 0, b: 0, a: 1}
-  tab: 1
+  tab: 0
   scrollPos: {x: 0, y: 0}
   selectedWave: 0

@@ -32,7 +32,6 @@ public class LevelManager : MonoBehaviour
     private void StartLevel(int level)
     {
         levelIndex = level;
-        waveIndex = 0;
 
         if (levels && levelIndex >= 0 && levelIndex < levels.levels.Count)
         {
@@ -51,10 +50,9 @@ public class LevelManager : MonoBehaviour
                     );
             }
 
-            EmptyClips();
-            FillClips();
-            SpawnEnemies();
-            StartLoop();
+            waveIndex = -1;
+            NextWave();
+
             Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM);
         }
     }
@@ -77,7 +75,8 @@ public class LevelManager : MonoBehaviour
         {
             if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
             {
-                if (enemies.Count == 0) { nextWave = true; elapsedTime = length; }
+                if (!levels.levels[levelIndex].waves[waveIndex].isTransition) { if (enemies.Count == 0) { nextWave = true; elapsedTime = length; } }
+                else { nextWave = true; }
 
                 float deltaTime = 0f;
 
@@ -115,15 +114,19 @@ public class LevelManager : MonoBehaviour
         waveIndex++;
         if (waveIndex >= levels.levels[levelIndex].waves.Count)
         {
+            Debug.Log("Level named \"" + levels.levels[levelIndex].levelName + "\" has ended.");
+
             Tempo.Instance.StopTempo();
             OnLevelEnded?.Invoke();
             return;
         }
 
+        if (levels.levels[levelIndex].waves[waveIndex].isTransition) { if (Tempo.Instance.CanGenerateBeatEvents) { Tempo.Instance.CanGenerateBeatEvents = false; } }
+        else { if (!Tempo.Instance.CanGenerateBeatEvents) { Tempo.Instance.CanGenerateBeatEvents = true; } SpawnEnemies(); }
+
         Tempo.Instance.BPM = levels.levels[levelIndex].waves[waveIndex].loop.BPM;
         EmptyClips();
         FillClips();
-        SpawnEnemies();
         StartLoop();
     }
 

@@ -12,6 +12,7 @@ public class Level : ScriptableObject
     public class Wave
     {
         [HideInInspector] public string waveName = "Wave 0";
+        public bool isTransition = false;
         public Loop loop = null;
         [HideInInspector] public List<EnemySpawn> spawns = new List<EnemySpawn>();
     }
@@ -43,6 +44,7 @@ public class Level : ScriptableObject
     public int tab = 0;
     public Vector2 scrollPos;
     public int selectedWave = 0;
+#endif
 
     public static Color Down_1b_Color = new Color(1f, 1f, 1f, 0.65f);
     public static Color Up_1b_Color = new Color(1f, 0f, 0f, 0.65f);
@@ -51,7 +53,7 @@ public class Level : ScriptableObject
 
     public static Color GetPatternColor(Pattern pattern)
     {
-        switch(pattern)
+        switch (pattern)
         {
             case Pattern.Down_1b:
                 return Down_1b_Color;
@@ -103,13 +105,14 @@ public class Level : ScriptableObject
         }
         return "Down (1 beat)";
     }
-#endif
 
     private void OnValidate()
     {
+        int waveIndex = 0;
         for(int i = 0; i < waves.Count; i++)
         {
-            waves[i].waveName = "Wave " + (i + 1);
+            if (!waves[i].isTransition) { waves[i].waveName = "Wave " + (waveIndex + 1); waveIndex++; }
+            else { waves[i].waveName = "Transition"; }
         }
     }
 }
@@ -119,6 +122,8 @@ public class Level : ScriptableObject
 [CustomEditor(typeof(Level))]
 public class LevelEditor : Editor
 {
+    private string noNonTranstionalWavesFoundWarning = "You have no waves to display! Add some in the \"Level Settings\" tab, in the \"Waves\" list.";
+
     void Start() { PopulateWaveSpawns(target as Level, false); }
 
     override public void OnInspectorGUI()
@@ -175,21 +180,26 @@ public class LevelEditor : Editor
                 }
             case 1:
                 {
-                    if (level.waves == null || level.waves.Count == 0)
+                    int nonTransitionalWaves = 0;
+                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { nonTransitionalWaves++; } }
+                    if (level.waves == null || level.waves.Count == 0 || nonTransitionalWaves == 0) { Debug.LogWarning(noNonTranstionalWavesFoundWarning); goto default; }
+
+                    if (level.selectedWave < 0 || level.selectedWave >= level.waves.Count || level.waves[level.selectedWave].isTransition)
                     {
-                        Debug.LogWarning("You have no waves to display! Add some in the \"Level Settings\" tab, in the \"Waves\" list.");
-                        goto default;
+                        bool found = false;
+                        for(int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { level.selectedWave = i; found = true; break; } }
+                        if (!found) { Debug.LogWarning(noNonTranstionalWavesFoundWarning); goto default; }
                     }
 
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
 
-                    string[] options = new string[level.waves.Count];
-                    for (int i = 0; i < level.waves.Count; i++) { options[i] = level.waves[i].waveName; }
-                    level.selectedWave = EditorGUILayout.Popup("Wave", level.selectedWave, options);
-                    if (level.selectedWave >= level.waves.Count)
-                        level.selectedWave = level.waves.Count - 1;
+                    List<string> options = new List<string>();
+                    List<int> optionsIndices = new List<int>();
+                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { options.Add(level.waves[i].waveName); optionsIndices.Add(i); } }
+                    level.selectedWave = EditorGUILayout.Popup("Wave", options.IndexOf(level.waves[level.selectedWave].waveName), options.ToArray());
+                    level.selectedWave = optionsIndices[level.selectedWave];
 
                     DrawUILine(Color.grey);
 
