@@ -7,11 +7,23 @@ public class Levels : ScriptableObject
 {
     public List<Level> levels = new List<Level>();
 
-    private void OnValidate()
+    [System.Serializable]
+    public class EnemyPatternLevels
     {
-        for (int i = 0; i < levels.Count; i++)
-        {
-            levels[i].levelName = "Lave " + (i + 1);
-        }
+        public Level.Pattern type = Level.Pattern.Down_1b;
+        public EnemyPattern enemyPattern = null;
     }
+
+    public List<EnemyPatternLevels> enemyMovementPatterns = new List<EnemyPatternLevels>();
+
+    public EnemyPattern GetPattern(Level.Pattern type)
+    {
+        foreach (EnemyPatternLevels pat in enemyMovementPatterns)
+        {
+            if (pat.type == type)
+                return pat.enemyPattern;
+        }
+        return null;
+    }
+    
 }

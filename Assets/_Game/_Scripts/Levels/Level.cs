@@ -6,7 +6,7 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Level")]
 public class Level : ScriptableObject
 {
-    public enum EnemyType { Default };
+    public enum Pattern { Down_1b, Up_1b, Left_1b, Right_1b };
 
     [System.Serializable]
     public class Wave
@@ -20,7 +20,7 @@ public class Level : ScriptableObject
     public class EnemySpawn
     {
         public bool spawn = false;
-        public EnemyType enemyType = EnemyType.Default;
+        public Pattern pattern = Pattern.Down_1b;
     }
 
     public string levelName = "Level 0";
@@ -43,6 +43,66 @@ public class Level : ScriptableObject
     public int tab = 0;
     public Vector2 scrollPos;
     public int selectedWave = 0;
+
+    public static Color Down_1b_Color = new Color(1f, 1f, 1f, 0.65f);
+    public static Color Up_1b_Color = new Color(1f, 0f, 0f, 0.65f);
+    public static Color Left_1b_Color = new Color(0f, 0f, 1f, 0.65f);
+    public static Color Right_1b_Color = new Color(0f, 1f, 0f, 0.65f);
+
+    public static Color GetPatternColor(Pattern pattern)
+    {
+        switch(pattern)
+        {
+            case Pattern.Down_1b:
+                return Down_1b_Color;
+            case Pattern.Up_1b:
+                return Up_1b_Color;
+            case Pattern.Left_1b:
+                return Left_1b_Color;
+            case Pattern.Right_1b:
+                return Right_1b_Color;
+            default:
+                break;
+        }
+        return new Color(1f, 1f, 1f, 0.65f);
+    }
+    public static void SetPatternColor(Pattern pattern, Color color)
+    {
+        switch (pattern)
+        {
+            case Pattern.Down_1b:
+                Down_1b_Color = color;
+                break;
+            case Pattern.Up_1b:
+                Up_1b_Color = color;
+                break;
+            case Pattern.Left_1b:
+                Left_1b_Color = color;
+                break;
+            case Pattern.Right_1b:
+                Right_1b_Color = color;
+                break;
+            default:
+                break;
+        }
+    }
+    public static string GetPatternName(Pattern pattern)
+    {
+        switch (pattern)
+        {
+            case Pattern.Down_1b:
+                return "Down (1 beat)";
+            case Pattern.Up_1b:
+                return "Up (1 beat)";
+            case Pattern.Left_1b:
+                return "Left (1 beat)";
+            case Pattern.Right_1b:
+                return "Right (1 beat)";
+            default:
+                break;
+        }
+        return "Down (1 beat)";
+    }
 #endif
 
     private void OnValidate()
@@ -59,7 +119,6 @@ public class Level : ScriptableObject
 [CustomEditor(typeof(Level))]
 public class LevelEditor : Editor
 {
-
     void Start() { PopulateWaveSpawns(target as Level, false); }
 
     override public void OnInspectorGUI()
@@ -78,6 +137,10 @@ public class LevelEditor : Editor
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
+
+                    level.levelName = EditorGUILayout.TextField("Level Name", level.levelName);
+
+                    DrawUILine(Color.grey);
 
                     EditorGUI.BeginChangeCheck();
                     level.gridWidth = EditorGUILayout.IntSlider("Grid Width", level.gridWidth, 3, 100);
@@ -130,35 +193,157 @@ public class LevelEditor : Editor
 
                     DrawUILine(Color.grey);
 
-                    level.scrollPos = EditorGUILayout.BeginScrollView(level.scrollPos, GUILayout.Width(level.gridWidth * 21), GUILayout.Height(level.gridHeight * 19));
+                    float width = level.gridWidth * 28;
+                    float height = level.gridHeight * 21;
+
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+                    level.scrollPos = EditorGUILayout.BeginScrollView(level.scrollPos, GUILayout.Width(width), GUILayout.Height(height));
+                    List<Level.EnemySpawn> bottomSpawns = new List<Level.EnemySpawn>();
                     int spawnIndex = 0;
                     for (int y = 0; y < level.gridHeight; y++)
                     {
                         EditorGUILayout.BeginHorizontal();
                         for (int x = 0; x < level.gridWidth; x++)
                         {
-                            bool isNotSpawnable = 
-                                (x != 0 && x != level.gridWidth - 1 && y != 0 && y != level.gridHeight - 1) || 
-                                (x == 0 && y == 0) || 
-                                (x == 0 && y == level.gridHeight - 1) || 
-                                (x == level.gridWidth - 1 && y == 0) ||
-                                (x == level.gridWidth - 1 && y == level.gridHeight - 1);
+                            bool isBottom = y == level.gridHeight - 1;
+                            bool isTop = y == 0;
+                            bool isLeft = x == 0;
+                            bool isRight = x == level.gridWidth - 1;
+                            bool isNotSpawnable = (!isLeft && !isRight && !isTop && !isBottom) || (isTop && isLeft) || (isLeft && isBottom) || (isRight && isTop) || (isBottom && isRight);
                             
                             EditorGUI.BeginDisabledGroup(isNotSpawnable);
 
-                            if(!isNotSpawnable && level.waves != null && level.waves[level.selectedWave].spawns != null && spawnIndex < level.waves[level.selectedWave].spawns.Count)
-                                level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
+                            if (!isNotSpawnable && level.waves != null && level.waves[level.selectedWave].spawns != null && spawnIndex < level.waves[level.selectedWave].spawns.Count)
+                            {
+                                if (isTop)
+                                {
+                                    EditorGUILayout.BeginVertical();
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
+                                    EditorGUILayout.EndVertical();
+                                }
+                                else if (isLeft)
+                                {
+                                    EditorGUILayout.BeginHorizontal();
+                                    EditorGUILayout.BeginVertical();
+                                    GUILayout.Space(4f);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EditorGUILayout.EndVertical();
+                                    GUILayout.Space(2.25f);
+                                    level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                                else if (isBottom)
+                                {
+                                    EditorGUILayout.BeginVertical();
+                                    level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EditorGUILayout.EndVertical();
+                                }
+                                else if (isRight)
+                                {
+                                    EditorGUILayout.BeginHorizontal();
+                                    level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
+                                    EditorGUILayout.BeginVertical();
+                                    GUILayout.Space(4f);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EditorGUILayout.EndVertical();
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                            }
                             else
-                                GUILayout.Toggle(false, "");
+                            {
+                                if ((isTop || isBottom) && isLeft)
+                                {
+                                    EditorGUILayout.BeginVertical();
+                                    GridUnusableTile(true);    
+                                    GridUnusableTile(true);    
+                                    EditorGUILayout.EndVertical();
+                                    GUILayout.Space(2.25f);
+                                    EditorGUILayout.BeginVertical();
+                                    if (isTop)
+                                    {
+                                        GridUnusableTile(true);
+                                        EditorGUILayout.BeginVertical();
+                                        GUILayout.Space(4f);
+                                        GridUnusableTile(false);
+                                        EditorGUILayout.EndVertical();
+                                    }
+                                    else
+                                    {
+                                        EditorGUILayout.BeginVertical();
+                                        GUILayout.Space(4f);
+                                        GridUnusableTile(false);
+                                        EditorGUILayout.EndVertical();
+                                        GridUnusableTile(true);
+                                    }
+                                    EditorGUILayout.EndVertical();
+                                    GUILayout.Space(2.25f);
+                                }
+                                else if ((isTop || isBottom) && isRight)
+                                {
+                                    EditorGUILayout.BeginVertical();
+                                    EditorGUILayout.BeginHorizontal();
+                                    if (isTop) 
+                                    { 
+                                        GridUnusableTile(true); 
+                                    }
+                                    else 
+                                    {
+                                        EditorGUILayout.BeginVertical();
+                                        GUILayout.Space(4f);
+                                        GridUnusableTile(false);
+                                        EditorGUILayout.EndVertical();
+                                    }
+                                    GridUnusableTile(true);    
+                                    GUILayout.Space(2.5f);
+                                    EditorGUILayout.EndHorizontal();
+                                    EditorGUILayout.BeginHorizontal();
+                                    if (isTop) 
+                                    {
+                                        EditorGUILayout.BeginVertical();
+                                        GUILayout.Space(4f);
+                                        GridUnusableTile(false);
+                                        EditorGUILayout.EndVertical();
+                                    }
+                                    else 
+                                    {
+                                        GridUnusableTile(true);
+                                    }
+                                    GridUnusableTile(true);    
+                                    GUILayout.Space(2.5f);
+                                    EditorGUILayout.EndHorizontal();
+                                    EditorGUILayout.EndVertical();
+                                }
+                                else
+                                {
+                                    GridUnusableTile(false);
+                                    GUILayout.Space(2.5f);
+                                }
+                            }
 
+                            if (isBottom) { bottomSpawns.Add(isNotSpawnable ? null : level.waves[level.selectedWave].spawns[spawnIndex]); }
                             EditorGUI.EndDisabledGroup();
 
                             if (!isNotSpawnable)
                                 spawnIndex++;
                         }
+                        GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
                     }
                     EditorGUILayout.EndScrollView();
+                    GUILayout.FlexibleSpace();
+                    EditorGUILayout.EndHorizontal();
+
+                    DrawUILine(Color.grey);
+
+                    EditorGUILayout.BeginVertical();
+                    LegendPatternColorAndChange(Level.Pattern.Down_1b);
+                    LegendPatternColorAndChange(Level.Pattern.Up_1b);
+                    LegendPatternColorAndChange(Level.Pattern.Left_1b);
+                    LegendPatternColorAndChange(Level.Pattern.Right_1b);
+                    EditorGUILayout.EndVertical();
 
                     break;
                 }
@@ -167,6 +352,48 @@ public class LevelEditor : Editor
                 break;
         }
 
+    }
+
+    public void EnemyTypeButton(Level.EnemySpawn spawn)
+    {
+        Color previousColor = GUI.color;
+        GUI.color = spawn != null ? Level.GetPatternColor(spawn.pattern) : new Color(1f, 1f, 1f, 0.65f);
+
+        if (GUILayout.Button("", GUILayout.Width(14.5f), GUILayout.Height(12f)))
+        {
+            if (spawn != null)
+            {
+                GenericMenu menu = new GenericMenu();
+
+                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Down_1b)), spawn.pattern == Level.Pattern.Down_1b, delegate { spawn.pattern = Level.Pattern.Down_1b; });
+                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Up_1b)), spawn.pattern == Level.Pattern.Up_1b, delegate { spawn.pattern = Level.Pattern.Up_1b; });
+                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Left_1b)), spawn.pattern == Level.Pattern.Left_1b, delegate { spawn.pattern = Level.Pattern.Left_1b; });
+                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Right_1b)), spawn.pattern == Level.Pattern.Right_1b, delegate { spawn.pattern = Level.Pattern.Right_1b; });
+
+                menu.ShowAsContext();
+            }
+        }
+
+        GUI.color = previousColor;
+    }
+
+    public void LegendPatternColorAndChange(Level.Pattern pattern)
+    {
+        EditorGUILayout.BeginHorizontal();
+        Color newColor = EditorGUILayout.ColorField(GUIContent.none, Level.GetPatternColor(pattern), false, true ,false, GUILayout.Width(16f), GUILayout.Height(16f));
+        Level.SetPatternColor(pattern, newColor);
+        EditorGUILayout.LabelField(Level.GetPatternName(pattern));
+        EditorGUILayout.EndHorizontal();
+    }
+
+    public void GridUnusableTile(bool invisible)
+    {
+        Color previousColor = GUI.color;
+        GUI.color = invisible ? new Color(0, 0, 0, 0) : new Color(0, 0, 0, 0.25f);
+        EditorGUI.BeginDisabledGroup(true);
+        if (GUILayout.Button("", GUILayout.Width(14.5f), GUILayout.Height(12f))) { }
+        EditorGUI.EndDisabledGroup();
+        GUI.color = previousColor;
     }
 
     public static void DrawUILine(Color color, int thickness = 2, int padding = 10)

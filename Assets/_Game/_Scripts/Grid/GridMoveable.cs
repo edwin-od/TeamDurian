@@ -10,7 +10,7 @@ public class GridMoveable : TempoTrigger
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
 
-    public static readonly float MOVE_SPEED = 0.075f;
+    public static readonly float MOVE_DURATION = 0.075f;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
@@ -33,14 +33,21 @@ public class GridMoveable : TempoTrigger
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
-            if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= GridManager.Instance.Grid.tiles.x || targetTile.y >= GridManager.Instance.Grid.tiles.y)
-                yield break;
+            if (targetTile.x < 0)
+                targetTile.x = GridManager.Instance.Grid.tiles.x - 1;
+            else if(targetTile.x >= GridManager.Instance.Grid.tiles.x)
+                targetTile.x = 0;
+
+            if (targetTile.y < 0)
+                targetTile.y = GridManager.Instance.Grid.tiles.y - 1;
+            else if (targetTile.y >= GridManager.Instance.Grid.tiles.y)
+                targetTile.y = 0;
 
             isMoving = true;
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
-            while (elapsedTime < MOVE_SPEED)
+            while (elapsedTime < MOVE_DURATION)
             {
                 if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
                 {
@@ -52,7 +59,7 @@ public class GridMoveable : TempoTrigger
 
                     tx = Time.realtimeSinceStartup;
 
-                    Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_SPEED));
+                    Vector2 interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), (elapsedTime / MOVE_DURATION));
                     transform.position = new Vector3(interm.x, transform.position.y, interm.y);
 
                     elapsedTime += deltaTime;

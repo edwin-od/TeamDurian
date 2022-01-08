@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 11400000, guid: 74df89554baac71459442ac488d86058, type: 2}
+  enemyMovementPatterns:
+  - type: 0
+    enemyPattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
+  - type: 1
+    enemyPattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
+  - type: 2
+    enemyPattern: {fileID: 11400000, guid: ef6348408408e03458faaf63209d3a41, type: 2}
+  - type: 3
+    enemyPattern: {fileID: 11400000, guid: 8d966a19adaa1b04a9f65f4eb1fbeeb5, type: 2}

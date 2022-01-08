@@ -26,8 +26,8 @@ public class GridManager : TempoTrigger
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-            StartLevel(grid.tiles.x, grid.tiles.y, grid.tileSize.x, grid.tileSize.y, 3f, tileColor1, tileColor2);
+        //if (Input.GetKeyDown(KeyCode.Tab))
+        //    StartLevel(grid.tiles.x, grid.tiles.y, grid.tileSize.x, grid.tileSize.y, 3f, tileColor1, tileColor2);
     }
 
     public override void Beat()

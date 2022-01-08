@@ -10,6 +10,7 @@ public class Tempo : MonoBehaviour
     private bool isTempoRunning = false;
     private bool isTempoPaused = false;
     private bool canGenerateBeatEvents = true;
+    private bool isFirstBeatEver = true;
     private bool isOnBeat = false;
     private int totalBeats = 0;
     private double elapsedTime = 0f;
@@ -44,8 +45,8 @@ public class Tempo : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
-            ToggleTempo();
+        //if(Input.GetKeyDown(KeyCode.Tab))
+        //    ToggleTempo();
         if(Input.GetKeyDown(KeyCode.Escape))
             TogglePauseTempo();
     }
@@ -127,6 +128,11 @@ public class Tempo : MonoBehaviour
         get { return isTempoRunning && !isTempoPaused; }
     }
 
+    public bool IsFirstBeatEver
+    {
+        get { return isFirstBeatEver; }
+    }
+
     public bool IsOnBeat
     {
         get { return isOnBeat; }
@@ -150,6 +156,7 @@ public class Tempo : MonoBehaviour
 
         isTempoRunning = true;
         isTempoPaused = false;
+        isFirstBeatEver = true;
         elapsedTime = 0f;
         currentPeriod = 0f;
 
@@ -179,13 +186,20 @@ public class Tempo : MonoBehaviour
                     currentPeriod = tempoPeriod;
                 }
 
-                // Manage OnBeat Interval Start and End Events
+                // Manage OnBeat Interval -> Start and End Events
                 float halfBeatInterval = tempoPeriod * onBeatAcceptablePercentage;
                 if (currentPeriod >= tempoPeriod - halfBeatInterval) { if (!isOnBeat) { isOnBeat = true; if (canGenerateBeatEvents) { OnIntervalBeatStart?.Invoke(); } } }
                 else if (currentPeriod > halfBeatInterval) { if (isOnBeat) { isOnBeat = false; if (canGenerateBeatEvents) { OnIntervalBeatEnd?.Invoke(); } } }
 
                 // Manage Beat Broadcast Event
-                if (currentPeriod >= tempoPeriod) { currentPeriod -= tempoPeriod; if (canGenerateBeatEvents) { OnBeat?.Invoke(); } else { OnSilentBeat?.Invoke(); } }
+                if (currentPeriod >= tempoPeriod) 
+                { 
+                    currentPeriod -= tempoPeriod; 
+                    if (isFirstBeatEver && elapsedTime > 2 * tempoPeriod) { isFirstBeatEver = false; } // first beat passed
+
+                    if (canGenerateBeatEvents) { OnBeat?.Invoke(); } 
+                    else { OnSilentBeat?.Invoke(); } 
+                }
             }
             else if (tpause == 0) { tpause = Time.realtimeSinceStartup; OnPause?.Invoke(); }
 

@@ -13,6 +13,8 @@ public class PlayerController : GridMoveable
 
     private int score = 0;
 
+    private DIRECTION currentDirection = DIRECTION.UP;
+
     private bool skipBeat = false;
 
     private static PlayerController _instance;
@@ -39,8 +41,14 @@ public class PlayerController : GridMoveable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Shoot();
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            Shoot(DIRECTION.UP);
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            Shoot(DIRECTION.DOWN);
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            Shoot(DIRECTION.LEFT);
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            Shoot(DIRECTION.RIGHT);
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Z))
             MoveTile(DIRECTION.UP);
@@ -74,7 +82,7 @@ public class PlayerController : GridMoveable
         }
     }
 
-    private void Shoot()
+    private void Shoot(DIRECTION direction)
     {
         if (!skipBeat)
         {
@@ -89,7 +97,7 @@ public class PlayerController : GridMoveable
                 }
             }
 
-            StartCoroutine(ShootProjectile());
+            StartCoroutine(ShootProjectile(direction));
             skipBeat = true;
         }
     }
@@ -106,18 +114,20 @@ public class PlayerController : GridMoveable
 
     private void BeatIntervalEnd() { skipBeat = false; }
 
-    private IEnumerator ShootProjectile()
+    private IEnumerator ShootProjectile(DIRECTION shootDirection)
     {
         if (GridManager.Instance)
         {
+            RotatePlayer(shootDirection);
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.parent = null;
             projectile.transform.position = projectileSpawn.transform.position;
-            Vector3 direction = transform.forward;
+            projectile.transform.rotation = projectileSpawn.transform.rotation;
 
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
+            Vector2 direction = shootDirection == DIRECTION.UP ? UP : shootDirection == DIRECTION.DOWN ? DOWN : shootDirection == DIRECTION.RIGHT ? RIGHT : shootDirection == DIRECTION.LEFT ? LEFT : Vector2.zero;
             while (elapsedTime < projectileLifetime)
             {
                 if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
@@ -130,7 +140,7 @@ public class PlayerController : GridMoveable
 
                     tx = Time.realtimeSinceStartup;
 
-                    projectile.transform.position += direction * deltaTime * projectileSpeed;
+                    projectile.transform.position += new Vector3(direction.x, 0f, direction.y) * deltaTime * projectileSpeed;
                     Collider[] hits = Physics.OverlapSphere(projectile.transform.position, projectileHitRadius);
                     foreach (Collider hit in hits) 
                     {
@@ -152,5 +162,16 @@ public class PlayerController : GridMoveable
 
             Destroy(projectile);
         }
+    }
+
+    private void RotatePlayer(DIRECTION direction)
+    {
+        if (currentDirection == direction)
+            return;
+
+        currentDirection = direction;
+        float newAngle = direction == DIRECTION.UP ? 0 : direction == DIRECTION.DOWN ? 180 : direction == DIRECTION.RIGHT ? 90 : direction == DIRECTION.LEFT ? -90 : 0;
+
+        transform.GetChild(0).rotation = Quaternion.Euler(0f, newAngle, 0f);
     }
 }
