@@ -149,6 +149,11 @@ public class Tempo : MonoBehaviour
         get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
     }
 
+    public float TempoPeriod
+    {
+        get { return tempoPeriod; }
+    }
+
     IEnumerator TempoLoop()
     {
         int prevBPM = beatsPerMinute;
