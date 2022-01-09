@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9690063f4e0669a4e8b6b4b380d27eeb, type: 3}
   m_Name: Down_1b
   m_EditorClassIdentifier: 
-  patternName: Down_1b
+  patternName: Down (1 beat)
+  patternColor: {r: 1, g: 0.021577926, b: 0, a: 1}
   beatEvery: 1
   directions: 01000000

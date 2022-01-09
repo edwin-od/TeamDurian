@@ -32,13 +32,13 @@ public class EnemyController : GridMoveable
 
     void Action()
     {
-        if (movementPattern.directions.Length == 0)
+        if (movementPattern.directions.Count == 0)
             return;
 
         Move(movementPattern.directions[action]);
 
         action++;
-        if (action >= movementPattern.directions.Length)
+        if (action >= movementPattern.directions.Count)
             action = 0;
     }
 

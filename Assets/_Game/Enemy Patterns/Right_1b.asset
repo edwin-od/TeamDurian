@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9690063f4e0669a4e8b6b4b380d27eeb, type: 3}
   m_Name: Right_1b
   m_EditorClassIdentifier: 
-  patternName: Right_1b
+  patternName: Right (1 beat)
+  patternColor: {r: 1, g: 0.8503309, b: 0, a: 1}
   beatEvery: 1
   directions: 02000000

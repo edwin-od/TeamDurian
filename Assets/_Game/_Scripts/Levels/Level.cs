@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,8 +5,6 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Level")]
 public class Level : ScriptableObject
 {
-    public enum Pattern { Down_1b, Up_1b, Left_1b, Right_1b };
-
     [System.Serializable]
     public class Wave
     {
@@ -21,7 +18,7 @@ public class Level : ScriptableObject
     public class EnemySpawn
     {
         public bool spawn = false;
-        public Pattern pattern = Pattern.Down_1b;
+        public EnemyPattern pattern = null;
     }
 
     public string levelName = "Level 0";
@@ -45,66 +42,6 @@ public class Level : ScriptableObject
     public Vector2 scrollPos;
     public int selectedWave = 0;
 #endif
-
-    public static Color Down_1b_Color = new Color(1f, 1f, 1f, 0.65f);
-    public static Color Up_1b_Color = new Color(1f, 0f, 0f, 0.65f);
-    public static Color Left_1b_Color = new Color(0f, 0f, 1f, 0.65f);
-    public static Color Right_1b_Color = new Color(0f, 1f, 0f, 0.65f);
-
-    public static Color GetPatternColor(Pattern pattern)
-    {
-        switch (pattern)
-        {
-            case Pattern.Down_1b:
-                return Down_1b_Color;
-            case Pattern.Up_1b:
-                return Up_1b_Color;
-            case Pattern.Left_1b:
-                return Left_1b_Color;
-            case Pattern.Right_1b:
-                return Right_1b_Color;
-            default:
-                break;
-        }
-        return new Color(1f, 1f, 1f, 0.65f);
-    }
-    public static void SetPatternColor(Pattern pattern, Color color)
-    {
-        switch (pattern)
-        {
-            case Pattern.Down_1b:
-                Down_1b_Color = color;
-                break;
-            case Pattern.Up_1b:
-                Up_1b_Color = color;
-                break;
-            case Pattern.Left_1b:
-                Left_1b_Color = color;
-                break;
-            case Pattern.Right_1b:
-                Right_1b_Color = color;
-                break;
-            default:
-                break;
-        }
-    }
-    public static string GetPatternName(Pattern pattern)
-    {
-        switch (pattern)
-        {
-            case Pattern.Down_1b:
-                return "Down (1 beat)";
-            case Pattern.Up_1b:
-                return "Up (1 beat)";
-            case Pattern.Left_1b:
-                return "Left (1 beat)";
-            case Pattern.Right_1b:
-                return "Right (1 beat)";
-            default:
-                break;
-        }
-        return "Down (1 beat)";
-    }
 
     private void OnValidate()
     {
@@ -132,17 +69,14 @@ public class LevelEditor : Editor
         SerializedObject serializedLevel = new SerializedObject(target);
 
         GUILayout.Space(Level.VAR_SPACE);
+        GUILayout.Space(Level.VAR_SPACE);
+        GUILayout.Space(Level.VAR_SPACE);
 
         level.tab = GUILayout.Toolbar(level.tab, new string[] { "Level Settings", "Wave Settings" });
         switch (level.tab)
         {
             case 0:
                 {
-
-                    GUILayout.Space(Level.VAR_SPACE);
-                    GUILayout.Space(Level.VAR_SPACE);
-                    GUILayout.Space(Level.VAR_SPACE);
-
                     level.levelName = EditorGUILayout.TextField("Level Name", level.levelName);
 
                     DrawUILine(Color.grey);
@@ -191,6 +125,8 @@ public class LevelEditor : Editor
                         if (!found) { Debug.LogWarning(noNonTranstionalWavesFoundWarning); goto default; }
                     }
 
+                    EnemyPattern[] patterns = EnemyPattern.GetPatterns();
+
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
                     GUILayout.Space(Level.VAR_SPACE);
@@ -229,7 +165,7 @@ public class LevelEditor : Editor
                                 if (isTop)
                                 {
                                     EditorGUILayout.BeginVertical();
-                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex], patterns);
                                     level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
                                     EditorGUILayout.EndVertical();
                                 }
@@ -238,7 +174,7 @@ public class LevelEditor : Editor
                                     EditorGUILayout.BeginHorizontal();
                                     EditorGUILayout.BeginVertical();
                                     GUILayout.Space(4f);
-                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex], patterns);
                                     EditorGUILayout.EndVertical();
                                     GUILayout.Space(2.25f);
                                     level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
@@ -248,7 +184,7 @@ public class LevelEditor : Editor
                                 {
                                     EditorGUILayout.BeginVertical();
                                     level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
-                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex], patterns);
                                     EditorGUILayout.EndVertical();
                                 }
                                 else if (isRight)
@@ -257,7 +193,7 @@ public class LevelEditor : Editor
                                     level.waves[level.selectedWave].spawns[spawnIndex].spawn = GUILayout.Toggle(level.waves[level.selectedWave].spawns[spawnIndex].spawn, "");
                                     EditorGUILayout.BeginVertical();
                                     GUILayout.Space(4f);
-                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex]);
+                                    EnemyTypeButton(level.waves[level.selectedWave].spawns[spawnIndex], patterns);
                                     EditorGUILayout.EndVertical();
                                     EditorGUILayout.EndHorizontal();
                                 }
@@ -349,10 +285,8 @@ public class LevelEditor : Editor
                     DrawUILine(Color.grey);
 
                     EditorGUILayout.BeginVertical();
-                    LegendPatternColorAndChange(Level.Pattern.Down_1b);
-                    LegendPatternColorAndChange(Level.Pattern.Up_1b);
-                    LegendPatternColorAndChange(Level.Pattern.Left_1b);
-                    LegendPatternColorAndChange(Level.Pattern.Right_1b);
+                    LegendPatternColorAndChange(null);
+                    foreach (EnemyPattern pattern in patterns) { LegendPatternColorAndChange(pattern); }
                     EditorGUILayout.EndVertical();
 
                     break;
@@ -364,10 +298,10 @@ public class LevelEditor : Editor
 
     }
 
-    public void EnemyTypeButton(Level.EnemySpawn spawn)
+    public void EnemyTypeButton(Level.EnemySpawn spawn, EnemyPattern[] patterns)
     {
         Color previousColor = GUI.color;
-        GUI.color = spawn != null ? Level.GetPatternColor(spawn.pattern) : new Color(1f, 1f, 1f, 0.65f);
+        GUI.color = spawn != null && spawn.pattern != null ? spawn.pattern.patternColor : new Color(0f, 0f, 0f, 1f);
 
         if (GUILayout.Button("", GUILayout.Width(14.5f), GUILayout.Height(12f)))
         {
@@ -375,10 +309,9 @@ public class LevelEditor : Editor
             {
                 GenericMenu menu = new GenericMenu();
 
-                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Down_1b)), spawn.pattern == Level.Pattern.Down_1b, delegate { spawn.pattern = Level.Pattern.Down_1b; });
-                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Up_1b)), spawn.pattern == Level.Pattern.Up_1b, delegate { spawn.pattern = Level.Pattern.Up_1b; });
-                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Left_1b)), spawn.pattern == Level.Pattern.Left_1b, delegate { spawn.pattern = Level.Pattern.Left_1b; });
-                menu.AddItem(new GUIContent(Level.GetPatternName(Level.Pattern.Right_1b)), spawn.pattern == Level.Pattern.Right_1b, delegate { spawn.pattern = Level.Pattern.Right_1b; });
+                menu.AddItem(new GUIContent("None"), spawn.pattern == null, delegate { spawn.pattern = null; });
+                menu.AddItem(new GUIContent(""), false, delegate { });
+                foreach (EnemyPattern pattern in patterns) { menu.AddItem(new GUIContent(pattern.patternName), spawn.pattern == pattern, delegate { spawn.pattern = pattern; }); }
 
                 menu.ShowAsContext();
             }
@@ -386,14 +319,25 @@ public class LevelEditor : Editor
 
         GUI.color = previousColor;
     }
-
-    public void LegendPatternColorAndChange(Level.Pattern pattern)
+    
+    public void LegendPatternColorAndChange(EnemyPattern pattern)
     {
         EditorGUILayout.BeginHorizontal();
-        Color newColor = EditorGUILayout.ColorField(GUIContent.none, Level.GetPatternColor(pattern), false, true ,false, GUILayout.Width(16f), GUILayout.Height(16f));
-        Level.SetPatternColor(pattern, newColor);
-        EditorGUILayout.LabelField(Level.GetPatternName(pattern));
-        EditorGUILayout.EndHorizontal();
+        if (pattern)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ColorField(GUIContent.none, pattern.patternColor, false, false, false, GUILayout.Width(16f), GUILayout.Height(16f));
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.LabelField(pattern.patternName);
+        }
+        else
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ColorField(GUIContent.none, new Color(0f, 0f, 0f, 0f), false, false, false, GUILayout.Width(16f), GUILayout.Height(16f));
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.LabelField("None");
+        }
+                EditorGUILayout.EndHorizontal();
     }
 
     public void GridUnusableTile(bool invisible)
@@ -404,18 +348,6 @@ public class LevelEditor : Editor
         if (GUILayout.Button("", GUILayout.Width(14.5f), GUILayout.Height(12f))) { }
         EditorGUI.EndDisabledGroup();
         GUI.color = previousColor;
-    }
-
-    public static void DrawUILine(Color color, int thickness = 2, int padding = 10)
-    {
-        GUILayout.Space(Level.VAR_SPACE);
-        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding + thickness));
-        r.height = thickness;
-        r.y += padding / 2;
-        r.x -= 2;
-        r.width += 6;
-        EditorGUI.DrawRect(r, color);
-        GUILayout.Space(Level.VAR_SPACE);
     }
 
     public void PopulateWaveSpawns(Level level, bool reset)
@@ -445,6 +377,18 @@ public class LevelEditor : Editor
                 }
             }
         }
+    }
+
+    public static void DrawUILine(Color color, int thickness = 2, int padding = 10)
+    {
+        GUILayout.Space(Level.VAR_SPACE);
+        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding + thickness));
+        r.height = thickness;
+        r.y += padding / 2;
+        r.x -= 2;
+        r.width += 6;
+        EditorGUI.DrawRect(r, color);
+        GUILayout.Space(Level.VAR_SPACE);
     }
 
     private void OnDisable() { EditorUtility.SetDirty(target as Level); }

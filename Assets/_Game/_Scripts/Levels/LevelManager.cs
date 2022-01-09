@@ -166,7 +166,7 @@ public class LevelManager : MonoBehaviour
                         GridManager.IntVector2 spawnTile = new GridManager.IntVector2(x, levels.levels[levelIndex].gridHeight - y - 1);
                         GameObject enemy = Instantiate(enemyPrefab, transform);
                         enemy.transform.parent = transform;
-                        enemy.GetComponent<EnemyController>().movementPattern = levels.GetPattern(levels.levels[levelIndex].waves[waveIndex].spawns[spawnIndex].pattern);
+                        enemy.GetComponent<EnemyController>().movementPattern = levels.levels[levelIndex].waves[waveIndex].spawns[spawnIndex].pattern;
                         enemy.GetComponent<EnemyController>().TeleportOnGrid(spawnTile);
                     }
 
