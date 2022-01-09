@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -41,6 +40,7 @@ public class EnemyPatternEditor : Editor
         GUILayout.Space(EnemyPattern.VAR_SPACE);
         GUILayout.Space(EnemyPattern.VAR_SPACE);
 
+        EditorGUI.BeginChangeCheck();
         string patternName = pattern.patternName;
         pattern.patternName = EditorGUILayout.TextField("Pattern Name", pattern.patternName);
         if (pattern.patternName == null || pattern.patternName == "")
@@ -58,6 +58,7 @@ public class EnemyPatternEditor : Editor
         serializedPattern.Update();
         EditorGUILayout.PropertyField(serializedPattern.FindProperty("directions"), true);
         serializedPattern.ApplyModifiedProperties();
+        if (EditorGUI.EndChangeCheck()) { AssetDatabase.SaveAssets(); }
     }
 
     public static void DrawUILine(Color color, int thickness = 2, int padding = 10)

@@ -72,6 +72,8 @@ public class LevelEditor : Editor
         GUILayout.Space(Level.VAR_SPACE);
         GUILayout.Space(Level.VAR_SPACE);
 
+        EditorGUI.BeginChangeCheck();
+
         level.tab = GUILayout.Toolbar(level.tab, new string[] { "Level Settings", "Wave Settings" });
         switch (level.tab)
         {
@@ -145,7 +147,6 @@ public class LevelEditor : Editor
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.FlexibleSpace();
                     level.scrollPos = EditorGUILayout.BeginScrollView(level.scrollPos, GUILayout.Width(width), GUILayout.Height(height));
-                    List<Level.EnemySpawn> bottomSpawns = new List<Level.EnemySpawn>();
                     int spawnIndex = 0;
                     for (int y = 0; y < level.gridHeight; y++)
                     {
@@ -269,7 +270,6 @@ public class LevelEditor : Editor
                                 }
                             }
 
-                            if (isBottom) { bottomSpawns.Add(isNotSpawnable ? null : level.waves[level.selectedWave].spawns[spawnIndex]); }
                             EditorGUI.EndDisabledGroup();
 
                             if (!isNotSpawnable)
@@ -296,6 +296,12 @@ public class LevelEditor : Editor
                 break;
         }
 
+        if (EditorGUI.EndChangeCheck()) 
+        {
+            serializedLevel.Update();
+            serializedLevel.ApplyModifiedProperties();
+            AssetDatabase.SaveAssets(); 
+        }
     }
 
     public void EnemyTypeButton(Level.EnemySpawn spawn, EnemyPattern[] patterns)
@@ -325,9 +331,10 @@ public class LevelEditor : Editor
         EditorGUILayout.BeginHorizontal();
         if (pattern)
         {
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.ColorField(GUIContent.none, pattern.patternColor, false, false, false, GUILayout.Width(16f), GUILayout.Height(16f));
-            EditorGUI.EndDisabledGroup();
+            SerializedObject serializedObject = new SerializedObject(pattern);
+            serializedObject.Update();
+            serializedObject.FindProperty("patternColor").colorValue =  EditorGUILayout.ColorField(GUIContent.none, serializedObject.FindProperty("patternColor").colorValue, false, true, false, GUILayout.Width(16f), GUILayout.Height(16f));
+            serializedObject.ApplyModifiedProperties();
             EditorGUILayout.LabelField(pattern.patternName);
         }
         else
