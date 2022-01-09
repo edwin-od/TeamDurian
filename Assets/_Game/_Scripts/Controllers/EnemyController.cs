@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyController : GridMoveable
 {
     private int beat, action;
 
     public EnemyPattern movementPattern;
+
+  
 
     private void Awake()
     {
@@ -27,6 +30,9 @@ public class EnemyController : GridMoveable
         }
         else
             beat++;
+
+        //Ou je peux récupérer la durée des beats ? depuis quel script ? 
+        //transform.DOScaleX()
 
     }
 
