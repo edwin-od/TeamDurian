@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class PlayerController : GridMoveable
     [SerializeField, Range(1f, 10000)] private int projectileHitScore = 1;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
+
+    public Vector3 scaleA = new Vector3(0.5f, 1, 0.8f);
+    public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
 
     [SerializeField] private bool ignoreBeatRestriction = false;
 
@@ -85,6 +89,11 @@ public class PlayerController : GridMoveable
             }
 
             Move(Direction);
+
+            beatLength = Tempo.Instance.TempoPeriod * .98f;
+            var timePerBeat = Tempo.Instance.TempoPeriod / 2;
+
+            transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
             skipBeat = true;
         }
     }
@@ -113,7 +122,7 @@ public class PlayerController : GridMoveable
 
     private void KilledEnemy(EnemyController enemy)
     {
-        Destroy(enemy.gameObject);
+        enemy.OnDeath();
         score += projectileHitScore;
     }
 
@@ -136,6 +145,10 @@ public class PlayerController : GridMoveable
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
+
+            if (beatLength == 0)
+                beatLength = Tempo.Instance.TempoPeriod * 0.98f;
+
             Vector2 direction = shootDirection == DIRECTION.UP ? UP : shootDirection == DIRECTION.DOWN ? DOWN : shootDirection == DIRECTION.RIGHT ? RIGHT : shootDirection == DIRECTION.LEFT ? LEFT : Vector2.zero;
             while (elapsedTime < projectileLifetime)
             {
