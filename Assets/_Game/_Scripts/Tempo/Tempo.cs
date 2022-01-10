@@ -23,6 +23,9 @@ public class Tempo : MonoBehaviour
     public delegate void SilentBeat();
     public static event SilentBeat OnSilentBeat;
 
+    public delegate void BPMChange();
+    public static event BPMChange OnBPMChange;
+
     public delegate void IntervalBeatStart();
     public static event Beat OnIntervalBeatStart;
 
@@ -154,6 +157,11 @@ public class Tempo : MonoBehaviour
         get { return tempoPeriod; }
     }
 
+    public float BeatAcceptablePercentage
+    {
+        get { return onBeatAcceptablePercentage; }
+    }
+
     IEnumerator TempoLoop()
     {
         int prevBPM = beatsPerMinute;
@@ -189,6 +197,7 @@ public class Tempo : MonoBehaviour
                     prevBPM = beatsPerMinute;
                     tempoPeriod = 60f / prevBPM;
                     currentPeriod = tempoPeriod;
+                    OnBPMChange?.Invoke();
                 }
 
                 // Manage OnBeat Interval -> Start and End Events

@@ -7,10 +7,11 @@ public class GridManager : TempoTrigger
 {
     [System.Serializable] public struct IntVector2 { public int x, y; public IntVector2(int x, int y) { this.x = x; this.y = y; } };
     [System.Serializable]  public struct GridXY { public IntVector2 tiles; public Vector2 tileSize; };
-    [SerializeField] private GridXY grid;
     [SerializeField] private GameObject gridTilePrefab;
-    [SerializeField] private Color tileColor1 = Color.white;
-    [SerializeField] private Color tileColor2 = Color.black;
+
+    private GridXY grid;
+    private Color tileColor1 = Color.white;
+    private Color tileColor2 = Color.black;
 
     public GridXY Grid { get { return grid; } }
 

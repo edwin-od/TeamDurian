@@ -14,6 +14,260 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Level 0
   waves:
+  - waveName: Transition
+    isTransition: 1
+    loop: {fileID: 11400000, guid: 85cdaa53a41ecff44bb13f6733221440, type: 2}
+    spawns:
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
+    - spawn: 0
+      pattern: {fileID: 0}
   - waveName: Wave 1
     isTransition: 0
     loop: {fileID: 11400000, guid: 85cdaa53a41ecff44bb13f6733221440, type: 2}
@@ -94,7 +348,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
@@ -598,15 +852,15 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
@@ -1102,23 +1356,23 @@ MonoBehaviour:
       pattern: {fileID: 11400000, guid: ef6348408408e03458faaf63209d3a41, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
+    - spawn: 0
       pattern: {fileID: 11400000, guid: e9d37445c8bc7824eb5c3629ab9f3459, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
@@ -1547,4 +1801,4 @@ MonoBehaviour:
   tileColor2: {r: 0, g: 0, b: 0, a: 1}
   tab: 0
   scrollPos: {x: 0, y: 0}
-  selectedWave: 1
+  selectedWave: 0

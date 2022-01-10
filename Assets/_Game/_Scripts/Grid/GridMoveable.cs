@@ -37,6 +37,9 @@ public class GridMoveable : TempoTrigger
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
+            GridManager.IntVector2 currentTile = tile;
+            tile = new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y);
+
             Vector2 loopTargetTile = targetTile;
             Vector2 loopTargetTilePrevious = targetTile;
             if (targetTile.x < 0)
@@ -91,11 +94,11 @@ public class GridMoveable : TempoTrigger
                     //float t = realT;
 
                     if (targetTile == loopTargetTile)
-                        interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
+                        interm = Vector2.Lerp(Vector2.Scale(new Vector2(currentTile.x, currentTile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
                     else
                     {
                         if(t < 0.5)
-                            interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t / 0.5f);
+                            interm = Vector2.Lerp(Vector2.Scale(new Vector2(currentTile.x, currentTile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t / 0.5f);
                         else
                             interm = Vector2.Lerp(Vector2.Scale(loopTargetTilePrevious, GridManager.Instance.Grid.tileSize), Vector2.Scale(loopTargetTile, GridManager.Instance.Grid.tileSize), (t - 0.5f) / 0.5f);
                     }

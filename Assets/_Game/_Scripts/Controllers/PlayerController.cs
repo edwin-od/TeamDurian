@@ -125,7 +125,7 @@ public class PlayerController : GridMoveable
 
     private IEnumerator ShootProjectile(DIRECTION shootDirection)
     {
-        if (GridManager.Instance)
+        if (GridManager.Instance && Tempo.Instance)
         {
             RotatePlayer(shootDirection);
             GameObject projectile = Instantiate(projectilePrefab);
@@ -139,7 +139,7 @@ public class PlayerController : GridMoveable
             Vector2 direction = shootDirection == DIRECTION.UP ? UP : shootDirection == DIRECTION.DOWN ? DOWN : shootDirection == DIRECTION.RIGHT ? RIGHT : shootDirection == DIRECTION.LEFT ? LEFT : Vector2.zero;
             while (elapsedTime < projectileLifetime)
             {
-                if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
+                if (!Tempo.Instance.IsTempoPaused)
                 {
                     float deltaTime = 0f;
 
@@ -163,7 +163,7 @@ public class PlayerController : GridMoveable
 
                     elapsedTime += deltaTime;
                 }
-                else if (Tempo.Instance && Tempo.Instance.IsTempoPaused && tpause == 0)
+                else if (Tempo.Instance.IsTempoPaused && tpause == 0)
                     tpause = Time.realtimeSinceStartup;
 
                 yield return null;
