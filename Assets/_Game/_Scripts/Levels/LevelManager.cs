@@ -127,7 +127,7 @@ public class LevelManager : MonoBehaviour
         else { if (!Tempo.Instance.CanGenerateBeatEvents) { Tempo.Instance.CanGenerateBeatEvents = true; } SpawnEnemies(); }
 
         Tempo.Instance.StopTempo();
-        Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM, levels.levels[levelIndex].waves[waveIndex].loop.beatDelay);
+        Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM, Mathf.Abs(levels.levels[levelIndex].waves[waveIndex].loop.beatDelay));
         EmptyClips();
         FillClips();
         StartLoop();
