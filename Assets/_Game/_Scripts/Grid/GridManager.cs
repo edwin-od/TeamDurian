@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GridManager : TempoTrigger
 {
@@ -41,9 +42,9 @@ public class GridManager : TempoTrigger
                     if (tiles[y][x])
                     {
                         if(oddBeat)
-                            tiles[y][x].GetComponentInChildren<MeshRenderer>().material.color = x % 2 == y % 2 ? tileColor1 : tileColor2;
+                            tiles[y][x].GetComponentInChildren<MeshRenderer>().material.DOColor(x % 2 == y % 2 ? tileColor1 : tileColor2, Tempo.Instance.TempoPeriod).SetEase(Ease.OutCubic);
                         else
-                            tiles[y][x].GetComponentInChildren<MeshRenderer>().material.color = x % 2 == y % 2 ? tileColor2 : tileColor1;
+                            tiles[y][x].GetComponentInChildren<MeshRenderer>().material.DOColor(x % 2 == y % 2 ? tileColor2 : tileColor1, Tempo.Instance.TempoPeriod).SetEase(Ease.OutCubic);
                     }
                 }
             }

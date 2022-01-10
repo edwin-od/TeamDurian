@@ -88,6 +88,7 @@ public class GridMoveable : TempoTrigger
                     float realT = elapsedTime / beatLength;
                     //float t = movement.Evaluate(realT);
                     float t = EasingFuncs.EaseInOut(realT);
+                    //float t = realT;
 
                     if (targetTile == loopTargetTile)
                         interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
