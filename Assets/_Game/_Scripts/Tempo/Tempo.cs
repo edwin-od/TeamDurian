@@ -17,6 +17,8 @@ public class Tempo : MonoBehaviour
     private float currentPeriod = 0f;
     private float tempoPeriod = 0f;
 
+    private Coroutine tempoCoroutine = null;
+
     public delegate void Beat();
     public static event Beat OnBeat;
 
@@ -66,18 +68,21 @@ public class Tempo : MonoBehaviour
 
     public void StartTempo()
     {
+        if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
         StartCoroutine(TempoLoop());
     }
 
     public void StartTempo(int BPM)
     {
         this.BPM = BPM;
-        StartCoroutine(TempoLoop());
+        if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
+        tempoCoroutine = StartCoroutine(TempoLoop());
     }
 
     public void StopTempo()
     {
         isTempoRunning = false;
+        if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
     }
 
     public bool TogglePauseTempo()

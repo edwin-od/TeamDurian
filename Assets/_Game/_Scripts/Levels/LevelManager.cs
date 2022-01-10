@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour
             waveIndex = -1;
             NextWave();
 
-            Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM);
+            //Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM);
         }
     }
 
@@ -128,7 +128,9 @@ public class LevelManager : MonoBehaviour
         if (levels.levels[levelIndex].waves[waveIndex].isTransition) { if (Tempo.Instance.CanGenerateBeatEvents) { Tempo.Instance.CanGenerateBeatEvents = false; } }
         else { if (!Tempo.Instance.CanGenerateBeatEvents) { Tempo.Instance.CanGenerateBeatEvents = true; } SpawnEnemies(); }
 
-        Tempo.Instance.BPM = levels.levels[levelIndex].waves[waveIndex].loop.BPM;
+        Tempo.Instance.StopTempo();
+        Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM);
+        //Tempo.Instance.BPM = levels.levels[levelIndex].waves[waveIndex].loop.BPM;
         EmptyClips();
         FillClips();
         StartLoop();
