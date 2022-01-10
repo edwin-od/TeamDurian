@@ -12,7 +12,7 @@ public class GridMoveable : TempoTrigger
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
 
-    public static readonly float MOVE_DURATION = 0.075f;
+    public float MOVE_DURATION = 0.075f;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
