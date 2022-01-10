@@ -1801,4 +1801,4 @@ MonoBehaviour:
   tileColor2: {r: 0, g: 0, b: 0, a: 1}
   tab: 1
   scrollPos: {x: 0, y: 0}
-  selectedWave: 4
+  selectedWave: 0
