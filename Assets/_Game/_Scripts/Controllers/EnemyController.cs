@@ -8,8 +8,8 @@ public class EnemyController : GridMoveable
     private int beat, action;
 
     public EnemyPattern movementPattern;
-    public Vector3 scaleA = new Vector3(.67f, .67f, 1);
-    public Vector3 scaleB = new Vector3(.9f, .67f, 1);
+    public Vector3 scaleA = new Vector3(.5f, 1, .8f);
+    public Vector3 scaleB = new Vector3(.8f, 1, .5f);
     private bool switchScale;
   
 
@@ -41,10 +41,12 @@ public class EnemyController : GridMoveable
 
         Move(movementPattern.directions[action]);
 
+        beatLength = Tempo.Instance.TempoPeriod * .98f;
+
         //testing ....
         var timePerBeat = Tempo.Instance.TempoPeriod / 2;
 
-        transform.GetChild(0).DOScale(scaleA, timePerBeat / 2).SetEase(Ease.InCubic).OnComplete(() => transform.GetChild(0).DOScale(Vector3.one, timePerBeat / 2).SetEase(Ease.OutCubic));
+        transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
 
         action++;
         if (action >= movementPattern.directions.Count)

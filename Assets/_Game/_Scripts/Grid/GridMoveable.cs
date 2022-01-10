@@ -15,6 +15,8 @@ public class GridMoveable : TempoTrigger
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
 
+    public float beatLength;
+
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
     public static readonly Vector2 RIGHT = new Vector2(1f, 0f);     // 2
@@ -66,8 +68,11 @@ public class GridMoveable : TempoTrigger
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
-            float length = Tempo.Instance.TempoPeriod / 2;
-            while (elapsedTime < length)
+
+            if (beatLength == 0)
+                beatLength = Tempo.Instance.TempoPeriod * 0.98f;
+
+            while (elapsedTime < beatLength)
             {
                 if (!Tempo.Instance.IsTempoPaused)
                 {
@@ -80,7 +85,7 @@ public class GridMoveable : TempoTrigger
                     tx = Time.realtimeSinceStartup;
                     Vector2 interm = Vector2.zero;
 
-                    float realT = elapsedTime / length;
+                    float realT = elapsedTime / beatLength;
                     //float t = movement.Evaluate(realT);
                     float t = EasingFuncs.EaseInOut(realT);
 
