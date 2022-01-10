@@ -43,19 +43,22 @@ public class PlayerController : GridMoveable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        /*if (Input.GetKeyDown(KeyCode.UpArrow))
             Shoot(DIRECTION.UP);
         if (Input.GetKeyDown(KeyCode.DownArrow))
             Shoot(DIRECTION.DOWN);
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             Shoot(DIRECTION.LEFT);
         if (Input.GetKeyDown(KeyCode.RightArrow))
-            Shoot(DIRECTION.RIGHT);
+            Shoot(DIRECTION.RIGHT);*/
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.Space))
+            Shoot(DIRECTION.UP);
+
+        /*if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Z))
             MoveTile(DIRECTION.UP);
         if (Input.GetKeyDown(KeyCode.S))
-            MoveTile(DIRECTION.DOWN);
+            MoveTile(DIRECTION.DOWN);*/
         if (Input.GetKeyDown(KeyCode.D))
             MoveTile(DIRECTION.RIGHT);
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Q))

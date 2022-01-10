@@ -63,7 +63,7 @@ public class GridManager : TempoTrigger
 
         if (PlayerController.Instance)
         {
-            PlayerController.Instance.TeleportOnGrid(new IntVector2(tilesWidth / 2, tilesHeight / 2));
+            PlayerController.Instance.TeleportOnGrid(new IntVector2(tilesWidth / 2, 0));
             PlayerController.Instance.transform.localScale = new Vector3(
                 PlayerController.Instance.transform.localScale.x * tileSizeX, 
                 PlayerController.Instance.transform.localScale.y,
