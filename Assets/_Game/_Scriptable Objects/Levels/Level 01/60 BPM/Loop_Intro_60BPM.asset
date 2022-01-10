@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 613b4ee296594174cbf86270644744fb, type: 3}
-  m_Name: LEVELS
+  m_Script: {fileID: 11500000, guid: 11970bc6f11c8f54b9606c2b64f83ed8, type: 3}
+  m_Name: Loop_Intro_60BPM
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: 5a5199fd1da3c314688591fd03f46416, type: 2}
+  BPM: 60
+  loops:
+  - loop: {fileID: 8300000, guid: eea82220c842fde41ad1f61c04a5069e, type: 3}
+    volume: 1

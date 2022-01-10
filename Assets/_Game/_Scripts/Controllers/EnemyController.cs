@@ -56,7 +56,7 @@ public class EnemyController : GridMoveable
 
     public void OnDeath()
     {
-
+        Destroy(this);
     }
 
     private void OnDestroy()

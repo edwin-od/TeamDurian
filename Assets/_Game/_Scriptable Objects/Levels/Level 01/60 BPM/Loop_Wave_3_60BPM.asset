@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11970bc6f11c8f54b9606c2b64f83ed8, type: 3}
+  m_Name: Loop_Wave_3_60BPM
+  m_EditorClassIdentifier: 
+  BPM: 60
+  loops:
+  - loop: {fileID: 8300000, guid: 8b8f81738a36db248848cae9ceb450e5, type: 3}
+    volume: 1
+  - loop: {fileID: 8300000, guid: c2404aa2198d0b74098d4110ddc18f02, type: 3}
+    volume: 1
+  - loop: {fileID: 8300000, guid: cd5bc00c9755f904e9acc503e862d25d, type: 3}
+    volume: 1
+  - loop: {fileID: 8300000, guid: 825f9dab405b9d741aee56e23560224d, type: 3}
+    volume: 1
