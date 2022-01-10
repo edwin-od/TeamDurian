@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : GridMoveable
 {
-    [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 5f;
+    [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 7f;
     [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 2f;
     [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
     [SerializeField, Range(1f, 10000)] private int projectileHitScore = 1;

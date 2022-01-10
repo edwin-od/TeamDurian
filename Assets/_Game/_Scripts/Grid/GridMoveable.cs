@@ -9,7 +9,7 @@ public class GridMoveable : TempoTrigger
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
 
-    private Vector2 targetTilePrev = Vector2.zero;
+    private Vector2 midTargetTile = new Vector2(-1 ,-1);
     private Coroutine currentMovement = null;
 
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
@@ -64,10 +64,11 @@ public class GridMoveable : TempoTrigger
                 loopTargetTilePrevious.y = -1;
             }
 
-            if (isMoving) { TeleportOnGrid(new GridManager.IntVector2((int)targetTilePrev.x, (int)targetTilePrev.y)); }
-            targetTilePrev = loopTargetTile;
+            if (isMoving) { if (midTargetTile != new Vector2(-1, -1)) { TeleportOnGrid(new GridManager.IntVector2((int)midTargetTile.x, (int)midTargetTile.y)); } }
+            else { isMoving = true; }
 
-            isMoving = true;
+            midTargetTile = loopTargetTilePrevious;
+
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;

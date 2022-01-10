@@ -69,14 +69,27 @@ public class Tempo : MonoBehaviour
     public void StartTempo()
     {
         if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
-        StartCoroutine(TempoLoop());
+        StartCoroutine(TempoLoop(0f));
+    }
+
+    public void StartTempo(float initialDelay)
+    {
+        if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
+        StartCoroutine(TempoLoop(initialDelay));
     }
 
     public void StartTempo(int BPM)
     {
         this.BPM = BPM;
         if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
-        tempoCoroutine = StartCoroutine(TempoLoop());
+        tempoCoroutine = StartCoroutine(TempoLoop(0f));
+    }
+
+    public void StartTempo(int BPM, float initialDelay)
+    {
+        this.BPM = BPM;
+        if (tempoCoroutine != null) { StopCoroutine(tempoCoroutine); }
+        tempoCoroutine = StartCoroutine(TempoLoop(initialDelay));
     }
 
     public void StopTempo()
@@ -167,10 +180,12 @@ public class Tempo : MonoBehaviour
         get { return onBeatAcceptablePercentage; }
     }
 
-    IEnumerator TempoLoop()
+    IEnumerator TempoLoop(float initialDelay)
     {
         int prevBPM = beatsPerMinute;
         tempoPeriod = 60f / prevBPM;
+
+        yield return new WaitForSeconds(initialDelay);
 
         isTempoRunning = true;
         isTempoPaused = false;

@@ -13,5 +13,6 @@ public class Loop : ScriptableObject
     }
 
     [SerializeField, Range(30, 300)] public int BPM = 130;
+    public float beatDelay = 0f;
     public List<LoopClip> loops = new List<LoopClip>();
 }
