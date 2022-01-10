@@ -50,9 +50,9 @@ public class UI_BeatFeedback : MonoBehaviour
                 
                 for(int i = 0; i < beats.Count; i++)
                 {
-                    float position = currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + Tempo.Instance.BeatAcceptablePercentage + i - 1);
-                    beats[i].anchorMin = new Vector2(position - beatFeedbackWidth, 0f);
-                    beats[i].anchorMax = new Vector2(position, 1f);
+                    float position = (currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + Tempo.Instance.BeatAcceptablePercentage + i - 1));
+                    beats[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2), 0f);
+                    beats[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2), 1f);
                     beats[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beats[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
                 }
