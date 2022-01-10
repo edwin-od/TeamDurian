@@ -10,7 +10,8 @@ public class EnemyController : GridMoveable
     public EnemyPattern movementPattern;
     public Vector3 scaleA = new Vector3(.5f, 1, .8f);
     public Vector3 scaleB = new Vector3(.8f, 1, .5f);
-    private bool switchScale;
+    
+
   
 
     private void Awake()
@@ -51,6 +52,11 @@ public class EnemyController : GridMoveable
         action++;
         if (action >= movementPattern.directions.Count)
             action = 0;
+    }
+
+    public void OnDeath()
+    {
+
     }
 
     private void OnDestroy()
