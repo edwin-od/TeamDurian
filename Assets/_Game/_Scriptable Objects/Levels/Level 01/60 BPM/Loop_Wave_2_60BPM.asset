@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Loop_Wave_2_60BPM
   m_EditorClassIdentifier: 
   BPM: 60
+  beatDelay: 0.2
   loops:
   - loop: {fileID: 8300000, guid: c2404aa2198d0b74098d4110ddc18f02, type: 3}
     volume: 1
