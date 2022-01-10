@@ -8,7 +8,9 @@ public class EnemyController : GridMoveable
     private int beat, action;
 
     public EnemyPattern movementPattern;
-
+    public Vector3 scaleA = new Vector3(.67f, .67f, 1);
+    public Vector3 scaleB = new Vector3(.9f, .67f, 1);
+    private bool switchScale;
   
 
     private void Awake()
@@ -30,10 +32,6 @@ public class EnemyController : GridMoveable
         }
         else
             beat++;
-
-        //Ou je peux récupérer la durée des beats ? depuis quel script ? 
-        //transform.DOScaleX()
-
     }
 
     void Action()
@@ -42,6 +40,14 @@ public class EnemyController : GridMoveable
             return;
 
         Move(movementPattern.directions[action]);
+
+        Debug.Log("Move");
+
+        //testing ....
+        var timePerBeat = Tempo.Instance.TempoPeriod;
+
+        transform.GetChild(0).DOScale(scaleA, timePerBeat / 2).SetEase(Ease.InCubic).OnComplete(() => transform.GetChild(0).DOScale(Vector3.one, timePerBeat / 2).SetEase(Ease.OutCubic));
+        MOVE_DURATION = timePerBeat;
 
         action++;
         if (action >= movementPattern.directions.Count)
