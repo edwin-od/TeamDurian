@@ -1799,6 +1799,6 @@ MonoBehaviour:
   cameraHeight: 3
   tileColor1: {r: 1, g: 1, b: 1, a: 1}
   tileColor2: {r: 0, g: 0, b: 0, a: 1}
-  tab: 0
+  tab: 1
   scrollPos: {x: 0, y: 0}
-  selectedWave: 5
+  selectedWave: 1
