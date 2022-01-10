@@ -59,8 +59,12 @@ public class LevelManager : MonoBehaviour
 
     private void StartLoop()
     {
-        if(levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0)
-            StartCoroutine(PlayLoop(levels.levels[levelIndex].waves[waveIndex].loop.loops[0].loop.length));
+        if (levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0)
+        {
+            float length = 0;
+            foreach(Loop.LoopClip loop in levels.levels[levelIndex].waves[waveIndex].loop.loops) { if (length < loop.loop.length) { length = loop.loop.length; } }
+            StartCoroutine(PlayLoop(length));
+        }
     }
 
     IEnumerator PlayLoop(float length)
