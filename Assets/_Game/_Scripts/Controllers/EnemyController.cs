@@ -41,13 +41,10 @@ public class EnemyController : GridMoveable
 
         Move(movementPattern.directions[action]);
 
-        Debug.Log("Move");
-
         //testing ....
-        var timePerBeat = Tempo.Instance.TempoPeriod;
+        var timePerBeat = Tempo.Instance.TempoPeriod / 2;
 
         transform.GetChild(0).DOScale(scaleA, timePerBeat / 2).SetEase(Ease.InCubic).OnComplete(() => transform.GetChild(0).DOScale(Vector3.one, timePerBeat / 2).SetEase(Ease.OutCubic));
-        MOVE_DURATION = timePerBeat;
 
         action++;
         if (action >= movementPattern.directions.Count)

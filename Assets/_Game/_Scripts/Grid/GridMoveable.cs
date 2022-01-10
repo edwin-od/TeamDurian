@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class GridMoveable : TempoTrigger
 {
-    [SerializeField] private AnimationCurve movement = AnimationCurve.Linear(0, 0, 1, 1);
+    //[SerializeField] private AnimationCurve movement = AnimationCurve.Linear(0, 0, 1, 1);
 
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
 
+    private Vector2 targetTilePrev = Vector2.zero;
+    private Coroutine currentMovement = null;
+
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
-
-    public float MOVE_DURATION = 0.075f;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
@@ -23,15 +24,14 @@ public class GridMoveable : TempoTrigger
 
     public void Move(DIRECTION Direction)
     {
-        if (!isMoving)
-            StartCoroutine(MoveTransition(Direction));
+        if (currentMovement != null) { StopCoroutine(currentMovement); }
+        currentMovement = StartCoroutine(MoveTransition(Direction));
     }
 
     private IEnumerator MoveTransition(DIRECTION Direction)
     {
-        if (GridManager.Instance)
+        if (GridManager.Instance && Tempo.Instance)
         {
-
             Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
             Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
 
@@ -59,13 +59,17 @@ public class GridMoveable : TempoTrigger
                 loopTargetTilePrevious.y = -1;
             }
 
+            if (isMoving) { TeleportOnGrid(new GridManager.IntVector2((int)targetTilePrev.x, (int)targetTilePrev.y)); }
+            targetTilePrev = loopTargetTile;
+
             isMoving = true;
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
-            while (elapsedTime < MOVE_DURATION)
+            float length = Tempo.Instance.TempoPeriod / 2;
+            while (elapsedTime < length)
             {
-                if (Tempo.Instance && !Tempo.Instance.IsTempoPaused)
+                if (!Tempo.Instance.IsTempoPaused)
                 {
                     float deltaTime = 0;
 
@@ -76,7 +80,7 @@ public class GridMoveable : TempoTrigger
                     tx = Time.realtimeSinceStartup;
                     Vector2 interm = Vector2.zero;
 
-                    float realT = elapsedTime / MOVE_DURATION;
+                    float realT = elapsedTime / length;
                     //float t = movement.Evaluate(realT);
                     float t = EasingFuncs.EaseInOut(realT);
 
@@ -94,27 +98,18 @@ public class GridMoveable : TempoTrigger
 
                     elapsedTime += deltaTime;
                 }
-                else if(Tempo.Instance && Tempo.Instance.IsTempoPaused && tpause == 0)
+                else if(Tempo.Instance.IsTempoPaused && tpause == 0)
                     tpause = Time.realtimeSinceStartup;
 
                 yield return null;
             }
 
             if (targetTile == loopTargetTile)
-                Teleport(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y), Vector3.zero);
+                TeleportOnGrid(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y));
             else
-                Teleport(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y), Vector3.zero);
+                TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y));
 
             isMoving = false;
-        }
-    }
-
-    public void Teleport(GridManager.IntVector2 newTile, Vector3 Offset)
-    {
-        if (GridManager.Instance && newTile.x >= 0 && newTile.y >= 0 && newTile.x < GridManager.Instance.Grid.tiles.x && newTile.y < GridManager.Instance.Grid.tiles.y)
-        {
-            transform.position = Offset + new Vector3(newTile.x * GridManager.Instance.Grid.tileSize.x, 0, newTile.y * GridManager.Instance.Grid.tileSize.y);
-            tile = newTile;
         }
     }
 
