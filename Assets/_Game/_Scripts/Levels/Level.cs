@@ -9,7 +9,7 @@ public class Level : ScriptableObject
     public class Wave
     {
         [HideInInspector] public string waveName = "Wave 0";
-        public bool isTransition = false;
+        public bool isPassive = false;
         public Loop loop = null;
         [HideInInspector] public List<EnemySpawn> spawns = new List<EnemySpawn>();
     }
@@ -48,8 +48,8 @@ public class Level : ScriptableObject
         int waveIndex = 0;
         for(int i = 0; i < waves.Count; i++)
         {
-            if (!waves[i].isTransition) { waves[i].waveName = "Wave " + (waveIndex + 1); waveIndex++; }
-            else { waves[i].waveName = "Transition"; }
+            if (!waves[i].isPassive) { waves[i].waveName = "Wave " + (waveIndex + 1); waveIndex++; }
+            else { waves[i].waveName = "Passive Transition"; }
         }
     }
 }
@@ -117,13 +117,13 @@ public class LevelEditor : Editor
             case 1:
                 {
                     int nonTransitionalWaves = 0;
-                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { nonTransitionalWaves++; } }
+                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isPassive) { nonTransitionalWaves++; } }
                     if (level.waves == null || level.waves.Count == 0 || nonTransitionalWaves == 0) { Debug.LogWarning(noNonTranstionalWavesFoundWarning); goto default; }
 
-                    if (level.selectedWave < 0 || level.selectedWave >= level.waves.Count || level.waves[level.selectedWave].isTransition)
+                    if (level.selectedWave < 0 || level.selectedWave >= level.waves.Count || level.waves[level.selectedWave].isPassive)
                     {
                         bool found = false;
-                        for(int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { level.selectedWave = i; found = true; break; } }
+                        for(int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isPassive) { level.selectedWave = i; found = true; break; } }
                         if (!found) { Debug.LogWarning(noNonTranstionalWavesFoundWarning); goto default; }
                     }
 
@@ -135,7 +135,7 @@ public class LevelEditor : Editor
 
                     List<string> options = new List<string>();
                     List<int> optionsIndices = new List<int>();
-                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isTransition) { options.Add(level.waves[i].waveName); optionsIndices.Add(i); } }
+                    for (int i = 0; i < level.waves.Count; i++) { if (!level.waves[i].isPassive) { options.Add(level.waves[i].waveName); optionsIndices.Add(i); } }
                     level.selectedWave = EditorGUILayout.Popup("Wave", options.IndexOf(level.waves[level.selectedWave].waveName), options.ToArray());
                     level.selectedWave = optionsIndices[level.selectedWave];
 

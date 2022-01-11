@@ -92,9 +92,8 @@ public class LevelManager : MonoBehaviour
                     {
                         if (!transition) { NextWave(); }
 
-                        if(!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(elapsedTime * Tempo.Instance.BPM / 60f); detectedEnd = true; }
-
-                        int currentBeat = Mathf.FloorToInt(elapsedTime * Tempo.Instance.BPM / 60f);
+                        int currentBeat = Mathf.FloorToInt(elapsedTime * Tempo.Instance.BPM / 60f) + 1;
+                        if(!detectedEnd) { detectedCurrentBeat = currentBeat; detectedEnd = true; }
 
                         if (currentBeat == (detectedCurrentBeat + 1)) { startedTransition = true; StartCoroutine(PlayTransition()); }
                     }
@@ -119,7 +118,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator PlayTransition()
     {
-        float length = levels.levels[levelIndex].waves[waveIndex].loop.transition.clip.length;
+        yield return new WaitForSeconds(Mathf.Abs(levels.levels[levelIndex].waves[waveIndex].loop.beatDelay));
+        float length = levels.levels[levelIndex].waves[waveIndex].loop.transition.clip.length - Mathf.Abs(levels.levels[levelIndex].waves[waveIndex].loop.beatDelay);
 
         transition.Play();
 
@@ -150,7 +150,7 @@ public class LevelManager : MonoBehaviour
         NextWave();
     }
 
-    IEnumerator PlayTransitionWave()
+    IEnumerator PlayPassiveWave()
     {
         if (clips.Count == 0) { NextWave(); }
 
@@ -190,7 +190,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (Loop.LoopClip loop in levels.levels[levelIndex].waves[waveIndex].loop.loops)
         {
-            if (loop.clip)
+            if (loop.clip != null)
             {
                 clips.Add(gameObject.AddComponent<AudioSource>());
                 clips[clips.Count - 1].clip = loop.clip;
@@ -199,7 +199,7 @@ public class LevelManager : MonoBehaviour
                 clips[clips.Count - 1].loop = false;
             }
         }
-        if (levels.levels[levelIndex].waves[waveIndex].loop.transition.clip) 
+        if (levels.levels[levelIndex].waves[waveIndex].loop.transition.clip != null) 
         { 
             transition = gameObject.AddComponent<AudioSource>();
             transition.clip = levels.levels[levelIndex].waves[waveIndex].loop.transition.clip;
@@ -228,8 +228,8 @@ public class LevelManager : MonoBehaviour
         EmptyClips();
         FillClips();
 
-        if (!levels.levels[levelIndex].waves[waveIndex].isTransition) { SpawnEnemies(); StartLoop(); }
-        else { StartCoroutine(PlayTransitionWave());  }
+        if (!levels.levels[levelIndex].waves[waveIndex].isPassive) { SpawnEnemies(); StartLoop(); }
+        else { StartCoroutine(PlayPassiveWave());  }
         
     }
 

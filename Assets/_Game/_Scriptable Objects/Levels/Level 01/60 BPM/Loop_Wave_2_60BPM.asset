@@ -22,5 +22,5 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: c2404aa2198d0b74098d4110ddc18f02, type: 3}
     volume: 1
   transition:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eea82220c842fde41ad1f61c04a5069e, type: 3}
     volume: 1
