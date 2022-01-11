@@ -778,7 +778,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 2
     isTransition: 0
-    loop: {fileID: 11400000, guid: d8480be6e6c186a49b80f1d79f91ab96, type: 2}
+    loop: {fileID: 11400000, guid: 248bb1d8238bddf4a921af31dcbf87cf, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -1286,7 +1286,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 3
     isTransition: 0
-    loop: {fileID: 11400000, guid: 1a77ab2572e7aed4084dabda9f13b213, type: 2}
+    loop: {fileID: 11400000, guid: e0b31795280127e448b8ef8e682175e4, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -1794,7 +1794,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 4
     isTransition: 0
-    loop: {fileID: 11400000, guid: bb3b4480615a1d84c982ebe59a4efbaa, type: 2}
+    loop: {fileID: 11400000, guid: 78a339cf17d062947a28411c68e6d8bc, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -4085,6 +4085,6 @@ MonoBehaviour:
   cameraHeight: 3
   tileColor1: {r: 1, g: 1, b: 1, a: 1}
   tileColor2: {r: 0, g: 0, b: 0, a: 1}
-  tab: 1
+  tab: 0
   scrollPos: {x: 0, y: 0}
-  selectedWave: 15
+  selectedWave: 1

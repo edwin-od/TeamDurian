@@ -15,5 +15,8 @@ MonoBehaviour:
   BPM: 80
   beatDelay: 0
   loops:
-  - loop: {fileID: 8300000, guid: 79c31d59cf87492488b2309fe112bb8d, type: 3}
+  - clip: {fileID: 8300000, guid: 79c31d59cf87492488b2309fe112bb8d, type: 3}
+    volume: 1
+  transition:
+    clip: {fileID: 0}
     volume: 1

@@ -9,13 +9,13 @@ public class GridMoveable : TempoTrigger
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
 
-    private Vector2 midTargetTile = new Vector2(-1 ,-1);
-    private Coroutine currentMovement = null;
-
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
 
-    public float beatLength;
+    public float beatLength = 0f;
+    private Vector2 targetTile;
+    private Vector2 loopTargetTile;
+    private Vector2 loopTargetTilePrevious;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
     public static readonly Vector2 DOWN = new Vector2(0f, -1f);     // 1
@@ -24,54 +24,51 @@ public class GridMoveable : TempoTrigger
 
     public enum DIRECTION { UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3 };
 
+    private float elapsedTime = 0f;
+
+
     public void Move(DIRECTION Direction)
     {
-        if (currentMovement != null) { StopCoroutine(currentMovement); }
-        currentMovement = StartCoroutine(MoveTransition(Direction));
+        if(isMoving) { TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y)); elapsedTime = 0f; }
+
+        Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
+        targetTile = new Vector2(tile.x, tile.y) + direction;
+
+        loopTargetTile = targetTile;
+        loopTargetTilePrevious = targetTile;
+        if (targetTile.x < 0)
+        {
+            loopTargetTile.x = GridManager.Instance.Grid.tiles.x - 1;
+            loopTargetTilePrevious.x = GridManager.Instance.Grid.tiles.x;
+        }
+        else if (targetTile.x >= GridManager.Instance.Grid.tiles.x)
+        {
+            loopTargetTile.x = 0;
+            loopTargetTilePrevious.x = -1;
+        }
+
+        if (targetTile.y < 0)
+        {
+            loopTargetTile.y = GridManager.Instance.Grid.tiles.y - 1;
+            loopTargetTilePrevious.y = GridManager.Instance.Grid.tiles.y;
+        }
+        else if (targetTile.y >= GridManager.Instance.Grid.tiles.y)
+        {
+            loopTargetTile.y = 0;
+            loopTargetTilePrevious.y = -1;
+        }
+
+        if (!isMoving) { StartCoroutine(MoveTransition()); }
     }
 
-    private IEnumerator MoveTransition(DIRECTION Direction)
+    private IEnumerator MoveTransition()
     {
         if (GridManager.Instance && Tempo.Instance)
         {
-            Vector2 direction = Direction == DIRECTION.UP ? UP : Direction == DIRECTION.DOWN ? DOWN : Direction == DIRECTION.RIGHT ? RIGHT : Direction == DIRECTION.LEFT ? LEFT : Vector2.zero;
-            Vector2 targetTile = new Vector2(tile.x, tile.y) + direction;
-
-            GridManager.IntVector2 currentTile = tile;
-            tile = new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y);
-
-            Vector2 loopTargetTile = targetTile;
-            Vector2 loopTargetTilePrevious = targetTile;
-            if (targetTile.x < 0)
-            {
-                loopTargetTile.x = GridManager.Instance.Grid.tiles.x - 1;
-                loopTargetTilePrevious.x = GridManager.Instance.Grid.tiles.x;
-            }
-            else if (targetTile.x >= GridManager.Instance.Grid.tiles.x)
-            {
-                loopTargetTile.x = 0;
-                loopTargetTilePrevious.x = - 1;
-            }
-
-            if (targetTile.y < 0)
-            {
-                loopTargetTile.y = GridManager.Instance.Grid.tiles.y - 1;
-                loopTargetTilePrevious.y = GridManager.Instance.Grid.tiles.y;
-            }
-            else if (targetTile.y >= GridManager.Instance.Grid.tiles.y)
-            {
-                loopTargetTile.y = 0;
-                loopTargetTilePrevious.y = -1;
-            }
-
-            if (isMoving) { if (midTargetTile != new Vector2(-1, -1)) { TeleportOnGrid(new GridManager.IntVector2((int)midTargetTile.x, (int)midTargetTile.y)); } }
-            else { isMoving = true; }
-
-            midTargetTile = loopTargetTilePrevious;
-
+            isMoving = true;
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
-            float elapsedTime = 0f;
+            elapsedTime = 0f;
 
             if (beatLength == 0)
                 beatLength = Tempo.Instance.TempoPeriod * 0.98f;
@@ -92,14 +89,13 @@ public class GridMoveable : TempoTrigger
                     float realT = elapsedTime / beatLength;
                     //float t = movement.Evaluate(realT);
                     float t = EasingFuncs.EaseInOut(realT);
-                    //float t = realT;
 
                     if (targetTile == loopTargetTile)
-                        interm = Vector2.Lerp(Vector2.Scale(new Vector2(currentTile.x, currentTile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
+                        interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t);
                     else
                     {
                         if(t < 0.5)
-                            interm = Vector2.Lerp(Vector2.Scale(new Vector2(currentTile.x, currentTile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t / 0.5f);
+                            interm = Vector2.Lerp(Vector2.Scale(new Vector2(tile.x, tile.y), GridManager.Instance.Grid.tileSize), Vector2.Scale(targetTile, GridManager.Instance.Grid.tileSize), t / 0.5f);
                         else
                             interm = Vector2.Lerp(Vector2.Scale(loopTargetTilePrevious, GridManager.Instance.Grid.tileSize), Vector2.Scale(loopTargetTile, GridManager.Instance.Grid.tileSize), (t - 0.5f) / 0.5f);
                     }
@@ -114,11 +110,9 @@ public class GridMoveable : TempoTrigger
                 yield return null;
             }
 
-            if (targetTile == loopTargetTile)
-                TeleportOnGrid(new GridManager.IntVector2((int)targetTile.x, (int)targetTile.y));
-            else
-                TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y));
+            TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y));
 
+            elapsedTime = 0f;
             isMoving = false;
         }
     }

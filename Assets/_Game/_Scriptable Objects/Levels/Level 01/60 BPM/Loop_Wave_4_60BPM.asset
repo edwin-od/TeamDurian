@@ -15,13 +15,16 @@ MonoBehaviour:
   BPM: 60
   beatDelay: 0.2
   loops:
-  - loop: {fileID: 8300000, guid: c2404aa2198d0b74098d4110ddc18f02, type: 3}
+  - clip: {fileID: 8300000, guid: 8b8f81738a36db248848cae9ceb450e5, type: 3}
     volume: 1
-  - loop: {fileID: 8300000, guid: 8b8f81738a36db248848cae9ceb450e5, type: 3}
+  - clip: {fileID: 8300000, guid: cd5bc00c9755f904e9acc503e862d25d, type: 3}
     volume: 1
-  - loop: {fileID: 8300000, guid: cd5bc00c9755f904e9acc503e862d25d, type: 3}
+  - clip: {fileID: 8300000, guid: c2404aa2198d0b74098d4110ddc18f02, type: 3}
     volume: 1
-  - loop: {fileID: 8300000, guid: 825f9dab405b9d741aee56e23560224d, type: 3}
+  - clip: {fileID: 8300000, guid: 825f9dab405b9d741aee56e23560224d, type: 3}
     volume: 1
-  - loop: {fileID: 8300000, guid: 32b45c51a21466e4ca74c263e2b93255, type: 3}
+  - clip: {fileID: 8300000, guid: 32b45c51a21466e4ca74c263e2b93255, type: 3}
+    volume: 1
+  transition:
+    clip: {fileID: 0}
     volume: 1
