@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Levels levels;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private bool waitForLoopEndWhenAllEnemiesDead = false;
 
     private int waveIndex = 0;
     private int levelIndex = 0;
@@ -60,7 +61,7 @@ public class LevelManager : MonoBehaviour
 
     private void StartLoop()
     {
-        if (loopCoroutine == null && levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0) { loopCoroutine = StartCoroutine(PlayLoop()); }
+        if (loopCoroutine == null && levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0) { loopCoroutine = StartCoroutine(waitForLoopEndWhenAllEnemiesDead?PlayLoopNonStop():PlayLoop()); }
     }
 
     private void StopLoop()
@@ -95,7 +96,7 @@ public class LevelManager : MonoBehaviour
                         float currentBeat = (elapsedTime * Tempo.Instance.BPM / 60f) + 1;
                         if(!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(currentBeat); detectedEnd = true; }
 
-                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.02f) { startedTransition = true; StartCoroutine(PlayTransition(currentBeat - detectedCurrentBeat - 1 + 0.02f)); }
+                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.022f) { startedTransition = true; StartCoroutine(PlayTransition(currentBeat - detectedCurrentBeat - 1 + 0.022f)); }
                     }
 
                     float deltaTime = 0f;
@@ -107,6 +108,49 @@ public class LevelManager : MonoBehaviour
                     elapsedTime += deltaTime;
 
                     if(elapsedTime >= length) { foreach (AudioSource clip in clips) { clip.Play(); } elapsedTime = 0f; }
+                }
+                else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; PauseLoop(); }
+
+                yield return null;
+            }
+        }
+    }
+
+    IEnumerator PlayLoopNonStop()
+    {
+        if (clips.Count == 0) { NextWave(); }
+
+        float length = 0;
+        foreach (Loop.LoopClip loop in levels.levels[levelIndex].waves[waveIndex].loop.loops) { if (length < loop.clip.length) { length = loop.clip.length; } }
+
+        foreach (AudioSource clip in clips) { clip.Play(); }
+
+        bool startedTransition = false;
+        float tx = Time.realtimeSinceStartup;
+        float tpause = 0;
+        float elapsedTime = 0f;
+        if (Tempo.Instance)
+        {
+            while (true)
+            {
+                if (!Tempo.Instance.IsTempoPaused)
+                {
+                    if (enemies.Count == 0 && !startedTransition)
+                    {
+                        if (!transition) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); }
+
+                        if (elapsedTime >= length - transition.clip.length - 0.022f) { startedTransition = true; StartCoroutine(PlayTransition(elapsedTime - length + transition.clip.length + 0.022f)); }
+                    }
+
+                    float deltaTime = 0f;
+
+                    if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; UnPauseLoop(); }
+                    else { deltaTime = Time.realtimeSinceStartup - tx; }
+
+                    tx = Time.realtimeSinceStartup;
+                    elapsedTime += deltaTime;
+
+                    if (elapsedTime >= length) { foreach (AudioSource clip in clips) { clip.Play(); } elapsedTime = 0f; }
                 }
                 else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; PauseLoop(); }
 
