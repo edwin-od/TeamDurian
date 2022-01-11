@@ -17,4 +17,5 @@ public class Loop : ScriptableObject
     public List<LoopClip> loops = new List<LoopClip>();
     public LoopClip transitionIn;
     public LoopClip transitionOut;
+    public LoopClip dropDelay;
 }
