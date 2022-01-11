@@ -11,6 +11,7 @@ public class CameraShake : MonoBehaviour
     public int actualPreset = -1;
     float _FadeOut = 1f;
     private bool _fading;
+    private Vector3 _originalCamPos;
     public enum ShakeForce { Little, Medium, Strong };
 
     void Reset()
@@ -20,6 +21,12 @@ public class CameraShake : MonoBehaviour
     void OnValidate()
     {
         presets[0].direction.Normalize();
+        enabled = false;
+    }
+
+    void Start()
+    {
+        _originalCamPos = camera.localPosition;
     }
 
 
@@ -29,7 +36,8 @@ public class CameraShake : MonoBehaviour
         var direction = presets[actualPreset].direction + GetNoise();
         direction.Normalize();
         var delta = direction * sin;
-        camera.localPosition = delta * presets[actualPreset].maxMagnitude * _FadeOut;
+        Vector3 localPos = delta * presets[actualPreset].maxMagnitude * _FadeOut;
+        camera.localPosition = localPos + _originalCamPos;
     }
 
 
