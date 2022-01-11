@@ -19,6 +19,9 @@ MonoBehaviour:
     volume: 1
   - clip: {fileID: 8300000, guid: cd5bc00c9755f904e9acc503e862d25d, type: 3}
     volume: 1
-  transition:
+  transitionIn:
+    clip: {fileID: 0}
+    volume: 1
+  transitionOut:
     clip: {fileID: 8300000, guid: 0bb1a1f0962d3da44b76cecc6a53ce84, type: 3}
     volume: 1
