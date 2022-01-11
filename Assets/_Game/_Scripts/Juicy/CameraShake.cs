@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CameraShake : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class CameraShake : MonoBehaviour
         camera.localPosition = delta * presets[actualPreset].maxMagnitude * _FadeOut;
     }
 
+
+    [Button]
     public void FireOnce(ShakeForce force)
     {
         if (_fading)
