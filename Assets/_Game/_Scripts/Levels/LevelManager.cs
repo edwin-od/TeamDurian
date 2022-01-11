@@ -60,12 +60,12 @@ public class LevelManager : MonoBehaviour
 
     private void StartLoop()
     {
-        if (levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0) { loopCoroutine = StartCoroutine(PlayLoop()); }
+        if (loopCoroutine == null && levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0) { loopCoroutine = StartCoroutine(PlayLoop()); }
     }
 
     private void StopLoop()
     {
-        if (loopCoroutine != null) { StopCoroutine(loopCoroutine); }
+        if (loopCoroutine != null) { StopCoroutine(loopCoroutine); loopCoroutine = null;  }
     }
 
     IEnumerator PlayLoop()
@@ -95,7 +95,7 @@ public class LevelManager : MonoBehaviour
                         float currentBeat = (elapsedTime * Tempo.Instance.BPM / 60f) + 1;
                         if(!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(currentBeat); detectedEnd = true; }
 
-                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.125f) { startedTransition = true; StartCoroutine(PlayTransition()); }
+                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.02f) { startedTransition = true; StartCoroutine(PlayTransition(currentBeat - detectedCurrentBeat - 1 + 0.02f)); }
                     }
 
                     float deltaTime = 0f;
@@ -115,9 +115,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    IEnumerator PlayTransition()
+    IEnumerator PlayTransition(float delay)
     {
-        float length = levels.levels[levelIndex].waves[waveIndex].loop.transition.clip.length;
+        float length = levels.levels[levelIndex].waves[waveIndex].loop.transition.clip.length - delay;
 
         transition.Play();
 
@@ -216,6 +216,7 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Level named \"" + levels.levels[levelIndex].levelName + "\" has ended.");
 
+            StopLoop();
             Tempo.Instance.StopTempo();
             OnLevelEnded?.Invoke();
             return;
@@ -223,11 +224,12 @@ public class LevelManager : MonoBehaviour
 
         Tempo.Instance.StopTempo();
         Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM, Mathf.Abs(levels.levels[levelIndex].waves[waveIndex].loop.beatDelay));
+
         EmptyClips();
         FillClips();
 
         if (!levels.levels[levelIndex].waves[waveIndex].isPassive) { SpawnEnemies(); StartLoop(); }
-        else { StartCoroutine(PlayPassiveWave());  }
+        else { StopLoop(); StartCoroutine(PlayPassiveWave());  }
         
     }
 

@@ -224,50 +224,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
   - waveName: Wave 1
     isPassive: 0
     loop: {fileID: 11400000, guid: 26637482a4c73514bb1c1d927424cdcb, type: 2}
@@ -478,50 +434,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
   - waveName: Wave 2
     isPassive: 0
     loop: {fileID: 11400000, guid: 248bb1d8238bddf4a921af31dcbf87cf, type: 2}
@@ -533,55 +445,11 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
-      pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
+      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 1
       pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -986,50 +854,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
   - waveName: Wave 4
     isPassive: 0
     loop: {fileID: 11400000, guid: 78a339cf17d062947a28411c68e6d8bc, type: 2}
@@ -1046,50 +870,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 1
       pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -1494,50 +1274,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
   - waveName: Wave 6
     isPassive: 0
     loop: {fileID: 11400000, guid: a006d2fb372eda9479f0e6bf1b9b6b5f, type: 2}
@@ -1554,50 +1290,6 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 1
       pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 11400000, guid: 8d966a19adaa1b04a9f65f4eb1fbeeb5, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -1831,50 +1523,6 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
-      pattern: {fileID: 11400000, guid: 8d966a19adaa1b04a9f65f4eb1fbeeb5, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
@@ -2085,50 +1733,6 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
-      pattern: {fileID: 11400000, guid: 8d966a19adaa1b04a9f65f4eb1fbeeb5, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
@@ -2301,12 +1905,12 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
   gridWidth: 13
-  gridHeight: 13
+  gridHeight: 11
   gridTileSizeX: 1
   gridTileSizeY: 1
   cameraHeight: 3
   tileColor1: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   tileColor2: {r: 0.3, g: 0.3, b: 0.3, a: 1}
-  tab: 0
+  tab: 1
   scrollPos: {x: 0, y: 0}
-  selectedWave: 2
+  selectedWave: 8
