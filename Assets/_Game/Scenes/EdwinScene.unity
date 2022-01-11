@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -285,7 +285,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.03}
-  m_AnchoredPosition: {x: 0, y: -10.5}
+  m_AnchoredPosition: {x: 0, y: -10.499985}
   m_SizeDelta: {x: 0, y: 39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &502357308
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 825488358}
   - component: {fileID: 825488357}
   m_Layer: 6
-  m_Name: Canvas (1)
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1221,7 +1221,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1388622124}
-  - component: {fileID: 1388622123}
   - component: {fileID: 1388622125}
   m_Layer: 0
   m_Name: _uiUI Manager
@@ -1230,22 +1229,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1388622123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388622122}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0ca4ffb652a0f2418f60075f316630c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TopProgressBar: {fileID: 0}
-  BottomProgressBar: {fileID: 0}
-  OutOfBeatColor: {r: 0.8196079, g: 0.28235295, b: 0, a: 1}
-  OnBeatColor: {r: 0.04705883, g: 0.7254902, b: 0, a: 1}
 --- !u!4 &1388622124
 Transform:
   m_ObjectHideFlags: 0
@@ -1275,7 +1258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetArea: {fileID: 1850605857}
   beatFeedback: {fileID: 8436080841665154813, guid: 00f6fc992a7ad9f438db4ca98f7feb22, type: 3}
-  periodAreaPercentage60BPM: 0.9
+  periodAreaPercentage60BPM: 0.3
   beatFeedbackWidth: 0.01
 --- !u!1 &1415658972
 GameObject:

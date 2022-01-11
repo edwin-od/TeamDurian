@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loop_Wave_4_80BPM
   m_EditorClassIdentifier: 
   BPM: 80
-  beatDelay: 0.2
+  beatDelay: 0
   loops:
   - clip: {fileID: 8300000, guid: b29d70c16e919324e948350df698e3e3, type: 3}
     volume: 1
