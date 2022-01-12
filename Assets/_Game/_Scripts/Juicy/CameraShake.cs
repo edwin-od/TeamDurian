@@ -36,8 +36,8 @@ public class CameraShake : MonoBehaviour
         var direction = presets[actualPreset].direction + GetNoise();
         direction.Normalize();
         var delta = direction * sin;
-        Vector3 localPos = delta * presets[actualPreset].maxMagnitude * _FadeOut;
-        camera.localPosition = localPos + _originalCamPos;
+        Vector2 localPos = delta * presets[actualPreset].maxMagnitude * _FadeOut;
+        camera.localPosition = new Vector3(localPos.x, _originalCamPos.y, localPos.y) + _originalCamPos;
     }
 
 
