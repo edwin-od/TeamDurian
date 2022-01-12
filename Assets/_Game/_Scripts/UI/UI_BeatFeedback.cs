@@ -11,8 +11,8 @@ public class UI_BeatFeedback : MonoBehaviour
     [SerializeField, Range(0.01f, 0.99f)] private float beatFeedbackWidth = 0.01f;
 
     private float currentPeriodAreaPercentage = 0f;
-    private List<RectTransform> beatsLeft = new List<RectTransform>();
     private List<RectTransform> beatsRight = new List<RectTransform>();
+    private List<RectTransform> beatsLeft = new List<RectTransform>();
 
     private int periodsDisplayable = 0;
 
@@ -49,19 +49,19 @@ public class UI_BeatFeedback : MonoBehaviour
             {
                 if (periodsDisplayable == 0) { BPMChange(); }
                 
-                for(int i = 0; i < beatsLeft.Count; i++)
+                for(int i = 0; i < beatsRight.Count; i++)
                 {
                     float position = (currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + i));
 
-                    beatsLeft[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, 0f);
-                    beatsLeft[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f);
-                    beatsLeft[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
-                    beatsLeft[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
-
-                    beatsRight[i].anchorMin = new Vector2(-position - (beatFeedbackWidth / 2) + 0.5f, 0f);
-                    beatsRight[i].anchorMax = new Vector2(-position + (beatFeedbackWidth / 2) + 0.5f, 1f);
+                    beatsRight[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, 0f);
+                    beatsRight[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f);
                     beatsRight[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsRight[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+
+                    beatsLeft[i].anchorMin = new Vector2(-position - (beatFeedbackWidth / 2) + 0.5f, 0f);
+                    beatsLeft[i].anchorMax = new Vector2(-position + (beatFeedbackWidth / 2) + 0.5f, 1f);
+                    beatsLeft[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+                    beatsLeft[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
                 }
             }
             else if (!Tempo.Instance.IsTempoRunning && periodsDisplayable != 0) { periodsDisplayable = 0; }
@@ -94,13 +94,22 @@ public class UI_BeatFeedback : MonoBehaviour
             float halfTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage;
             targetArea.anchorMin = new Vector2(0.5f - halfTarget, 0f);
             targetArea.anchorMax = new Vector2(0.5f + halfTarget, 1f);
-            periodsDisplayable = Mathf.CeilToInt(1 / currentPeriodAreaPercentage);
+            periodsDisplayable = Mathf.CeilToInt(1 / currentPeriodAreaPercentage) * 2;
 
-            int delta = periodsDisplayable - beatsLeft.Count;
+            int delta = periodsDisplayable - beatsRight.Count;
             if (delta > 0)
             {
                 for (int i = 0; i < delta; i++)
                 {
+                    RectTransform beatRight = Instantiate(beatFeedback).GetComponent<RectTransform>();
+                    beatRight.localScale = Vector3.Scale(beatRight.localScale,  new Vector3(-1, 1, 1));
+                    beatRight.SetParent(targetArea.parent, false);
+                    beatsRight.Add(beatRight);
+                    beatsRight[beatsRight.Count - 1].anchorMin = Vector2.zero;
+                    beatsRight[beatsRight.Count - 1].anchorMax = Vector2.zero;
+                    beatsRight[beatsRight.Count - 1].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+                    beatsRight[beatsRight.Count - 1].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+
                     RectTransform beatLeft = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatLeft.SetParent(targetArea.parent, false);
                     beatsLeft.Add(beatLeft);
@@ -108,24 +117,16 @@ public class UI_BeatFeedback : MonoBehaviour
                     beatsLeft[beatsLeft.Count - 1].anchorMax = Vector2.zero;
                     beatsLeft[beatsLeft.Count - 1].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsLeft[beatsLeft.Count - 1].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
-
-                    RectTransform beatRight = Instantiate(beatFeedback).GetComponent<RectTransform>();
-                    beatRight.SetParent(targetArea.parent, false);
-                    beatsRight.Add(beatRight);
-                    beatsRight[beatsRight.Count - 1].anchorMin = Vector2.zero;
-                    beatsRight[beatsRight.Count - 1].anchorMax = Vector2.zero;
-                    beatsRight[beatsRight.Count - 1].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
-                    beatsRight[beatsRight.Count - 1].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
                 }
             }
             else if(delta != 0) 
             { 
                 for (int i = 0; i < Mathf.Abs(delta); i++) 
                 { 
-                    Destroy(beatsLeft[beatsLeft.Count - 1].gameObject); 
-                    beatsLeft.RemoveAt(beatsLeft.Count - 1);
-                    Destroy(beatsRight[beatsRight.Count - 1].gameObject);
+                    Destroy(beatsRight[beatsRight.Count - 1].gameObject); 
                     beatsRight.RemoveAt(beatsRight.Count - 1);
+                    Destroy(beatsLeft[beatsLeft.Count - 1].gameObject);
+                    beatsLeft.RemoveAt(beatsLeft.Count - 1);
                 } 
             }
         }
@@ -133,12 +134,12 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void EmptyBeats()
     {
-        if (beatsLeft != null && beatsRight != null) 
+        if (beatsRight != null && beatsLeft != null) 
         { 
-            foreach (RectTransform beat in beatsLeft) { Destroy(beat.gameObject); }
-            if (beatsLeft.Count != 0) { beatsLeft = new List<RectTransform>(); }
             foreach (RectTransform beat in beatsRight) { Destroy(beat.gameObject); }
             if (beatsRight.Count != 0) { beatsRight = new List<RectTransform>(); }
+            foreach (RectTransform beat in beatsLeft) { Destroy(beat.gameObject); }
+            if (beatsLeft.Count != 0) { beatsLeft = new List<RectTransform>(); }
             periodsDisplayable = 0;
 
         }
