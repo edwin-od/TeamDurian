@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Levels levels;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField, Range(0f, 5f)] private float dropDelay = 0f;
 
     private int waveIndex = 0;
     private int levelIndex = 0;
@@ -14,6 +15,7 @@ public class LevelManager : MonoBehaviour
     private List<AudioSource> clips = new List<AudioSource>();
     private AudioSource transitionOut = null;
     private AudioSource transitionIn = null;
+    private AudioSource dropDelaySource = null;
 
     public delegate void LevelStarted();
     public static event LevelStarted OnLevelStarted;
@@ -82,8 +84,13 @@ public class LevelManager : MonoBehaviour
         float transitionInLength = 0f;
         if (transitionIn && transitionIn.clip) { transitionInLength = transitionIn.clip.length; transitionIn.Play(); }
 
-        bool detectedEnd = false, startedTransition = false;
-        int detectedCurrentBeat = 0;
+        float transOutBeatOffset = 0;
+        if(transitionOut && transitionOut.clip)
+        {
+            float transOutBeats = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length / Tempo.Instance.TempoPeriod;
+            transOutBeatOffset = Tempo.Instance.TempoPeriod * (1 - (transOutBeats - Mathf.Floor(transOutBeats)));
+        }
+        bool startedTransition = false;
         float tx = Time.realtimeSinceStartup;
         float tpause = 0;
         float elapsedTime = 0f;
@@ -95,12 +102,12 @@ public class LevelManager : MonoBehaviour
                 {
                     if (enemies.Count == 0 && !startedTransition)
                     {
-                        if (!transitionOut) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); }
+                        if (!transitionOut || !transitionOut.clip) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); break; }
+                        
+                        float currentBeat = elapsedTime / Tempo.Instance.TempoPeriod;
+                        float beatOffset = currentBeat - Mathf.Floor(currentBeat);
 
-                        float currentBeat = (elapsedTime * Tempo.Instance.BPM / 60f) + 1;
-                        if(!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(currentBeat); detectedEnd = true; }
-
-                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(currentBeat - detectedCurrentBeat - 1 + 0.1f)); }
+                        if (beatOffset >= transOutBeatOffset - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
                     }
 
                     float deltaTime = 0f;
@@ -151,7 +158,7 @@ public class LevelManager : MonoBehaviour
                         float currentBeat = (elapsedTime * Tempo.Instance.BPM / 60f) + 1;
                         if (!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(currentBeat); detectedEnd = true; }
 
-                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(currentBeat - detectedCurrentBeat - 1 + 0.1f)); }
+                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
                     }
 
                     float deltaTime = 0f;
@@ -200,7 +207,7 @@ public class LevelManager : MonoBehaviour
                     {
                         if (!transitionOut) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); }
 
-                        if (elapsedTime >= length - transitionOut.clip.length - 0.1f) { startedTransition = true; StartCoroutine(PlayTransition(elapsedTime - length + transitionOut.clip.length + 0.1f)); }
+                        if (elapsedTime >= length - transitionOut.clip.length - 0.1f) { startedTransition = true; StartCoroutine(dropDelay, PlayTransition(elapsedTime - length + transitionOut.clip.length + 0.1f)); }
                     }
 
                     float deltaTime = 0f;
@@ -222,9 +229,9 @@ public class LevelManager : MonoBehaviour
         }
     }*/
 
-    IEnumerator PlayTransitionOut(float delay)
+    IEnumerator PlayTransitionOut(float inDelay)
     {
-        float length = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length - delay;
+        float length = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length;
 
         transitionOut.Play();
 
@@ -252,6 +259,8 @@ public class LevelManager : MonoBehaviour
         }
         foreach (AudioSource clip in clips) { clip.Stop(); }
         transitionOut.Stop();
+        if (dropDelaySource && dropDelaySource.clip) { dropDelaySource.Play(); yield return new WaitForSeconds(dropDelaySource.clip.length); }
+        else { yield return new WaitForSeconds(inDelay); }
         NextWave();
     }
 
@@ -320,7 +329,14 @@ public class LevelManager : MonoBehaviour
             transitionIn.playOnAwake = false;
             transitionIn.loop = false;
         }
-
+        if (levels.levels[levelIndex].waves[waveIndex].loop.dropDelay.clip != null)
+        {
+            dropDelaySource = gameObject.AddComponent<AudioSource>();
+            dropDelaySource.clip = levels.levels[levelIndex].waves[waveIndex].loop.dropDelay.clip;
+            dropDelaySource.volume = levels.levels[levelIndex].waves[waveIndex].loop.dropDelay.volume;
+            dropDelaySource.playOnAwake = false;
+            dropDelaySource.loop = false;
+        }
     }
 
     private void NextWave()
@@ -358,6 +374,7 @@ public class LevelManager : MonoBehaviour
         clips = new List<AudioSource>();
         if (transitionOut) { Destroy(transitionOut); transitionOut = null; }
         if (transitionIn) { Destroy(transitionIn); transitionOut = null; }
+        if (dropDelaySource) { Destroy(dropDelaySource); dropDelaySource = null; }
     }
 
     private void PauseLoop()
