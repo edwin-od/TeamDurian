@@ -120,9 +120,9 @@ public class PlayerController : GridMoveable
         }
     }
 
-    private void KilledEnemy(EnemyController enemy)
+    private void KilledEnemy(EnemyController enemy, Vector3 projPos)
     {
-        enemy.OnDeath();
+        enemy.OnDeath(projPos);
         score += projectileHitScore;
     }
 
@@ -169,7 +169,7 @@ public class PlayerController : GridMoveable
                         EnemyController enemy = hit.gameObject.GetComponentInParent<EnemyController>();
                         if (enemy)
                         {
-                            KilledEnemy(enemy);
+                            KilledEnemy(enemy, projectile.transform.position);
                             elapsedTime = projectileLifetime;
                         }
                     }
