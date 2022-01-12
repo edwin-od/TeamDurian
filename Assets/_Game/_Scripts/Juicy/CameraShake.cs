@@ -58,7 +58,7 @@ public class CameraShake : MonoBehaviour
     {
         if (!_fading)
         {
-            actualPreset = index--;
+            actualPreset = index - 1;
             StopAllCoroutines();
             _fading = true;
             StartCoroutine(ShakeAndFade(0.5f));
