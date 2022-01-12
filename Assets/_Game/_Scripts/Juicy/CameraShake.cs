@@ -53,6 +53,19 @@ public class CameraShake : MonoBehaviour
             StartShake(force);
     }
 
+    [Button]
+    public void FireOnceWithIndex(int index)
+    {
+        index++;
+        if (!_fading)
+        {
+            actualPreset = index;
+            StopAllCoroutines();
+            _fading = true;
+            StartCoroutine(ShakeAndFade(0.5f));
+        }
+    }
+
     void StartShake(ShakeForce force)
     {
         actualPreset = UpdatePreset(force);
