@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using SpriteToParticlesAsset;
 
 public class EnemyController : GridMoveable
 {
@@ -10,8 +11,12 @@ public class EnemyController : GridMoveable
     public EnemyPattern movementPattern;
     public Vector3 scaleA = new Vector3(.5f, 1, .8f);
     public Vector3 scaleB = new Vector3(.8f, 1, .5f);
-    
 
+    public float radius = 8;
+    public float strength = 1;
+    public float strengthMax = 10;
+    public float angle = 135;
+    public float rotationAngle = 0;
   
 
     private void Awake()
@@ -54,9 +59,12 @@ public class EnemyController : GridMoveable
             action = 0;
     }
 
-    public void OnDeath()
+    public void OnDeath(Vector3 projPos)
     {
-        Destroy(gameObject);
+
+        GetComponent<EffectorExplode>().ExplodeAt(projPos, radius, angle, rotationAngle, strength);
+        FindObjectOfType<CameraShake>().FireOnce(CameraShake.ShakeForce.Medium);
+        //Destroy(gameObject);
     }
 
     private void OnDestroy()

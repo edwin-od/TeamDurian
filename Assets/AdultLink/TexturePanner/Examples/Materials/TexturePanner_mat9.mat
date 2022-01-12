@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: TexturePanner_mat9
   m_Shader: {fileID: 4800000, guid: 4d846dee7d5e44743a993157b1b14b43, type: 3}
   m_ShaderKeywords: _COLORMODE_REPLACE _EMISSION _NOTRANSPARENCY_ON _OFFSETSCROLL_SCROLL
@@ -45,6 +46,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Masktexture:
+        m_Texture: {fileID: 2800000, guid: e9884b4c1689a2e4587d834e95f2cbaf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -58,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 2800000, guid: 92f41c2a2e05f244390c6caf46b69e9a, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2fa8cd8661d9444ab62b368a4837016, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -88,12 +93,23 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Horizontalmovement: 0
+    - _Horizontalmovementamplitude: 0.5
+    - _Horizontalmovementfreq: 1
+    - _Horizontalmovementoffset: 0
+    - _Horizontalstretch: 0
+    - _Horizontalstretchamplitude: 0.5
+    - _Horizontalstretchfreq: 0.5
+    - _Horizontalstretchoffset: 0
+    - _Horizontalstretchpivotpoint: 0
+    - _Masktexturerotationspeed: 0
     - _Metallic: 0
     - _Mode: 0
     - _Notransparency: 1
     - _OcclusionStrength: 1
     - _OffsetScroll: 1
     - _Parallax: 0.02
+    - _RotationSpeed: 1
     - _Scale1: 200
     - _Scale2: 200
     - _Scanlines: 0
@@ -115,6 +131,7 @@ Material:
     - _ScrollingspeedX: -1
     - _ScrollingspeedY: 0
     - _Scrolloffset: 1
+    - _Scrollrotate: 0
     - _Sharp: 0
     - _SharpX: 1
     - _SharpY: 1
@@ -143,8 +160,10 @@ Material:
     - __dirty: 0
     - _s: 0
     m_Colors:
-    - _Color: {r: 0.16158631, g: 1.1566178, b: 0.8272281, a: 1}
+    - _Color: {r: 6.7822614, g: 1.0173392, b: 0.1937789, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Masktextureoffset: {r: 0, g: 0, b: 0, a: 0}
+    - _Masktexturetiling: {r: 1, g: 1, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Scanlinespeed: {r: 0, g: -0.1, b: 0, a: 0}
     - _Scanlinestiling: {r: 1, g: 2, b: 0, a: 0}
@@ -153,3 +172,4 @@ Material:
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Tintcolor: {r: 1.2940001, g: 0, b: 0, a: 1}
     - _Vector0: {r: 0.33, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
