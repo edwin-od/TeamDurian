@@ -18,6 +18,7 @@ public class PlayerController : GridMoveable
     [SerializeField] private bool ignoreBeatRestriction = false;
 
     [SerializeField, Range(1f, 5f)] private float comboMultiplier = 1f;
+    [SerializeField, Range(1, 100)] private int maxCombo = 15;
     private int score = 0;
     private int consecutiveCombos = 0;
     private bool actionOnBeat = false;
@@ -98,7 +99,7 @@ public class PlayerController : GridMoveable
             }
 
             Move(Direction);
-            consecutiveCombos++;
+            consecutiveCombos = Mathf.Clamp(consecutiveCombos + 1, 0, maxCombo);
             actionOnBeat = true;
             OnComboAdd?.Invoke();
 
@@ -222,4 +223,5 @@ public class PlayerController : GridMoveable
     }
 
     public int COMBO { get { return consecutiveCombos; } }
+    public int MAX_COMBP { get { return maxCombo; } }
 }
