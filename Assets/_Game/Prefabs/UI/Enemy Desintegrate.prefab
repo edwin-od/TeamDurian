@@ -4877,6 +4877,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyObjectAfterExplosionIn: 7
   exploded: 0
+  sourcePos: {x: 0, y: 0, z: 0}
+  radius: 0
+  angle: 0
+  startRot: 0
+  strength: 0
 --- !u!61 &4505000933957271775
 BoxCollider2D:
   m_ObjectHideFlags: 0

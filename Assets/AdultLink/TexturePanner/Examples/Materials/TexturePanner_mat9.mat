@@ -10,9 +10,8 @@ Material:
   m_Name: TexturePanner_mat9
   m_Shader: {fileID: 4800000, guid: 4d846dee7d5e44743a993157b1b14b43, type: 3}
   m_ShaderKeywords: _COLORMODE_REPLACE _EMISSION _NOTRANSPARENCY_ON _OFFSETSCROLL_SCROLL
-    _SCANLINESX_ON _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON _SHARPX_ON
-    _SHARPY_ON _SHARPZ_ON _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY _TINTTEXTURE_ON
-    _VERTICALMOVEMENT_ON
+    _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON _SHARPX_ON _SHARPY_ON _SHARPZ_ON
+    _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY _TINTTEXTURE_ON _VERTICALMOVEMENT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -87,8 +86,8 @@ Material:
     - _Float7: 6.78
     - _Float8: -2.46
     - _Globalemissionflicker: 0
-    - _Globalemissionflickeramplitude: 0.5
-    - _Globalemissionflickerfreq: 10
+    - _Globalemissionflickeramplitude: 63.23
+    - _Globalemissionflickerfreq: 23.89
     - _Globalemissionflickeroffset: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -113,18 +112,18 @@ Material:
     - _Scale1: 200
     - _Scale2: 200
     - _Scanlines: 0
-    - _ScanlinesX: 1
+    - _ScanlinesX: 0
     - _ScanlinesY: 0
     - _ScanlinesYThreshold: 0
     - _ScanlinesZ: 0
     - _Scanlinesscale: 100
-    - _ScanlinesscaleX: 500
-    - _ScanlinesscaleY: 30
+    - _ScanlinesscaleX: 177.6
+    - _ScanlinesscaleY: 693
     - _ScanlinesscaleZ: 4
     - _Scanlinessmoothing: 19.1
     - _Scanlinesspeed: -5
     - _ScanlinesspeedX: 5
-    - _ScanlinesspeedY: 0
+    - _ScanlinesspeedY: 2.58
     - _ScanlinesspeedZ: -5
     - _ScrollOffset: 1
     - _Scrolling: 1
@@ -160,7 +159,7 @@ Material:
     - __dirty: 0
     - _s: 0
     m_Colors:
-    - _Color: {r: 6.7822614, g: 1.0173392, b: 0.1937789, a: 1}
+    - _Color: {r: 13.564523, g: 2.0595348, b: 0.42611066, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Masktextureoffset: {r: 0, g: 0, b: 0, a: 0}
     - _Masktexturetiling: {r: 1, g: 1, b: 0, a: 0}

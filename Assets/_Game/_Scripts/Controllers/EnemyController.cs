@@ -17,7 +17,8 @@ public class EnemyController : GridMoveable
     public float strengthMax = 10;
     public float angle = 135;
     public float rotationAngle = 0;
-  
+
+    public GameObject desintegrateEnemyPrefab;
 
     private void Awake()
     {
@@ -61,10 +62,14 @@ public class EnemyController : GridMoveable
 
     public void OnDeath(Vector3 projPos)
     {
-
-        GetComponent<EffectorExplode>().ExplodeAt(projPos, radius, angle, rotationAngle, strength);
+        GameObject go = Instantiate(desintegrateEnemyPrefab, transform);
+        go.transform.parent = gameObject.transform.parent;
+        //transform.GetChild(0).transform.localScale = Vector3.one * 0.8f;
+        //go.GetComponent<EffectorExplode>().ExplodeAt(projPos, radius, angle, rotationAngle, strength);
+        go.GetComponent<EffectorExplode>().ExplodeTest();
         FindObjectOfType<CameraShake>().FireOnce(CameraShake.ShakeForce.Medium);
-        //Destroy(gameObject);
+        //transform.GetChild(0).GetComponent<Collider>().enabled = false;
+        Destroy(this.gameObject);
     }
 
     private void OnDestroy()

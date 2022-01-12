@@ -23,6 +23,12 @@ public class EffectorExplode : MonoBehaviour
     //! Whether the sprite has already exploded.
     public bool exploded = false;
 
+        public Vector3 sourcePos;
+        public float radius;
+        public float angle;
+        public float startRot;
+        public float strength;
+
     /// <summary>
     /// Get needed references
     /// </summary>
@@ -46,7 +52,20 @@ public class EffectorExplode : MonoBehaviour
     [Button]
     public void ExplodeAt(Vector3 sourcePos, float radius, float angle, float startRot, float strenght)
     {
-        //check that references are ok
+            //Debug.Log("explode " + sourcePos + " " + radius + " " + angle + " " + startRot + " " + strenght, gameObject);
+            //this.sourcePos = sourcePos;
+            //this.radius = radius;
+            //this.angle = angle;
+            //this.startRot = startRot;
+            //this.strength = strenght;
+            //angle = 360;
+            //startRot = 0;
+            ////sourcePos = transform.position;
+            //sourcePos = transform.position - new Vector3(0.5f, 0, 0.1f);
+
+            Debug.Log("source pos : " + sourcePos);
+
+        //check that references are ok 
         if (!ps)
         {
             if (!emitter || !emitter.particlesSystem)
@@ -113,6 +132,7 @@ public class EffectorExplode : MonoBehaviour
             Destroy(gameObject, destroyObjectAfterExplosionIn);
     }
 
+        [Button]
     public void ExplodeTest()
     {
         ExplodeAt(transform.position, 10, 360, 0, 2);

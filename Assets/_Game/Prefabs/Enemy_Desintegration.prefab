@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 6867279290116548423}
   - component: {fileID: 1048675819576515003}
   - component: {fileID: 5404376660321820956}
-  - component: {fileID: 2935112843898698898}
   m_Layer: 0
-  m_Name: Enemy_Desintegrate
+  m_Name: Enemy_Desintegration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1911136060157992979}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5000005, z: 1.5000005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8232905277472884583}
   m_Father: {fileID: 0}
@@ -48,6 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyObjectAfterExplosionIn: 7
   exploded: 0
+  sourcePos: {x: 0, y: 0, z: 0}
+  radius: 0
+  angle: 0
+  startRot: 0
+  strength: 0
 --- !u!114 &5404376660321820956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,27 +86,6 @@ MonoBehaviour:
   matchTargetGOScale: 0
   uiParticleSystem: {fileID: 0}
   CacheOnAwake: 1
---- !u!114 &2935112843898698898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911136060157992979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76eb23ab084803445b31a92a741f2071, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatLength: 0
-  movementPattern: {fileID: 0}
-  scaleA: {x: 0.5, y: 1, z: 0.8}
-  scaleB: {x: 0.8, y: 1, z: 0.5}
-  radius: 4
-  strength: 4
-  strengthMax: 10
-  angle: 90
-  rotationAngle: 45
 --- !u!1 &8235385217700948969
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,8 +98,8 @@ GameObject:
   - component: {fileID: 8123716152362690839}
   - component: {fileID: 8110521437929580397}
   - component: {fileID: 8109149702877459155}
-  - component: {fileID: 8235385217700948971}
   - component: {fileID: 8235385217700948968}
+  - component: {fileID: 805336728089116099}
   m_Layer: 0
   m_Name: Enemy Desintegrate
   m_TagString: Untagged
@@ -131,13 +114,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8235385217700948969}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.33333334, y: 0.33333328, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6867279290116548423}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8123716152362690839
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4910,7 +4893,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!54 &8235385217700948971
+--- !u!65 &8235385217700948968
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235385217700948969}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &805336728089116099
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4926,16 +4922,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8235385217700948968
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235385217700948969}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.64, y: 0.64, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
