@@ -229,7 +229,7 @@ public class LevelManager : MonoBehaviour
         }
     }*/
 
-    IEnumerator PlayTransitionOut(float inDelay)
+    IEnumerator PlayTransitionOut(float dropDelay)
     {
         float length = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length;
 
@@ -260,7 +260,7 @@ public class LevelManager : MonoBehaviour
         foreach (AudioSource clip in clips) { clip.Stop(); }
         transitionOut.Stop();
         if (dropDelaySource && dropDelaySource.clip) { dropDelaySource.Play(); yield return new WaitForSeconds(dropDelaySource.clip.length); }
-        else { yield return new WaitForSeconds(inDelay); }
+        else { yield return new WaitForSeconds(dropDelay); }
         NextWave();
     }
 

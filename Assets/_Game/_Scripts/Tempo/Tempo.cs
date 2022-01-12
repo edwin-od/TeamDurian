@@ -111,11 +111,13 @@ public class Tempo : MonoBehaviour
     public void PauseTempo()
     {
         isTempoPaused = true;
+        Time.timeScale = 0f;
     }
 
     public void UnpauseTempo()
     {
         isTempoPaused = false;
+        Time.timeScale = 1f;
     }
 
     public bool CanGenerateBeatEvents

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_BeatFeedback : MonoBehaviour
 {
-
+    [SerializeField] private AnimationCurve bounce = AnimationCurve.Constant(0f, 1f, 1f);
+    [SerializeField] private AnimationCurve fade = AnimationCurve.Linear(0f, 0f, 1f, 1f);
     [SerializeField] private RectTransform targetArea;
     [SerializeField] private GameObject beatFeedback;
     [SerializeField, Range(0.1f, 0.9f)] private float periodAreaPercentage60BPM = 0.25f;
@@ -51,17 +53,29 @@ public class UI_BeatFeedback : MonoBehaviour
                 
                 for(int i = 0; i < beatsRight.Count; i++)
                 {
-                    float position = (currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + i));
+                    float position = currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + i);
 
-                    beatsRight[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, 0f);
-                    beatsRight[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f);
+                    float bounceAmount = Mathf.Abs(Mathf.Sin(bounce.Evaluate(Tempo.Instance.PercentageToBeat))) / 2f;
+
+                    float alpha = fade.Evaluate(1 - (position / 2));
+
+                    beatsRight[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, bounceAmount);
+                    beatsRight[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f - bounceAmount);
                     beatsRight[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsRight[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
-                    beatsLeft[i].anchorMin = new Vector2(-position - (beatFeedbackWidth / 2) + 0.5f, 0f);
-                    beatsLeft[i].anchorMax = new Vector2(-position + (beatFeedbackWidth / 2) + 0.5f, 1f);
+                    Color oldColorRight = beatsRight[i].gameObject.GetComponent<Image>().color;
+                    beatsRight[i].gameObject.GetComponent<Image>().color = new Color(oldColorRight.r, oldColorRight.g, oldColorRight.b, alpha);
+
+                    beatsLeft[i].anchorMin = new Vector2(-position - (beatFeedbackWidth / 2) + 0.5f, bounceAmount);
+                    beatsLeft[i].anchorMax = new Vector2(-position + (beatFeedbackWidth / 2) + 0.5f, 1f - bounceAmount);
                     beatsLeft[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsLeft[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+
+                    Color oldColorLeft = beatsRight[i].gameObject.GetComponent<Image>().color;
+                    beatsLeft[i].gameObject.GetComponent<Image>().color = new Color(oldColorLeft.r, oldColorLeft.g, oldColorLeft.b, alpha);
+
+
                 }
             }
             else if (!Tempo.Instance.IsTempoRunning && periodsDisplayable != 0) { periodsDisplayable = 0; }
@@ -90,7 +104,7 @@ public class UI_BeatFeedback : MonoBehaviour
         {
             if (currentPeriodAreaPercentage == 0f) { EmptyBeats(); }
 
-            currentPeriodAreaPercentage = Tempo.Instance.BPM * periodAreaPercentage60BPM / 60f;
+            currentPeriodAreaPercentage = periodAreaPercentage60BPM / Tempo.Instance.TempoPeriod;
             float halfTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage;
             targetArea.anchorMin = new Vector2(0.5f - halfTarget, 0f);
             targetArea.anchorMax = new Vector2(0.5f + halfTarget, 1f);

@@ -10,8 +10,9 @@ Material:
   m_Name: TexturePanner_mat9
   m_Shader: {fileID: 4800000, guid: 4d846dee7d5e44743a993157b1b14b43, type: 3}
   m_ShaderKeywords: _COLORMODE_REPLACE _EMISSION _NOTRANSPARENCY_ON _OFFSETSCROLL_SCROLL
-    _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON _SHARPX_ON _SHARPY_ON _SHARPZ_ON
-    _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY _TINTTEXTURE_ON _VERTICALMOVEMENT_ON
+    _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON _SCROLLROTATE_ROTATE _SHARPX_ON
+    _SHARPY_ON _SHARPZ_ON _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY _TINTTEXTURE_ON
+    _VERTICALMOVEMENT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -130,7 +131,7 @@ Material:
     - _ScrollingspeedX: -1
     - _ScrollingspeedY: 0
     - _Scrolloffset: 1
-    - _Scrollrotate: 0
+    - _Scrollrotate: 1
     - _Sharp: 0
     - _SharpX: 1
     - _SharpY: 1
@@ -159,7 +160,7 @@ Material:
     - __dirty: 0
     - _s: 0
     m_Colors:
-    - _Color: {r: 13.564523, g: 2.0595348, b: 0.42611066, a: 1}
+    - _Color: {r: 13.483055, g: 2.0471654, b: 0.42355147, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Masktextureoffset: {r: 0, g: 0, b: 0, a: 0}
     - _Masktexturetiling: {r: 1, g: 1, b: 0, a: 0}
