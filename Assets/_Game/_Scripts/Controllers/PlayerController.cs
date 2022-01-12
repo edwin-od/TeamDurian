@@ -8,7 +8,7 @@ public class PlayerController : GridMoveable
     [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 7f;
     [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 2f;
     [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
-    [SerializeField, Range(1f, 10000)] private int projectileHitScore = 1;
+    [SerializeField, Range(1f, 10000)] private int killEnemyScore = 1;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
 
@@ -17,9 +17,18 @@ public class PlayerController : GridMoveable
 
     [SerializeField] private bool ignoreBeatRestriction = false;
 
+    [SerializeField, Range(1f, 5f)] private float comboMultiplier = 1f;
     private int score = 0;
+    private int consecutiveCombos = 0;
+    private bool actionOnBeat = false;
 
     private DIRECTION currentDirection = DIRECTION.UP;
+
+    public delegate void ComboLost();
+    public static event ComboLost OnComboLost;
+
+    public delegate void ComboAdd();
+    public static event ComboAdd OnComboAdd;
 
     private bool skipBeat = false;
 
@@ -89,6 +98,8 @@ public class PlayerController : GridMoveable
             }
 
             Move(Direction);
+            consecutiveCombos++;
+            actionOnBeat = true;
 
             beatLength = Tempo.Instance.TempoPeriod * .98f;
             var timePerBeat = Tempo.Instance.TempoPeriod / 2;
@@ -116,6 +127,8 @@ public class PlayerController : GridMoveable
             }
 
             StartCoroutine(ShootProjectile(direction));
+            actionOnBeat = true;
+
             skipBeat = true;
         }
     }
@@ -123,14 +136,19 @@ public class PlayerController : GridMoveable
     private void KilledEnemy(EnemyController enemy)
     {
         enemy.OnDeath();
-        score += projectileHitScore;
+        scoreComboMultiplier(killEnemyScore);
     }
 
     public override void Beat() { }
 
-    private void BeatIntervalStart() { }
+    private void BeatIntervalStart() { actionOnBeat = false; }
 
-    private void BeatIntervalEnd() { skipBeat = false; }
+    private void BeatIntervalEnd() 
+    { 
+        skipBeat = false; 
+        if (!actionOnBeat) { if (consecutiveCombos > 0) { OnComboLost?.Invoke(); consecutiveCombos = 0; } } 
+        actionOnBeat = false; 
+    }
 
     private IEnumerator ShootProjectile(DIRECTION shootDirection)
     {
@@ -195,5 +213,10 @@ public class PlayerController : GridMoveable
         float newAngle = direction == DIRECTION.UP ? 0 : direction == DIRECTION.DOWN ? 180 : direction == DIRECTION.RIGHT ? 90 : direction == DIRECTION.LEFT ? -90 : 0;
 
         transform.GetChild(0).rotation = Quaternion.Euler(0f, newAngle, 0f);
+    }
+
+    private void scoreComboMultiplier(int valueToAdd)
+    {
+        score += valueToAdd * (1 + Mathf.FloorToInt(consecutiveCombos * comboMultiplier));
     }
 }
