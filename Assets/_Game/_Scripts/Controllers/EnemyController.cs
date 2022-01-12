@@ -72,6 +72,14 @@ public class EnemyController : GridMoveable
         Destroy(this.gameObject);
     }
 
+    public void OnDeath()
+    {
+        GameObject go = Instantiate(desintegrateEnemyPrefab, transform);
+        go.transform.parent = gameObject.transform.parent;
+        FindObjectOfType<CameraShake>().FireOnce(CameraShake.ShakeForce.Medium);
+        Destroy(gameObject);
+    }
+
     private void OnDestroy()
     {
         LevelManager.Instance.UnregisterEnemy(this);

@@ -135,9 +135,9 @@ public class PlayerController : GridMoveable
         }
     }
 
-    private void KilledEnemy(EnemyController enemy, Vector3 direction)
+    private void KilledEnemy(EnemyController enemy)
     {
-        enemy.OnDeath(direction);
+        enemy.OnDeath();
         scoreComboMultiplier(killEnemyScore);
     }
 
@@ -189,7 +189,7 @@ public class PlayerController : GridMoveable
                         EnemyController enemy = hit.gameObject.GetComponentInParent<EnemyController>();
                         if (enemy)
                         {
-                            KilledEnemy(enemy, direction);
+                            KilledEnemy(enemy);
                             elapsedTime = projectileLifetime;
                         }
                     }

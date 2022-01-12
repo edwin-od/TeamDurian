@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1048675819576515003}
   - component: {fileID: 5404376660321820956}
   m_Layer: 0
-  m_Name: Enemy_Desintegration
+  m_Name: Enemy_Desintegration_Flo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

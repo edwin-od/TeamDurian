@@ -48,6 +48,12 @@ MonoBehaviour:
   movementPattern: {fileID: 0}
   scaleA: {x: 0.5, y: 1, z: 0.8}
   scaleB: {x: 0.8, y: 1, z: 0.5}
+  radius: 8
+  strength: 1
+  strengthMax: 10
+  angle: 135
+  rotationAngle: 0
+  desintegrateEnemyPrefab: {fileID: 1911136060157992979, guid: c4cb49bb9f2c4ab4284a0cb70cb14d89, type: 3}
 --- !u!1 &3397720010315509988
 GameObject:
   m_ObjectHideFlags: 0
