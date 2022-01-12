@@ -56,10 +56,9 @@ public class CameraShake : MonoBehaviour
     [Button]
     public void FireOnceWithIndex(int index)
     {
-        index++;
         if (!_fading)
         {
-            actualPreset = index;
+            actualPreset = index--;
             StopAllCoroutines();
             _fading = true;
             StartCoroutine(ShakeAndFade(0.5f));
