@@ -100,6 +100,7 @@ public class PlayerController : GridMoveable
             Move(Direction);
             consecutiveCombos++;
             actionOnBeat = true;
+            OnComboAdd?.Invoke();
 
             beatLength = Tempo.Instance.TempoPeriod * .98f;
             var timePerBeat = Tempo.Instance.TempoPeriod / 2;
@@ -133,9 +134,9 @@ public class PlayerController : GridMoveable
         }
     }
 
-    private void KilledEnemy(EnemyController enemy, Vector3 projPos)
+    private void KilledEnemy(EnemyController enemy, Vector3 direction)
     {
-        enemy.OnDeath(projPos);
+        enemy.OnDeath(direction);
         scoreComboMultiplier(killEnemyScore);
     }
 
@@ -187,7 +188,7 @@ public class PlayerController : GridMoveable
                         EnemyController enemy = hit.gameObject.GetComponentInParent<EnemyController>();
                         if (enemy)
                         {
-                            KilledEnemy(enemy, projectile.transform.position);
+                            KilledEnemy(enemy, direction);
                             elapsedTime = projectileLifetime;
                         }
                     }
