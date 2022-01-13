@@ -136,6 +136,7 @@ public class PlayerController : GridMoveable
             if (Direction == DIRECTION.LEFT) { if (sprite) { sprite.flipX = true; } }
 
             Move(Direction);
+            DeathNoteController.instance.FireOnce();
             consecutiveCombos = Mathf.Clamp(consecutiveCombos + 1, 0, maxCombo);
             actionOnBeat = true;
             OnComboAdd?.Invoke();
