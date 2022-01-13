@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 public class ComboUI_Controller : MonoBehaviour
 {
     public UnityEngine.UI.Slider comboSlider;
+    private float _lastValue;
 
     private void OnEnable()
     {
@@ -24,7 +25,12 @@ public class ComboUI_Controller : MonoBehaviour
     void ComboUpdate()
     {
         float value = (float)PlayerController.Instance.COMBO / (float)PlayerController.Instance.MAX_COMBP;
+
+        //if (value != _lastValue)
+        //    UI_Shake.Shake(comboSlider.transform);
+
         comboSlider.value = value;
+        _lastValue = value;
     }
 
     void ComboShake()

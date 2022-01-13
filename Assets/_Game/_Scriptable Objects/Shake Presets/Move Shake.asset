@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Move Shake
   m_EditorClassIdentifier: 
   seed: {x: 0.1, y: 0.1}
-  speed: 10
+  speed: 0.01
   maxMagnitude: 0.2
   noiseMagnitude: 0.2
   direction: {x: 1, y: 1}
