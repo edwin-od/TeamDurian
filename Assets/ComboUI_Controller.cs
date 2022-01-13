@@ -14,6 +14,8 @@ public class ComboUI_Controller : MonoBehaviour
     public float scrollDuration = .3f;
     public float valueLerpDuration = .2f;
 
+    public ParticleSystem ps;
+
     private void OnEnable()
     {
         PlayerController.OnComboAdd += ComboUpdate;
@@ -36,6 +38,7 @@ public class ComboUI_Controller : MonoBehaviour
         if (value != _lastValue)
         {
             StartCoroutine(UI_Shake.Shake(comboSlider.transform, 0.1f, 0.5f));
+            ps.Play();
 
             if (PlayerController.Instance.COMBO >= PlayerController.Instance.MAX_COMBP)
             {
