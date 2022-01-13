@@ -12,7 +12,9 @@ public class CameraShake : MonoBehaviour
     float _FadeOut = 1f;
     private bool _fading;
     private Vector3 _originalCamPos;
-    public enum ShakeForce { Little, Medium, Strong };
+    public enum ShakeForce { Little, Medium, Strong, ComboMove };
+
+    public static CameraShake Instance;
 
     void Reset()
     {
@@ -83,6 +85,8 @@ public class CameraShake : MonoBehaviour
                 return 1;
             case ShakeForce.Strong:
                 return 2;
+            case ShakeForce.ComboMove:
+                return 3;
         }
 
         return -1;
