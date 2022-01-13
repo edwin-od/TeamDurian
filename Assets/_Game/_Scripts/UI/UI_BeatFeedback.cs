@@ -7,9 +7,10 @@ public class UI_BeatFeedback : MonoBehaviour
 {
     [SerializeField] private AnimationCurve bounce = AnimationCurve.Constant(0f, 1f, 1f);
     [SerializeField] private AnimationCurve fade = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-    [SerializeField] private RectTransform normalIntervalArea;
-    [SerializeField] private RectTransform greatIntervalArea;
-    [SerializeField] private RectTransform perfectIntervalArea;
+    [SerializeField] private AnimationCurve beatIntervalGlow = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+    //[SerializeField] private RectTransform normalIntervalArea;
+    //[SerializeField] private RectTransform greatIntervalArea;
+    [SerializeField] private RectTransform beatIntervalArea;
     [SerializeField] private GameObject beatFeedback;
     [SerializeField, Range(0.1f, 0.9f)] private float periodAreaPercentage60BPM = 0.25f;
     [SerializeField, Range(0.01f, 0.99f)] private float beatFeedbackWidth = 0.01f;
@@ -47,21 +48,25 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void Update()
     {
-        if(Tempo.Instance && beatFeedback && normalIntervalArea)
+        if(Tempo.Instance && JuiceManager.Instance && beatFeedback && beatIntervalArea /* && normalIntervalArea && greatIntervalArea*/)
         {
             if (Tempo.Instance.isActiveAndEnabled && Tempo.Instance.CanGenerateBeatEvents)
             {
                 if (periodsDisplayable == 0) { BPMChange(); }
-                
-                for(int i = 0; i < beatsRight.Count; i++)
+
+                float beatIntervalAreaEmission = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Clamp(Mathf.Abs(Mathf.Sin(beatIntervalGlow.Evaluate(1 - Tempo.Instance.PercentageToBeat))) * 50, 0, 60) : 16;
+
+                beatIntervalArea.gameObject.GetComponent<Image>().material.color = new Color(0.75f * beatIntervalAreaEmission, 0.12f * beatIntervalAreaEmission, 0.03f * beatIntervalAreaEmission, 1f);
+
+                for (int i = 0; i < beatsRight.Count; i++)
                 {
                     float position = currentPeriodAreaPercentage * (Tempo.Instance.PercentageToBeat + i);
 
-                    float bounceAmount = Mathf.Abs(Mathf.Sin(bounce.Evaluate(Tempo.Instance.PercentageToBeat))) / 2f;
+                    float bounceAmount = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Abs(Mathf.Sin(bounce.Evaluate(Tempo.Instance.PercentageToBeat))) / 2f : 0f;
 
                     float distance = fade.Evaluate(1 - (position / 2));
-                    float alpha = Mathf.Clamp(distance, 0.1f, 1f);
-                    float emission = Mathf.Clamp(distance * 16, 0, 16);
+                    float alpha = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Clamp(distance, 0.1f, 1f) : 1f;
+                    float emission = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Clamp(distance * 16, 0, 16) : 16;
 
                     beatsRight[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, bounceAmount);
                     beatsRight[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f - bounceAmount);
@@ -102,13 +107,14 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void BPMChange()
     {
-        if (Tempo.Instance && PlayerController.Instance && beatFeedback && normalIntervalArea && greatIntervalArea && perfectIntervalArea)
+        if (Tempo.Instance && PlayerController.Instance && beatFeedback && beatIntervalArea /* && normalIntervalArea && greatIntervalArea*/)
         {
             if (currentPeriodAreaPercentage == 0f) { EmptyBeats(); }
 
             currentPeriodAreaPercentage = periodAreaPercentage60BPM / Tempo.Instance.TempoPeriod;
             periodsDisplayable = Mathf.CeilToInt(1 / currentPeriodAreaPercentage) * 2;
 
+            /*
             float halfNormalTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage;
             normalIntervalArea.anchorMin = new Vector2(0.5f - halfNormalTarget, 0f);
             normalIntervalArea.anchorMax = new Vector2(0.5f + halfNormalTarget, 1f);
@@ -126,6 +132,14 @@ public class UI_BeatFeedback : MonoBehaviour
             perfectIntervalArea.anchorMax = new Vector2(0.5f + halfPerfectTarget, 1f);
             perfectIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
             perfectIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+            */
+
+            float halfBeatIntervalTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage * PlayerController.Instance.GreatThreshold;
+            beatIntervalArea.anchorMin = new Vector2(0.5f - halfBeatIntervalTarget, 0f);
+            beatIntervalArea.anchorMax = new Vector2(0.5f + halfBeatIntervalTarget, 1f);
+            beatIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+            beatIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+            beatIntervalArea.GetComponent<Image>().material = new Material(beatIntervalArea.GetComponent<Image>().material);
 
             int delta = periodsDisplayable - beatsRight.Count;
             if (delta > 0)
@@ -135,7 +149,7 @@ public class UI_BeatFeedback : MonoBehaviour
                     RectTransform beatRight = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatRight.localScale = Vector3.Scale(beatRight.localScale,  new Vector3(-1, 1, 1));
                     beatRight.GetComponent<Image>().material = new Material(beatRight.GetComponent<Image>().material);
-                    beatRight.SetParent(normalIntervalArea.parent, false);
+                    beatRight.SetParent(beatIntervalArea.parent, false);
                     beatsRight.Add(beatRight);
                     beatsRight[beatsRight.Count - 1].anchorMin = Vector2.zero;
                     beatsRight[beatsRight.Count - 1].anchorMax = Vector2.zero;
@@ -144,7 +158,7 @@ public class UI_BeatFeedback : MonoBehaviour
 
                     RectTransform beatLeft = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatLeft.GetComponent<Image>().material = new Material(beatLeft.GetComponent<Image>().material);
-                    beatLeft.SetParent(normalIntervalArea.parent, false);
+                    beatLeft.SetParent(beatIntervalArea.parent, false);
                     beatsLeft.Add(beatLeft);
                     beatsLeft[beatsLeft.Count - 1].anchorMin = Vector2.zero;
                     beatsLeft[beatsLeft.Count - 1].anchorMax = Vector2.zero;

@@ -200,7 +200,7 @@ public class PlayerController : GridMoveable
         isBeatInStart = false; isBeatInEnd = false;
 
         skipBeat = false; 
-        if (!actionOnBeat) { if (consecutiveCombos > 0) { OnComboLost?.Invoke(); consecutiveCombos = 0; } } 
+        if (!actionOnBeat) { if (consecutiveCombos > 0) { consecutiveCombos = 0; OnComboLost?.Invoke(); } } 
         actionOnBeat = false; 
     }
 
