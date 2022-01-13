@@ -5,6 +5,7 @@ using UnityEngine;
 public class GridMoveable : TempoTrigger
 {
     //[SerializeField] private AnimationCurve movement = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField, Range(1f, 20f)] private float beatSpeed = 5f;
 
     private bool isMoving = false;
     public bool IsMoving { get { return isMoving; } }
@@ -12,9 +13,8 @@ public class GridMoveable : TempoTrigger
     private GridManager.IntVector2 tile = new GridManager.IntVector2(0, 0);
     public GridManager.IntVector2 Tile { get { return tile; } }
 
-    public float beatLength = 0f;
     private Vector2 targetTile;
-    private Vector2 loopTargetTile;
+    protected Vector2 loopTargetTile;
     private Vector2 loopTargetTilePrevious;
 
     public static readonly Vector2 UP = new Vector2(0f, 1f);        // 0
@@ -25,6 +25,7 @@ public class GridMoveable : TempoTrigger
     public enum DIRECTION { UP = 0, DOWN = 1, RIGHT = 2, LEFT = 3 };
 
     private float elapsedTime = 0f;
+    protected float beatLength = 0f;
 
 
     public void Move(DIRECTION Direction)
@@ -70,8 +71,7 @@ public class GridMoveable : TempoTrigger
             float tpause = 0;
             elapsedTime = 0f;
 
-            if (beatLength == 0)
-                beatLength = Tempo.Instance.TempoPeriod * 0.98f;
+            beatLength = Tempo.Instance.TempoPeriod * 0.98f / beatSpeed;
 
             while (elapsedTime < beatLength)
             {
