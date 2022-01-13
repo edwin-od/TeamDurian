@@ -190,7 +190,7 @@ public class PlayerController : GridMoveable
         if (lifes == 0) { OnDie?.Invoke(); if (animator) { animator.SetTrigger("Dead"); } if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
     }
 
-    public override void Beat() { isBeatInStart = false; isBeatInEnd = true; }
+    public override void Beat() { if (Tempo.Instance && Tempo.Instance.IsFirstBeatEver) { actionOnBeat = true; } isBeatInStart = false; isBeatInEnd = true; }
 
     private void BeatIntervalStart() { isBeatInStart = true; isBeatInEnd = false; actionOnBeat = false; }
 
@@ -200,7 +200,7 @@ public class PlayerController : GridMoveable
         isBeatInStart = false; isBeatInEnd = false;
 
         skipBeat = false; 
-        if (!actionOnBeat) { if (consecutiveCombos > 0) { OnComboLost?.Invoke(); consecutiveCombos = 0; } } 
+        if (!actionOnBeat) { if (consecutiveCombos > 0) { consecutiveCombos = 0; OnComboLost?.Invoke(); } } 
         actionOnBeat = false; 
     }
 

@@ -64,3 +64,10 @@ MonoBehaviour:
     textSize: 12
     fontStyle: 1
     textAlignement: 4
+  - key: _jm
+    ignoreSV: 0
+    backgroundColor: {r: 0.5, g: 0.48978737, b: 0.25, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
