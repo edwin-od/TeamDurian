@@ -7,7 +7,7 @@ public class UI_Shake : MonoBehaviour
 	public static IEnumerator Shake(Transform target, float shakeDuration = 0.3f, float shakeAmount = 0.7f)
     {
 		float time = 0;
-		Vector3 originalPos = target.position;
+		Vector3 originalPos = target.localPosition;
 
 		while (time < shakeDuration)
 		{
@@ -16,7 +16,7 @@ public class UI_Shake : MonoBehaviour
 			yield return null;
 		}
 
-		target.position = originalPos;
+		target.localPosition = originalPos;
 	}
 
 }
