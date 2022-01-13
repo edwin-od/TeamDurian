@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 1637971534690086311}
   - component: {fileID: 1637971534690086296}
   m_Layer: 0
-  m_Name: Glup
+  m_Name: Enemy_Glup
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
