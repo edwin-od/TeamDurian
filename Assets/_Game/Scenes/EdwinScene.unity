@@ -8153,7 +8153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startScale: {x: 0, y: 5, z: 0.07968168}
   endScale: 1
-  duration: 0.25
+  duration: 0.5
   alphaPropertyName: _Alpha
   ps:
   - {fileID: 776062699}
