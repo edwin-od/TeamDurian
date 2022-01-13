@@ -102,12 +102,14 @@ public class LevelManager : MonoBehaviour
                 {
                     if (enemies.Count == 0 && !startedTransition)
                     {
-                        if (!transitionOut || !transitionOut.clip) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); break; }
-                        
                         float currentBeat = elapsedTime / Tempo.Instance.TempoPeriod;
                         float beatOffset = currentBeat - Mathf.Floor(currentBeat);
 
-                        if (beatOffset >= transOutBeatOffset - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
+                        if (beatOffset >= transOutBeatOffset - 0.1f) 
+                        {
+                            if (!transitionOut || !transitionOut.clip) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); break; }
+                            else { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
+                        }
                     }
 
                     float deltaTime = 0f;
@@ -128,106 +130,6 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
-
-    IEnumerator PlayLoopKeepTime()
-    {
-        if (clips.Count == 0) { NextWave(); }
-
-        float length = 0;
-        foreach (Loop.LoopClip loop in levels.levels[levelIndex].waves[waveIndex].loop.loops) { if (length < loop.clip.length) { length = loop.clip.length; } }
-
-        foreach (AudioSource clip in clips) { if (elapsedTime < clip.clip.length) { clip.time = elapsedTime; } clip.Play(); }
-
-        float transitionInLength = 0f, transitionInElapsed = 0f;
-        if (transitionIn && transitionIn.clip) { transitionInLength = transitionIn.clip.length; transitionIn.Play(); }
-
-        bool detectedEnd = false, startedTransition = false;
-        int detectedCurrentBeat = 0;
-        float tx = Time.realtimeSinceStartup;
-        float tpause = 0;
-        if (Tempo.Instance)
-        {
-            while (true)
-            {
-                if (!Tempo.Instance.IsTempoPaused)
-                {
-                    if (enemies.Count == 0 && !startedTransition)
-                    {
-                        if (!transitionOut) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); }
-
-                        float currentBeat = (elapsedTime * Tempo.Instance.BPM / 60f) + 1;
-                        if (!detectedEnd) { detectedCurrentBeat = Mathf.FloorToInt(currentBeat); detectedEnd = true; }
-
-                        if (currentBeat >= (detectedCurrentBeat + 1) - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
-                    }
-
-                    float deltaTime = 0f;
-
-                    if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; UnPauseLoop(); }
-                    else { deltaTime = Time.realtimeSinceStartup - tx; }
-
-                    tx = Time.realtimeSinceStartup;
-
-                    elapsedTime += deltaTime;
-                    if (elapsedTime >= length) { foreach (AudioSource clip in clips) { clip.time = 0f; clip.Play(); } elapsedTime -= length; }
-
-                    if (transitionIn) { transitionInElapsed += deltaTime; if (transitionInElapsed >= transitionInLength) { transitionIn.Stop(); } }
-                }
-                else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; PauseLoop(); }
-
-                yield return null;
-            }
-        }
-    }
-
-    /*
-    IEnumerator PlayLoopAndWait()
-    {
-        if (clips.Count == 0) { NextWave(); }
-
-        float length = 0;
-        foreach (Loop.LoopClip loop in levels.levels[levelIndex].waves[waveIndex].loop.loops) { if (length < loop.clip.length) { length = loop.clip.length; } }
-
-        foreach (AudioSource clip in clips) { clip.Play(); }
-
-        float transitionInLength = 0f;
-        if (transitionIn && transitionIn.clip) { transitionInLength = transitionIn.clip.length; transitionIn.Play(); }
-
-        bool startedTransition = false;
-        float tx = Time.realtimeSinceStartup;
-        float tpause = 0;
-        float elapsedTime = 0f;
-        if (Tempo.Instance)
-        {
-            while (true)
-            {
-                if (!Tempo.Instance.IsTempoPaused)
-                {
-                    if (enemies.Count == 0 && !startedTransition)
-                    {
-                        if (!transitionOut) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); }
-
-                        if (elapsedTime >= length - transitionOut.clip.length - 0.1f) { startedTransition = true; StartCoroutine(dropDelay, PlayTransition(elapsedTime - length + transitionOut.clip.length + 0.1f)); }
-                    }
-
-                    float deltaTime = 0f;
-
-                    if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; UnPauseLoop(); }
-                    else { deltaTime = Time.realtimeSinceStartup - tx; }
-
-                    tx = Time.realtimeSinceStartup;
-                    elapsedTime += deltaTime;
-
-                    if (elapsedTime >= length) { foreach (AudioSource clip in clips) { clip.Play(); } elapsedTime = 0f; }
-
-                    if (transitionIn && elapsedTime >= transitionInLength) { transitionIn.Stop(); }
-                }
-                else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; PauseLoop(); }
-
-                yield return null;
-            }
-        }
-    }*/
 
     IEnumerator PlayTransitionOut(float dropDelay)
     {
