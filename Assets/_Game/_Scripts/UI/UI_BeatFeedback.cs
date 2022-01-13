@@ -57,23 +57,23 @@ public class UI_BeatFeedback : MonoBehaviour
 
                     float bounceAmount = Mathf.Abs(Mathf.Sin(bounce.Evaluate(Tempo.Instance.PercentageToBeat))) / 2f;
 
-                    float alpha = fade.Evaluate(1 - (position / 2));
+                    float distance = fade.Evaluate(1 - (position / 2));
+                    float alpha = Mathf.Clamp(distance, 0.1f, 1f);
+                    float emission = Mathf.Clamp(distance * 16, 0, 16);
 
                     beatsRight[i].anchorMin = new Vector2(position - (beatFeedbackWidth / 2) + 0.5f, bounceAmount);
                     beatsRight[i].anchorMax = new Vector2(position + (beatFeedbackWidth / 2) + 0.5f, 1f - bounceAmount);
                     beatsRight[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsRight[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
-                    Color oldColorRight = beatsRight[i].gameObject.GetComponent<Image>().color;
-                    beatsRight[i].gameObject.GetComponent<Image>().color = new Color(oldColorRight.r, oldColorRight.g, oldColorRight.b, alpha);
+                    beatsRight[i].gameObject.GetComponent<Image>().material.color = new Color(0.75f * emission, 0.12f * emission, 0.03f * emission, alpha);
 
                     beatsLeft[i].anchorMin = new Vector2(-position - (beatFeedbackWidth / 2) + 0.5f, bounceAmount);
                     beatsLeft[i].anchorMax = new Vector2(-position + (beatFeedbackWidth / 2) + 0.5f, 1f - bounceAmount);
                     beatsLeft[i].offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
                     beatsLeft[i].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
-                    Color oldColorLeft = beatsRight[i].gameObject.GetComponent<Image>().color;
-                    beatsLeft[i].gameObject.GetComponent<Image>().color = new Color(oldColorLeft.r, oldColorLeft.g, oldColorLeft.b, alpha);
+                    beatsLeft[i].gameObject.GetComponent<Image>().material.color = new Color(0.75f * emission, 0.12f * emission, 0.03f * emission, alpha);
 
 
                 }
@@ -117,6 +117,7 @@ public class UI_BeatFeedback : MonoBehaviour
                 {
                     RectTransform beatRight = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatRight.localScale = Vector3.Scale(beatRight.localScale,  new Vector3(-1, 1, 1));
+                    beatRight.GetComponent<Image>().material = new Material(beatRight.GetComponent<Image>().material);
                     beatRight.SetParent(targetArea.parent, false);
                     beatsRight.Add(beatRight);
                     beatsRight[beatsRight.Count - 1].anchorMin = Vector2.zero;
@@ -125,6 +126,7 @@ public class UI_BeatFeedback : MonoBehaviour
                     beatsRight[beatsRight.Count - 1].offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
                     RectTransform beatLeft = Instantiate(beatFeedback).GetComponent<RectTransform>();
+                    beatLeft.GetComponent<Image>().material = new Material(beatLeft.GetComponent<Image>().material);
                     beatLeft.SetParent(targetArea.parent, false);
                     beatsLeft.Add(beatLeft);
                     beatsLeft[beatsLeft.Count - 1].anchorMin = Vector2.zero;
