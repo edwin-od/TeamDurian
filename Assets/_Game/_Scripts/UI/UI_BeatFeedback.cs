@@ -7,7 +7,9 @@ public class UI_BeatFeedback : MonoBehaviour
 {
     [SerializeField] private AnimationCurve bounce = AnimationCurve.Constant(0f, 1f, 1f);
     [SerializeField] private AnimationCurve fade = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-    [SerializeField] private RectTransform targetArea;
+    [SerializeField] private RectTransform normalIntervalArea;
+    [SerializeField] private RectTransform greatIntervalArea;
+    [SerializeField] private RectTransform perfectIntervalArea;
     [SerializeField] private GameObject beatFeedback;
     [SerializeField, Range(0.1f, 0.9f)] private float periodAreaPercentage60BPM = 0.25f;
     [SerializeField, Range(0.01f, 0.99f)] private float beatFeedbackWidth = 0.01f;
@@ -45,7 +47,7 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void Update()
     {
-        if(Tempo.Instance && beatFeedback && targetArea)
+        if(Tempo.Instance && beatFeedback && normalIntervalArea)
         {
             if (Tempo.Instance.isActiveAndEnabled && Tempo.Instance.CanGenerateBeatEvents)
             {
@@ -100,15 +102,30 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void BPMChange()
     {
-        if (Tempo.Instance && beatFeedback && targetArea)
+        if (Tempo.Instance && PlayerController.Instance && beatFeedback && normalIntervalArea)
         {
             if (currentPeriodAreaPercentage == 0f) { EmptyBeats(); }
 
             currentPeriodAreaPercentage = periodAreaPercentage60BPM / Tempo.Instance.TempoPeriod;
-            float halfTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage;
-            targetArea.anchorMin = new Vector2(0.5f - halfTarget, 0f);
-            targetArea.anchorMax = new Vector2(0.5f + halfTarget, 1f);
             periodsDisplayable = Mathf.CeilToInt(1 / currentPeriodAreaPercentage) * 2;
+
+            float halfNormalTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage;
+            normalIntervalArea.anchorMin = new Vector2(0.5f - halfNormalTarget, 0f);
+            normalIntervalArea.anchorMax = new Vector2(0.5f + halfNormalTarget, 1f);
+            normalIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+            normalIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+
+            float halfGreatTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage * PlayerController.Instance.GreatThreshold;
+            greatIntervalArea.anchorMin = new Vector2(0.5f - halfGreatTarget, 0f);
+            greatIntervalArea.anchorMax = new Vector2(0.5f + halfGreatTarget, 1f);
+            greatIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+            greatIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+
+            float halfPerfectTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage * PlayerController.Instance.PerfectThreshold;
+            perfectIntervalArea.anchorMin = new Vector2(0.5f - halfPerfectTarget, 0f);
+            perfectIntervalArea.anchorMax = new Vector2(0.5f + halfPerfectTarget, 1f);
+            perfectIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+            perfectIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
             int delta = periodsDisplayable - beatsRight.Count;
             if (delta > 0)
@@ -118,7 +135,7 @@ public class UI_BeatFeedback : MonoBehaviour
                     RectTransform beatRight = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatRight.localScale = Vector3.Scale(beatRight.localScale,  new Vector3(-1, 1, 1));
                     beatRight.GetComponent<Image>().material = new Material(beatRight.GetComponent<Image>().material);
-                    beatRight.SetParent(targetArea.parent, false);
+                    beatRight.SetParent(normalIntervalArea.parent, false);
                     beatsRight.Add(beatRight);
                     beatsRight[beatsRight.Count - 1].anchorMin = Vector2.zero;
                     beatsRight[beatsRight.Count - 1].anchorMax = Vector2.zero;
@@ -127,7 +144,7 @@ public class UI_BeatFeedback : MonoBehaviour
 
                     RectTransform beatLeft = Instantiate(beatFeedback).GetComponent<RectTransform>();
                     beatLeft.GetComponent<Image>().material = new Material(beatLeft.GetComponent<Image>().material);
-                    beatLeft.SetParent(targetArea.parent, false);
+                    beatLeft.SetParent(normalIntervalArea.parent, false);
                     beatsLeft.Add(beatLeft);
                     beatsLeft[beatsLeft.Count - 1].anchorMin = Vector2.zero;
                     beatsLeft[beatsLeft.Count - 1].anchorMax = Vector2.zero;

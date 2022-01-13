@@ -35,8 +35,18 @@ public class LevelManager : MonoBehaviour
 
     void Start() { StartLevel(0); }
 
+    public void RestartCurrentLevel() 
+    {
+        foreach (EnemyController enemy in enemies) { Destroy(enemy.gameObject); }
+        enemies = new List<EnemyController>();
+        StopLevel(); 
+        StartLevel(levelIndex); 
+    }
+
     private void StartLevel(int level)
     {
+        if (PlayerController.Instance) { PlayerController.Instance.RestartPlayer(); }
+
         levelIndex = level;
 
         if (levels && levelIndex >= 0 && levelIndex < levels.levels.Count)

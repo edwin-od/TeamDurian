@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerController : GridMoveable
 {
     [SerializeField, Range(1, 10)] private int totalLifes = 1;
-    [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 7f;
-    [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 2f;
+    [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 5f;
+    [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 4f;
     [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
     [SerializeField, Range(1, 10000)] private int killEnemyScore = 1;
     [SerializeField] private GameObject projectilePrefab;
@@ -17,6 +17,9 @@ public class PlayerController : GridMoveable
     public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
 
     [SerializeField] private bool ignoreBeatRestriction = false;
+
+    private Animator animator;
+    private SpriteRenderer sprite;
 
     [SerializeField, Range(1f, 5f)] private float comboMultiplier = 1f;
     [SerializeField, Range(1, 100)] private int maxCombo = 15;
@@ -36,7 +39,25 @@ public class PlayerController : GridMoveable
     public delegate void Die();
     public static event Die OnDie;
 
+    public delegate void Miss();
+    public static event Miss OnMiss;
+
+    public delegate void NormalBeat();
+    public static event NormalBeat OnNormalBeat;
+
+    [SerializeField, Range(0f, 1f)] private float greatThreshold = 0.5f;
+    public float GreatThreshold { get { return greatThreshold; } }
+    public delegate void GreatBeat();
+    public static event GreatBeat OnGreatBeat;
+
+    [SerializeField, Range(0f, 1f)] private float perfectThreshold = 0.1f;
+    public float PerfectThreshold { get { return perfectThreshold; } }
+    public delegate void PerfectBeat();
+    public static event PerfectBeat OnPerfectBeat;
+
     private bool skipBeat = false;
+
+    private bool isBeatInStart = false, isBeatInEnd = false;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -46,6 +67,9 @@ public class PlayerController : GridMoveable
         else Destroy(this.gameObject);
 
         lifes = totalLifes;
+        animator = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        if (sprite) { sprite.flipX = false; }
     }
 
     private void OnEnable()
@@ -84,6 +108,9 @@ public class PlayerController : GridMoveable
             MoveTile(DIRECTION.RIGHT);
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Q))
             MoveTile(DIRECTION.LEFT);
+
+        if (animator) { animator.SetBool("IsMoving", IsMoving); }
+        if (sprite && sprite.flipX && !IsMoving) { sprite.flipX = false; }
     }
 
     public int Score { get { return score; } }
@@ -101,18 +128,23 @@ public class PlayerController : GridMoveable
                 if (Tempo.Instance.IsTempoActive && !Tempo.Instance.IsOnBeat)
                 {
                     skipBeat = true;
+                    OnMiss?.Invoke();
                     return;
                 }
             }
+
+            if (Direction == DIRECTION.LEFT) { if (sprite) { sprite.flipX = true; } }
 
             Move(Direction);
             consecutiveCombos = Mathf.Clamp(consecutiveCombos + 1, 0, maxCombo);
             actionOnBeat = true;
             OnComboAdd?.Invoke();
 
+            EvaluateBeat();
+
             var timePerBeat = beatLength / 2;
 
-            transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
+            //transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
             skipBeat = true;
         }
     }
@@ -130,12 +162,17 @@ public class PlayerController : GridMoveable
                 if (Tempo.Instance.IsTempoActive && !Tempo.Instance.IsOnBeat)
                 {
                     skipBeat = true;
+                    OnMiss?.Invoke();
                     return;
                 }
             }
 
             StartCoroutine(ShootProjectile(direction));
             actionOnBeat = true;
+
+            if (animator) { animator.SetTrigger("Shoot"); }
+
+            EvaluateBeat();
 
             skipBeat = true;
         }
@@ -150,15 +187,18 @@ public class PlayerController : GridMoveable
     public void PlayerHit()
     {
         lifes--;
-        if (lifes == 0) { OnDie?.Invoke(); if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
+        if (lifes == 0) { OnDie?.Invoke(); if (animator) { animator.SetTrigger("Dead"); } if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
     }
 
-    public override void Beat() { }
+    public override void Beat() { isBeatInStart = false; isBeatInEnd = true; }
 
-    private void BeatIntervalStart() { actionOnBeat = false; }
+    private void BeatIntervalStart() { isBeatInStart = true; isBeatInEnd = false; actionOnBeat = false; }
 
     private void BeatIntervalEnd() 
-    { 
+    {
+
+        isBeatInStart = false; isBeatInEnd = false;
+
         skipBeat = false; 
         if (!actionOnBeat) { if (consecutiveCombos > 0) { OnComboLost?.Invoke(); consecutiveCombos = 0; } } 
         actionOnBeat = false; 
@@ -233,4 +273,24 @@ public class PlayerController : GridMoveable
 
     public int COMBO { get { return consecutiveCombos; } }
     public int MAX_COMBP { get { return maxCombo; } }
+
+    private void EvaluateBeat()
+    {
+        if (Tempo.Instance)
+        {
+            float acceptableInterval = Tempo.Instance.BeatAcceptablePercentage;
+            float curPercentage = isBeatInStart ? Tempo.Instance.PercentageToBeat : isBeatInEnd ? (1 - Tempo.Instance.PercentageToBeat) : 0f;
+            if (curPercentage <= acceptableInterval && curPercentage > acceptableInterval * greatThreshold) { OnNormalBeat?.Invoke(); }
+            else if (curPercentage <= acceptableInterval * greatThreshold && curPercentage > acceptableInterval * perfectThreshold) { OnGreatBeat?.Invoke(); }
+            else if (curPercentage <= perfectThreshold * greatThreshold) { OnPerfectBeat?.Invoke(); }
+        }
+    }
+
+    public void RestartPlayer()
+    {
+        score = 0;
+        consecutiveCombos = 0;
+        lifes = totalLifes;
+        if (sprite) { sprite.flipX = false; }
+    }
 }

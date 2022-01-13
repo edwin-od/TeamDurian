@@ -59,14 +59,13 @@ public class GridMoveable : TempoTrigger
             loopTargetTilePrevious.y = -1;
         }
 
-        if (!isMoving) { StartCoroutine(MoveTransition()); }
+        if (!isMoving) { isMoving = true; StartCoroutine(MoveTransition()); }
     }
 
     private IEnumerator MoveTransition()
     {
         if (GridManager.Instance && Tempo.Instance)
         {
-            isMoving = true;
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             elapsedTime = 0f;

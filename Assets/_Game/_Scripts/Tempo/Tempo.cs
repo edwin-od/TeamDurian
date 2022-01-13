@@ -169,7 +169,7 @@ public class Tempo : MonoBehaviour
 
     public float PercentageToBeat
     {
-        get { if (tempoPeriod == 0) { return 0f; } else { return 1 - (currentPeriod / tempoPeriod); } }
+        get { if (tempoPeriod == 0) { return 0f; } else { return Mathf.Clamp01(1 - (currentPeriod / tempoPeriod)); } }
     }
 
     public float TempoPeriod
