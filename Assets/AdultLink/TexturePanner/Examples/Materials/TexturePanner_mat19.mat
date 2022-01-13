@@ -10,8 +10,9 @@ Material:
   m_Name: TexturePanner_mat19
   m_Shader: {fileID: 4800000, guid: 4d846dee7d5e44743a993157b1b14b43, type: 3}
   m_ShaderKeywords: _COLORMODE_MULTIPLY _EMISSION _GLOBALEMISSIONFLICKER_ON _NOTRANSPARENCY_ON
-    _OFFSETSCROLL_SCROLL _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON _SHARPX_ON
-    _SHARPY_ON _SHARPZ_ON _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY _TINTTEXTURE_ON
+    _OFFSETSCROLL_SCROLL _SCANLINESX_ON _SCROLLING_ON _SCROLLOFFSET_OFFSET _SCROLLOFFSET_ON
+    _SCROLLROTATE_NONE _SHARPY_ON _SHARPZ_ON _S_OFFSET _TINTTEXTURE_DONTTINT _TINTTEXTURE_MULTIPLY
+    _TINTTEXTURE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -62,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 2800000, guid: 2719a1189760e8f4ea4202e545e47a6e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16240427821587b40abc773d5c3d05e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -118,22 +119,22 @@ Material:
     - _ScanlinesYThreshold: 0
     - _ScanlinesZ: 0
     - _Scanlinesscale: 100
-    - _ScanlinesscaleX: 50
-    - _ScanlinesscaleY: 50
+    - _ScanlinesscaleX: 1
+    - _ScanlinesscaleY: 10
     - _ScanlinesscaleZ: 4
     - _Scanlinessmoothing: 19.1
     - _Scanlinesspeed: -5
-    - _ScanlinesspeedX: -50
-    - _ScanlinesspeedY: 0
+    - _ScanlinesspeedX: -5
+    - _ScanlinesspeedY: 1
     - _ScanlinesspeedZ: -5
     - _ScrollOffset: 1
     - _Scrolling: 1
     - _ScrollingspeedX: -2
-    - _ScrollingspeedY: -1
+    - _ScrollingspeedY: -2
     - _Scrolloffset: 1
-    - _Scrollrotate: 0
+    - _Scrollrotate: 2
     - _Sharp: 0
-    - _SharpX: 1
+    - _SharpX: 0
     - _SharpY: 1
     - _SharpZ: 1
     - _SmoothnessTextureChannel: 0
@@ -169,7 +170,7 @@ Material:
     - _Scanlinestiling: {r: 1, g: 2, b: 0, a: 0}
     - _Scrollingspeed: {r: 0, g: 0, b: 0, a: 0}
     - _Scrollspeed: {r: 1, g: 0, b: 0, a: 0}
-    - _Tiling: {r: 0.1, g: 1, b: 0, a: 0}
+    - _Tiling: {r: 1.12, g: 1, b: 0, a: 0}
     - _Tintcolor: {r: 1.2940001, g: 0, b: 0, a: 1}
     - _Vector0: {r: 0.33, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

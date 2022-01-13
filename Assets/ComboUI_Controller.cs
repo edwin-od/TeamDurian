@@ -7,18 +7,22 @@ public class ComboUI_Controller : MonoBehaviour
 {
     public UnityEngine.UI.Slider comboSlider;
     private float _lastValue;
+    public string scanlinePropertyName;
+    public UnityEngine.UI.Image rend;
+    public bool _disableScanline;
+
+    public float scrollDuration = .3f;
+    public float valueLerpDuration = .2f;
 
     private void OnEnable()
     {
         PlayerController.OnComboAdd += ComboUpdate;
-        PlayerController.OnComboAdd += ComboShake;
         PlayerController.OnComboLost += ComboUpdate;
     }
 
     private void OnDisable()
     {
         PlayerController.OnComboAdd -= ComboUpdate;
-        PlayerController.OnComboAdd -= ComboShake;
         PlayerController.OnComboLost -= ComboUpdate;
     }
 
@@ -26,15 +30,38 @@ public class ComboUI_Controller : MonoBehaviour
     {
         float value = (float)PlayerController.Instance.COMBO / (float)PlayerController.Instance.MAX_COMBP;
 
-        //if (value != _lastValue)
-        //    UI_Shake.Shake(comboSlider.transform);
+        if (value != _lastValue)
+        {
+            StartCoroutine(UI_Shake.Shake(comboSlider.transform, 0.1f, 0.5f));
+        }
 
-        comboSlider.value = value;
+        rend.material.SetInt(scanlinePropertyName, 1);
+        StartCoroutine(DisableScanline());
+
+        StartCoroutine(UpdateSliderValue(value));
         _lastValue = value;
     }
 
-    void ComboShake()
+    IEnumerator DisableScanline()
     {
-        FindObjectOfType<CameraShake>().FireOnce(CameraShake.ShakeForce.ComboMove);
+        yield return new WaitForSeconds(scrollDuration);
+        rend.material.SetInt(scanlinePropertyName, 0);
+    }
+
+
+    public IEnumerator UpdateSliderValue(float endValue)
+    {
+        float timeElapsed = 0;
+        float startValue = comboSlider.value;
+
+        while (timeElapsed < valueLerpDuration)
+        {
+            comboSlider.value = Mathf.Lerp(startValue, endValue, timeElapsed / valueLerpDuration);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        comboSlider.value = endValue;
     }
 }
