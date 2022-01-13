@@ -34,6 +34,8 @@ public class EnemyController : GridMoveable
 
         animator = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        // spawn animation
     }
 
     private void Update()
