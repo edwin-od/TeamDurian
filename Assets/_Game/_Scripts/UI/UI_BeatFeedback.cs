@@ -54,9 +54,9 @@ public class UI_BeatFeedback : MonoBehaviour
             {
                 if (periodsDisplayable == 0) { BPMChange(); }
 
-                float beatIntervalAreaEmission = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Clamp(Mathf.Abs(Mathf.Sin(beatIntervalGlow.Evaluate(1 - Tempo.Instance.PercentageToBeat))) * 50, 0, 60) : 16;
+                float beatIntervalAreaEmission = JuiceManager.Instance.IsTimelineJuiceOn ? Mathf.Clamp(Mathf.Abs(Mathf.Sin(beatIntervalGlow.Evaluate(1 - Tempo.Instance.PercentageToBeat))) * 65, 0, 60) : 16;
 
-                beatIntervalArea.gameObject.GetComponent<Image>().material.color = new Color(0.75f * beatIntervalAreaEmission, 0.12f * beatIntervalAreaEmission, 0.03f * beatIntervalAreaEmission, 1f);
+                beatIntervalArea.gameObject.GetComponent<Image>().material.color = new Color(1f * beatIntervalAreaEmission, 0.05f * beatIntervalAreaEmission, 0f * beatIntervalAreaEmission, 1f);
 
                 for (int i = 0; i < beatsRight.Count; i++)
                 {
