@@ -29,7 +29,7 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
+      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -238,9 +238,9 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
     - spawn: 0
+      pattern: {fileID: 11400000, guid: 284e4349c89f674488ba96ea12432268, type: 2}
+    - spawn: 1
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
@@ -1703,4 +1703,4 @@ MonoBehaviour:
   tileColor2: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   tab: 0
   scrollPos: {x: 0, y: 0}
-  selectedWave: 0
+  selectedWave: 1
