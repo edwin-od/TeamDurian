@@ -29,8 +29,8 @@ MonoBehaviour:
     clip: {fileID: 0}
     volume: 1
   transitionOut:
-    clip: {fileID: 8300000, guid: 0bb1a1f0962d3da44b76cecc6a53ce84, type: 3}
+    clip: {fileID: 0}
     volume: 1
   dropDelay:
-    clip: {fileID: 8300000, guid: d5511f4577b35f246918c6a043d01f60, type: 3}
+    clip: {fileID: 8300000, guid: c36abe694536ac14cb74daba2dc02ede, type: 3}
     volume: 1

@@ -1069,8 +1069,8 @@ MonoBehaviour:
   gridTileSizeX: 1
   gridTileSizeY: 1
   cameraHeight: 3
-  tileColor1: {r: 1, g: 1, b: 1, a: 1}
-  tileColor2: {r: 0, g: 0, b: 0, a: 1}
-  tab: 1
+  tileColor1: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
+  tileColor2: {r: 0.29803923, g: 0.29803923, b: 0.29803923, a: 1}
+  tab: 0
   scrollPos: {x: 0, y: 0}
   selectedWave: 4
