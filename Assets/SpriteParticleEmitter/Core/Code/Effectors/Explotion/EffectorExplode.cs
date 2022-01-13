@@ -59,7 +59,7 @@ public class EffectorExplode : MonoBehaviour
             //this.startRot = startRot;
             //this.strength = strenght;
             //angle = 360;
-            //startRot = 0;
+            //startRot = ore 0;
             ////sourcePos = transform.position;
             //sourcePos = transform.position - new Vector3(0.5f, 0, 0.1f);
 

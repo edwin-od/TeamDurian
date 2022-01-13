@@ -1,8 +1,9 @@
 ﻿Shader "Custom/Rim" {
-	Properties {
-		_Color ("Color", Color) = (0,0,0,0)
-		_RimPower ("Rim Power", Range(0,5)) = 0
-		_RimColor ("Rim Color", Color) = (1,1,1,1)
+	Properties{
+		[HDR] _Color("Color", Color) = (0,0,0,0)
+		_RimPower("Rim Power", Range(0,5)) = 0
+		[HDR]_RimColor("Rim Color", Color) = (1,1,1,1)
+		_Alpha("Alpha", Float) = 1
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
@@ -28,13 +29,14 @@
 		float _RimPower;
 		fixed4 _RimColor;
 		fixed4 _Color;
+		float _Alpha;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) 
 		{
 			o.Albedo = _Color;
 			float dotP = 1 - saturate(dot( normalize(IN.viewDir), normalize(o.Normal)));
 			o.Emission = pow(dotP, _RimPower) * _RimColor;
-			o.Alpha = pow(dotP, _RimPower) + _Color.a;
+			o.Alpha = (pow(dotP, _RimPower) + _Color.a) * _Alpha;
 		}
 		ENDCG
 	}

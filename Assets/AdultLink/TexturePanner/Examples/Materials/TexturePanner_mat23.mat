@@ -99,7 +99,7 @@ Material:
     - _Horizontalmovementoffset: 0
     - _Horizontalstretch: 0
     - _Horizontalstretchamplitude: 0.5
-    - _Horizontalstretchfreq: 0.5
+    - _Horizontalstretchfreq: 4
     - _Horizontalstretchoffset: 0
     - _Horizontalstretchpivotpoint: 0
     - _Masktexturerotationspeed: 0

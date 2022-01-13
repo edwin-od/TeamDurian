@@ -18,6 +18,7 @@ public class ComboUI_Controller : MonoBehaviour
     {
         PlayerController.OnComboAdd += ComboUpdate;
         PlayerController.OnComboLost += ComboUpdate;
+        comboSlider.value = 0;
     }
 
     private void OnDisable()
@@ -30,9 +31,20 @@ public class ComboUI_Controller : MonoBehaviour
     {
         float value = (float)PlayerController.Instance.COMBO / (float)PlayerController.Instance.MAX_COMBP;
 
+
+
         if (value != _lastValue)
         {
             StartCoroutine(UI_Shake.Shake(comboSlider.transform, 0.1f, 0.5f));
+
+            if (PlayerController.Instance.COMBO >= PlayerController.Instance.MAX_COMBP)
+            {
+                DistortionController.instance.FireOnce();
+            }
+            else
+            {
+                DistortionController.instance.CloseOnce();
+            }
         }
 
         rend.material.SetInt(scanlinePropertyName, 1);
