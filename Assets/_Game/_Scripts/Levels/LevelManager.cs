@@ -114,11 +114,7 @@ public class LevelManager : MonoBehaviour
                         float currentBeat = elapsedTime / Tempo.Instance.TempoPeriod;
                         float beatOffset = currentBeat - Mathf.Floor(currentBeat);
 
-                        if (beatOffset >= transOutBeatOffset - 0.1f) 
-                        {
-                            if (!transitionOut || !transitionOut.clip) { foreach (AudioSource clip in clips) { clip.Stop(); } NextWave(); break; }
-                            else { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
-                        }
+                        if (beatOffset >= transOutBeatOffset - 0.1f) { startedTransition = true; StartCoroutine(PlayTransitionOut(dropDelay)); }
                     }
 
                     float deltaTime = 0f;
@@ -142,34 +138,38 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator PlayTransitionOut(float dropDelay)
     {
-        float length = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length;
-
-        transitionOut.Play();
-
-        float tx = Time.realtimeSinceStartup;
-        float tpause = 0;
-        float elapsedTime = 0f;
-        if (Tempo.Instance)
+        if (transitionOut && transitionOut.clip)
         {
-            while (elapsedTime < length)
+            float length = levels.levels[levelIndex].waves[waveIndex].loop.transitionOut.clip.length;
+
+            transitionOut.Play();
+
+            float tx = Time.realtimeSinceStartup;
+            float tpause = 0;
+            float elapsedTime = 0f;
+            if (Tempo.Instance)
             {
-                if (!Tempo.Instance.IsTempoPaused)
+                while (elapsedTime < length)
                 {
-                    float deltaTime = 0f;
+                    if (!Tempo.Instance.IsTempoPaused)
+                    {
+                        float deltaTime = 0f;
 
-                    if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; transitionOut.UnPause(); }
-                    else { deltaTime = Time.realtimeSinceStartup - tx; }
+                        if (tpause != 0) { deltaTime = tpause - tx; tpause = 0; transitionOut.UnPause(); }
+                        else { deltaTime = Time.realtimeSinceStartup - tx; }
 
-                    tx = Time.realtimeSinceStartup;
-                    elapsedTime += deltaTime;
+                        tx = Time.realtimeSinceStartup;
+                        elapsedTime += deltaTime;
+                    }
+                    else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; transitionOut.Pause(); }
+
+                    yield return null;
                 }
-                else if (Tempo.Instance.IsTempoPaused && tpause == 0) { tpause = Time.realtimeSinceStartup; transitionOut.Pause(); }
-
-                yield return null;
             }
+            transitionOut.Stop();
         }
+
         foreach (AudioSource clip in clips) { clip.Stop(); }
-        transitionOut.Stop();
         if (dropDelaySource && dropDelaySource.clip) { dropDelaySource.Play(); yield return new WaitForSeconds(dropDelaySource.clip.length); }
         else { yield return new WaitForSeconds(dropDelay); }
         NextWave();
