@@ -20,50 +20,6 @@ MonoBehaviour:
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -272,50 +228,6 @@ MonoBehaviour:
     isPassive: 0
     loop: {fileID: 11400000, guid: 52de1c235d751a149afa2e0d4792cc03, type: 2}
     spawns:
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 56b0d769993e8a9419ef47b750f02f9e, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -528,50 +440,6 @@ MonoBehaviour:
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: c05c9c78d0a5c9c42b6743f63b620dc8, type: 2}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 56b0d769993e8a9419ef47b750f02f9e, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -782,50 +650,6 @@ MonoBehaviour:
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: c05c9c78d0a5c9c42b6743f63b620dc8, type: 2}
-    - spawn: 1
-      pattern: {fileID: 11400000, guid: 56b0d769993e8a9419ef47b750f02f9e, type: 2}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -1031,7 +855,7 @@ MonoBehaviour:
     - spawn: 0
       pattern: {fileID: 0}
   gridWidth: 13
-  gridHeight: 13
+  gridHeight: 11
   gridTileSizeX: 1
   gridTileSizeY: 1
   cameraHeight: 3
