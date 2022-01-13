@@ -230,11 +230,12 @@ public class Tempo : MonoBehaviour
                 // Manage Beat Broadcast Event
                 if (currentPeriod >= tempoPeriod) 
                 { 
-                    currentPeriod -= tempoPeriod; 
-                    if (isFirstBeatEver && elapsedTime > 2 * tempoPeriod) { isFirstBeatEver = false; } // first beat passed
-
                     if (canGenerateBeatEvents) { OnBeat?.Invoke(); } 
                     else { OnSilentBeat?.Invoke(); } 
+
+                    if (isFirstBeatEver && elapsedTime > 2 * tempoPeriod) { isFirstBeatEver = false; } // first beat passed
+
+                    currentPeriod -= tempoPeriod; 
                 }
             }
             else if (tpause == 0) { tpause = Time.realtimeSinceStartup; OnPause?.Invoke(); }
