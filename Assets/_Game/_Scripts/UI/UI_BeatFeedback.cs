@@ -102,7 +102,7 @@ public class UI_BeatFeedback : MonoBehaviour
 
     private void BPMChange()
     {
-        if (Tempo.Instance && PlayerController.Instance && beatFeedback && normalIntervalArea)
+        if (Tempo.Instance && PlayerController.Instance && beatFeedback && normalIntervalArea && greatIntervalArea && perfectIntervalArea)
         {
             if (currentPeriodAreaPercentage == 0f) { EmptyBeats(); }
 
@@ -121,11 +121,11 @@ public class UI_BeatFeedback : MonoBehaviour
             greatIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
             greatIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
-            //float halfPerfectTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage * PlayerController.Instance.PerfectThreshold;
-            //perfectIntervalArea.anchorMin = new Vector2(0.5f - halfPerfectTarget, 0f);
-            //perfectIntervalArea.anchorMax = new Vector2(0.5f + halfPerfectTarget, 1f);
-            //perfectIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
-            //perfectIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
+            float halfPerfectTarget = currentPeriodAreaPercentage * Tempo.Instance.BeatAcceptablePercentage * PlayerController.Instance.PerfectThreshold;
+            perfectIntervalArea.anchorMin = new Vector2(0.5f - halfPerfectTarget, 0f);
+            perfectIntervalArea.anchorMax = new Vector2(0.5f + halfPerfectTarget, 1f);
+            perfectIntervalArea.offsetMin = Vector2.zero; // offsetMin -> Vector2(left, bottom)
+            perfectIntervalArea.offsetMax = Vector2.zero; // offsetMax -> Vector2(-right, -top)
 
             int delta = periodsDisplayable - beatsRight.Count;
             if (delta > 0)
