@@ -210,7 +210,7 @@ Shader "AdultLink/TexturePanner"
 			#endif
 			float4 FinalEmission234 = staticSwitch40;
 			o.Emission = FinalEmission234.rgb;
-			o.Alpha = CombinedTexture_alpha51;
+			o.Alpha = CombinedTexture_alpha51 * _Color.w;
 		}
 
 		ENDCG
