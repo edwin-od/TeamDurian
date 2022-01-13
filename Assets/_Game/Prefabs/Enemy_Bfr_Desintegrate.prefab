@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb23ab084803445b31a92a741f2071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatLength: 0
+  beatSpeed: 8
   movementPattern: {fileID: 0}
   scaleA: {x: 0.5, y: 1, z: 0.8}
   scaleB: {x: 0.8, y: 1, z: 0.5}

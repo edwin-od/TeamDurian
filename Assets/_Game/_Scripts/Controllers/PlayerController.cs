@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PlayerController : GridMoveable
 {
+    [SerializeField, Range(1, 10)] private int totalLifes = 1;
     [SerializeField, Range(0.1f, 10f)] private float projectileLifetime = 7f;
     [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 2f;
     [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
-    [SerializeField, Range(1f, 10000)] private int killEnemyScore = 1;
+    [SerializeField, Range(1, 10000)] private int killEnemyScore = 1;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
 
@@ -19,6 +20,7 @@ public class PlayerController : GridMoveable
 
     [SerializeField, Range(1f, 5f)] private float comboMultiplier = 1f;
     [SerializeField, Range(1, 100)] private int maxCombo = 15;
+    private int lifes = 0;
     private int score = 0;
     private int consecutiveCombos = 0;
     private bool actionOnBeat = false;
@@ -31,6 +33,9 @@ public class PlayerController : GridMoveable
     public delegate void ComboAdd();
     public static event ComboAdd OnComboAdd;
 
+    public delegate void Die();
+    public static event Die OnDie;
+
     private bool skipBeat = false;
 
     private static PlayerController _instance;
@@ -39,6 +44,8 @@ public class PlayerController : GridMoveable
     {
         if (_instance == null) _instance = this;
         else Destroy(this.gameObject);
+
+        lifes = totalLifes;
     }
 
     private void OnEnable()
@@ -103,8 +110,7 @@ public class PlayerController : GridMoveable
             actionOnBeat = true;
             OnComboAdd?.Invoke();
 
-            beatLength = Tempo.Instance.TempoPeriod * .98f;
-            var timePerBeat = Tempo.Instance.TempoPeriod / 2;
+            var timePerBeat = beatLength / 2;
 
             transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
             skipBeat = true;
@@ -141,6 +147,12 @@ public class PlayerController : GridMoveable
         scoreComboMultiplier(killEnemyScore);
     }
 
+    public void PlayerHit()
+    {
+        lifes--;
+        if (lifes == 0) { OnDie?.Invoke(); if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
+    }
+
     public override void Beat() { }
 
     private void BeatIntervalStart() { actionOnBeat = false; }
@@ -165,9 +177,6 @@ public class PlayerController : GridMoveable
             float tx = Time.realtimeSinceStartup;
             float tpause = 0;
             float elapsedTime = 0f;
-
-            if (beatLength == 0)
-                beatLength = Tempo.Instance.TempoPeriod * 0.98f;
 
             Vector2 direction = shootDirection == DIRECTION.UP ? UP : shootDirection == DIRECTION.DOWN ? DOWN : shootDirection == DIRECTION.RIGHT ? RIGHT : shootDirection == DIRECTION.LEFT ? LEFT : Vector2.zero;
             while (elapsedTime < projectileLifetime)

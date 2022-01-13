@@ -24,7 +24,6 @@ public class LevelManager : MonoBehaviour
     public static event LevelEnded OnLevelEnded;
 
     private Coroutine loopCoroutine = null;
-    private float elapsedTime = 0f;
 
     public void RegisterEnemy(EnemyController enemy) { enemies.Add(enemy); }
 
@@ -250,14 +249,10 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Level named \"" + levels.levels[levelIndex].levelName + "\" has ended.");
 
-            elapsedTime = 0f;
-            StopLoop();
-            Tempo.Instance.StopTempo();
+            StopLevel();
             OnLevelEnded?.Invoke();
             return;
         }
-
-        if (levels.levels[levelIndex].waves[waveIndex].loop.BPM != Tempo.Instance.BPM) { elapsedTime = 0f; }
 
         Tempo.Instance.StopTempo();
         Tempo.Instance.StartTempo(levels.levels[levelIndex].waves[waveIndex].loop.BPM, Mathf.Abs(levels.levels[levelIndex].waves[waveIndex].loop.beatDelay));
@@ -266,7 +261,7 @@ public class LevelManager : MonoBehaviour
         FillClips();
 
         if (!levels.levels[levelIndex].waves[waveIndex].isPassive) { SpawnEnemies(); StartLoop(); }
-        else { elapsedTime = 0f; StopLoop(); StartCoroutine(PlayPassiveWave());  }
+        else { StopLoop(); StartCoroutine(PlayPassiveWave());  }
         
     }
 
@@ -317,5 +312,11 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StopLevel()
+    {
+        StopLoop();
+        Tempo.Instance.StopTempo();
     }
 }

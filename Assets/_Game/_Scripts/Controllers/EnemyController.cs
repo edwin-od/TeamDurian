@@ -8,6 +8,9 @@ public class EnemyController : GridMoveable
 {
     private int beat, action;
 
+    [SerializeField, Range(0f, 1f)] private float saturation = 0.5f;
+    [SerializeField, Range(0f, 1f)] private float tint = 0.5f;
+
     public EnemyPattern movementPattern;
     public Vector3 scaleA = new Vector3(.5f, 1, .8f);
     public Vector3 scaleB = new Vector3(.8f, 1, .5f);
@@ -47,11 +50,10 @@ public class EnemyController : GridMoveable
             return;
 
         Move(movementPattern.directions[action]);
-
-        beatLength = Tempo.Instance.TempoPeriod * .98f;
+        if (PlayerController.Instance && (int)loopTargetTile.y == 0) { PlayerController.Instance.PlayerHit(); }
 
         //testing ....
-        var timePerBeat = Tempo.Instance.TempoPeriod / 2;
+        var timePerBeat = beatLength / 2;
 
         transform.GetChild(0).DOScale(scaleA, timePerBeat).SetEase(Ease.OutExpo).OnComplete(() => transform.GetChild(0).DOScale(scaleB, timePerBeat).SetEase(Ease.InExpo));
 
@@ -76,6 +78,14 @@ public class EnemyController : GridMoveable
     {
         GameObject go = Instantiate(desintegrateEnemyPrefab, transform);
         go.transform.parent = gameObject.transform.parent;
+
+        Color newColor = Color.HSVToRGB(Random.Range(0f, 1f), saturation, tint);
+        go.GetComponentInChildren<ParticleSystem>().GetComponent<ParticleSystemRenderer>().material = new Material(go.GetComponentInChildren<ParticleSystem>().GetComponent<ParticleSystemRenderer>().material);
+        MaterialPropertyBlock color = new MaterialPropertyBlock();
+        color.SetColor("_Color", newColor);
+        color.SetColor("_EmissionColor", newColor * 4f);
+        go.GetComponentInChildren<ParticleSystem>().GetComponent<ParticleSystemRenderer>().SetPropertyBlock(color);
+
         FindObjectOfType<CameraShake>().FireOnce(CameraShake.ShakeForce.Medium);
         Destroy(gameObject);
     }
