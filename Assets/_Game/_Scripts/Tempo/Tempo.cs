@@ -110,6 +110,7 @@ public class Tempo : MonoBehaviour
 
     public void PauseTempo()
     {
+        if (PlayerController.Instance.isDead) { return; }
         isTempoPaused = true;
         Time.timeScale = 0f;
     }
@@ -184,6 +185,8 @@ public class Tempo : MonoBehaviour
 
     IEnumerator TempoLoop(float initialDelay)
     {
+        PlayerController.Instance.isDead = false;
+
         int prevBPM = beatsPerMinute;
         tempoPeriod = 60f / prevBPM;
 

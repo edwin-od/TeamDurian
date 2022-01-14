@@ -17,6 +17,9 @@ public class PlayerController : GridMoveable
     [SerializeField] private GameObject projectileSpawn;
     [SerializeField] private GameObject walkParticleSpawn;
 
+    public GameObject gameOverScreen;
+    public bool isDead = false;
+
     //public Vector3 scaleA = new Vector3(0.5f, 1, 0.8f);
     //public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
 
@@ -75,6 +78,7 @@ public class PlayerController : GridMoveable
         sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite) { sprite.flipX = false; }
         if (walkParticleSpawn) { walkParticleSpawn.SetActive(true); }
+        gameOverScreen.SetActive(false);
     }
 
     private void OnEnable()
@@ -203,7 +207,7 @@ public class PlayerController : GridMoveable
     public void PlayerHit()
     {
         lifes--;
-        if (lifes == 0) { OnDie?.Invoke(); if (animator) { animator.SetTrigger("Dead"); } if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
+        if (lifes == 0) { gameOverScreen.SetActive(true); isDead = true; OnDie?.Invoke(); if (animator) { animator.SetTrigger("Dead"); } if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); } }
     }
 
     public override void Beat() { if (Tempo.Instance && Tempo.Instance.IsFirstBeatEver) { actionOnBeat = true; } isBeatInStart = false; isBeatInEnd = true; }
