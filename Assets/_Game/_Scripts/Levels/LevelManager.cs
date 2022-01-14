@@ -8,6 +8,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField, Range(0f, 5f)] private float dropDelay = 0f;
 
+    public GameObject winScreen;
+    public bool isWin = false;
+
     private int waveIndex = 0;
     private int levelIndex = 0;
 
@@ -31,7 +34,7 @@ public class LevelManager : MonoBehaviour
 
     private static LevelManager _instance;
     public static LevelManager Instance { get { return _instance; } }
-    void Awake() { _instance = this; }
+    void Awake() { _instance = this; winScreen.SetActive(false); }
 
     void Start() { if (levels.levels.Count > 0) { StartLevel(MenuController.Instance ? MenuController.Instance.currentLevel : 0); } }
 
@@ -45,6 +48,8 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel(int level)
     {
+        winScreen.SetActive(false);
+        isWin = false;
         if (PlayerController.Instance) { PlayerController.Instance.RestartPlayer(); }
 
         levelIndex = level;
@@ -259,6 +264,8 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Level named \"" + levels.levels[levelIndex].levelName + "\" has ended.");
 
+            winScreen.SetActive(true);
+            isWin = true;
             StopLevel();
             OnLevelEnded?.Invoke();
             return;

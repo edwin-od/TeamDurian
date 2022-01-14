@@ -110,7 +110,7 @@ public class Tempo : MonoBehaviour
 
     public void PauseTempo()
     {
-        if (PlayerController.Instance.isDead) { return; }
+        if (PlayerController.Instance.isDead || LevelManager.Instance.isWin) { return; }
         isTempoPaused = true;
         Time.timeScale = 0f;
     }
