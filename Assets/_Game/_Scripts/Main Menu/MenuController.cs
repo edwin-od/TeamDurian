@@ -45,8 +45,10 @@ public class MenuController : MonoBehaviour
         foreach(var level in levels.levels)
         {
             i++;
+            Debug.Log("i  " + i);
+            int a = i;
             GameObject go = Instantiate(levelButtonPrefab, levelButtonContainer);
-            go.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadGameScene(i));
+            go.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadGameScene(a));
             //go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = i.ToString();
 
             //Je récupèrerai le vrai nom dans level, étant donné que j'ai pas encore le push avec la variable dans le scriptable object..
