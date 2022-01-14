@@ -61,7 +61,7 @@ public class GridMoveable : TempoTrigger
 
         if (!isMoving) 
         {
-            if (!JuiceManager.Instance.IsMovementOn)
+            if (JuiceManager.Instance.IsMovementOn)
             {
 
             isMoving = true; StartCoroutine(MoveTransition());
