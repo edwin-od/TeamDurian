@@ -33,10 +33,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return _instance; } }
     void Awake() { _instance = this; }
 
-    void Start() {
-        //if(MenuController.Instance.c)
-        StartLevel(MenuController.Instance.currentLevel); 
-    }
+    void Start() { if (levels.levels.Count > 0) { StartLevel(MenuController.Instance ? MenuController.Instance.currentLevel : 0); } }
 
     public void RestartCurrentLevel() 
     {

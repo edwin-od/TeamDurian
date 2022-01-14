@@ -140,6 +140,7 @@ public class PlayerController : GridMoveable
                     return;
                 if (Tempo.Instance.IsTempoActive && !Tempo.Instance.IsOnBeat)
                 {
+                    if (UI_PrecisionFeedback.Instance) { UI_PrecisionFeedback.Instance.PopPrecision(UI_PrecisionFeedback.Precision.Missed); }
                     skipBeat = true;
                     OnMiss?.Invoke();
                     return;
@@ -175,6 +176,7 @@ public class PlayerController : GridMoveable
                     return;
                 if (Tempo.Instance.IsTempoActive && !Tempo.Instance.IsOnBeat)
                 {
+                    if (UI_PrecisionFeedback.Instance) { UI_PrecisionFeedback.Instance.PopPrecision(UI_PrecisionFeedback.Precision.Missed); }
                     skipBeat = true;
                     OnMiss?.Invoke();
                     return;
@@ -299,9 +301,9 @@ public class PlayerController : GridMoveable
         {
             float acceptableInterval = Tempo.Instance.BeatAcceptablePercentage;
             float curPercentage = isBeatInStart ? Tempo.Instance.PercentageToBeat : isBeatInEnd ? (1 - Tempo.Instance.PercentageToBeat) : 0f;
-            if (curPercentage <= acceptableInterval && curPercentage > acceptableInterval * greatThreshold) { OnNormalBeat?.Invoke(); scoreComboMultiplier(normalScore); }
-            else if (curPercentage <= acceptableInterval * greatThreshold && curPercentage > acceptableInterval * perfectThreshold) { OnGreatBeat?.Invoke(); scoreComboMultiplier(greatScore); }
-            else if (curPercentage <= perfectThreshold * greatThreshold) { OnPerfectBeat?.Invoke(); scoreComboMultiplier(perfectScore); }
+            if (curPercentage <= acceptableInterval && curPercentage > acceptableInterval * greatThreshold) { OnNormalBeat?.Invoke(); scoreComboMultiplier(normalScore); if (UI_PrecisionFeedback.Instance) { UI_PrecisionFeedback.Instance.PopPrecision(UI_PrecisionFeedback.Precision.Normal); } }
+            else if (curPercentage <= acceptableInterval * greatThreshold && curPercentage > acceptableInterval * perfectThreshold) { OnGreatBeat?.Invoke(); scoreComboMultiplier(greatScore); if (UI_PrecisionFeedback.Instance) { UI_PrecisionFeedback.Instance.PopPrecision(UI_PrecisionFeedback.Precision.Great); } }
+            else if (curPercentage <= perfectThreshold * greatThreshold) { OnPerfectBeat?.Invoke(); scoreComboMultiplier(perfectScore); if (UI_PrecisionFeedback.Instance) { UI_PrecisionFeedback.Instance.PopPrecision(UI_PrecisionFeedback.Precision.Perfect); } }
         }
     }
 
