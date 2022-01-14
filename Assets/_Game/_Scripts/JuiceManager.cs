@@ -45,6 +45,10 @@ public class JuiceManager : MonoBehaviour
     private bool precisionOn = false;
     public bool PrecisionFeedback { get { return precisionOn; } }
 
+    [SerializeField] private KeyCode ScoreAddToggle = KeyCode.None;
+    private bool scoreAddOn = false;
+    public bool ScoreAdd { get { return scoreAddOn; } }
+
 
     private static JuiceManager _instance;
     public static JuiceManager Instance { get { return _instance; } }
@@ -66,6 +70,7 @@ public class JuiceManager : MonoBehaviour
         if (SyncToggle != KeyCode.None && Input.GetKeyDown(SyncToggle)) { syncOn = !syncOn; }
         if (MovementToggle != KeyCode.None && Input.GetKeyDown(MovementToggle)) { movementOn = !movementOn; }
         if (PrecisionToggle != KeyCode.None && Input.GetKeyDown(PrecisionToggle)) { precisionOn = !precisionOn; }
+        if (ScoreAddToggle != KeyCode.None && Input.GetKeyDown(ScoreAddToggle)) { scoreAddOn = !scoreAddOn; }
     }
 
 }
