@@ -309,6 +309,7 @@ MonoBehaviour:
   ShakesToggle: 262
   SyncToggle: 263
   MovementToggle: 264
+  PrecisionToggle: 0
 --- !u!1 &35102648
 GameObject:
   m_ObjectHideFlags: 0
@@ -13550,6 +13551,10 @@ PrefabInstance:
       propertyPath: projectileLifetime
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4612205616256255510, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
+      propertyPath: uglyProjectilePrefab
+      value: 
+      objectReference: {fileID: 3660727220632822144, guid: 550a061765615bf4aaf8b787f63c1875, type: 3}
     - target: {fileID: 4612205616256255511, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
       propertyPath: m_Name
       value: _pPlayer
@@ -13676,7 +13681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 12.700043, y: -0.7}
+  m_AnchoredPosition: {x: 12.700012, y: -0.7}
   m_SizeDelta: {x: 285, y: 2048}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483343513

@@ -56,6 +56,8 @@ public class JuiceManager : MonoBehaviour
     {
         if (_instance == null) _instance = this;
         else Destroy(this.gameObject);
+
+        postprocess.gameObject.SetActive(ppOn);
     }
 
     private void Update()

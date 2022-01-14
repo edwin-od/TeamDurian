@@ -78,7 +78,7 @@ public class PlayerController : GridMoveable
         animator = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite) { sprite.flipX = false; }
-        if (walkParticleSpawn) { walkParticleSpawn.SetActive(true); }
+        if (walkParticleSpawn && JuiceManager.Instance.IsPlayerJuiceOn) { walkParticleSpawn.SetActive(true); }
         gameOverScreen.SetActive(false);
     }
 
@@ -123,10 +123,13 @@ public class PlayerController : GridMoveable
         if (sprite && sprite.flipX && !IsMoving) { sprite.flipX = false; }
         if (walkParticleSpawn && IsMoving && !walkParticleSpawn.activeSelf)
         {
-            walkParticleSpawn.SetActive(true);
+            if (JuiceManager.Instance.IsPlayerJuiceOn)
+            {
+                    walkParticleSpawn.SetActive(true);
             ParticleSystem walk = walkParticleSpawn.GetComponentInChildren<ParticleSystem>();
             if (walk.isPlaying) { walk.Stop(); }
             if (!walk.isPlaying) { walk.Play(); }
+            }
         }
         else if (walkParticleSpawn && !IsMoving && walkParticleSpawn.activeSelf) { walkParticleSpawn.SetActive(false); }
     }

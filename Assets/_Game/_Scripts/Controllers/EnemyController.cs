@@ -45,10 +45,13 @@ public class EnemyController : GridMoveable
         if (sprite && sprite.flipX && !IsMoving) { sprite.flipX = false; }
         if (walkParticleSpawn && IsMoving && !walkParticleSpawn.activeSelf)
         {
+            if (JuiceManager.Instance.IsEnemyJuiceOn)
+            {
             walkParticleSpawn.SetActive(true);
             ParticleSystem walk = walkParticleSpawn.GetComponentInChildren<ParticleSystem>();
             if (walk.isPlaying) { walk.Stop(); }
             if (!walk.isPlaying) { walk.Play(); }
+            }
         }
         else if (walkParticleSpawn && !IsMoving && walkParticleSpawn.activeSelf) { walkParticleSpawn.SetActive(false); }
     }
