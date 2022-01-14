@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loop_Wave_1_130BPM
   m_EditorClassIdentifier: 
   BPM: 130
-  beatDelay: 0
+  beatDelay: 0.1
   loops:
   - clip: {fileID: 8300000, guid: 0056e3b4b121b5445aadc34d35fd3b93, type: 3}
     volume: 1
@@ -24,5 +24,5 @@ MonoBehaviour:
     clip: {fileID: 0}
     volume: 1
   dropDelay:
-    clip: {fileID: 8300000, guid: c36abe694536ac14cb74daba2dc02ede, type: 3}
+    clip: {fileID: 0}
     volume: 1

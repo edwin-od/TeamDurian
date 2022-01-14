@@ -97,6 +97,11 @@ public class EnemyController : GridMoveable
 
     public void OnDeath(Vector3 projPos)
     {
+        if (!JuiceManager.Instance.IsEnemyJuiceOn)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         GameObject go = Instantiate(desintegrateEnemyPrefab, transform);
         go.transform.parent = gameObject.transform.parent;
         //transform.GetChild(0).transform.localScale = Vector3.one * 0.8f;
@@ -109,6 +114,11 @@ public class EnemyController : GridMoveable
 
     public void OnDeath()
     {
+        if (!JuiceManager.Instance.IsEnemyJuiceOn)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         GameObject go = Instantiate(desintegrateEnemyPrefab, transform);
         go.transform.parent = gameObject.transform.parent;
 

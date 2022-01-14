@@ -436,7 +436,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 2
     isPassive: 0
-    loop: {fileID: 11400000, guid: 248bb1d8238bddf4a921af31dcbf87cf, type: 2}
+    loop: {fileID: 11400000, guid: 7eb5b9c2e9650a945ac94565fa953d72, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -646,7 +646,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 3
     isPassive: 0
-    loop: {fileID: 11400000, guid: e0b31795280127e448b8ef8e682175e4, type: 2}
+    loop: {fileID: 11400000, guid: 6468b5578f127ac4c926529a79da4a1b, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -674,12 +674,12 @@ MonoBehaviour:
       pattern: {fileID: 0}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 11400000, guid: 68bef19448325234bb89f04f4d774170, type: 2}
+    - spawn: 1
+      pattern: {fileID: 11400000, guid: b3b03fcbc9e4fb44c8114382f58e869d, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 11400000, guid: 68bef19448325234bb89f04f4d774170, type: 2}
+    - spawn: 1
+      pattern: {fileID: 11400000, guid: b3b03fcbc9e4fb44c8114382f58e869d, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0
@@ -856,7 +856,7 @@ MonoBehaviour:
       pattern: {fileID: 0}
   - waveName: Wave 4
     isPassive: 0
-    loop: {fileID: 11400000, guid: 78a339cf17d062947a28411c68e6d8bc, type: 2}
+    loop: {fileID: 11400000, guid: 6aac15e0f476e5e4aa808183463b47dc, type: 2}
     spawns:
     - spawn: 0
       pattern: {fileID: 0}
@@ -868,12 +868,12 @@ MonoBehaviour:
       pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
-    - spawn: 0
-      pattern: {fileID: 0}
     - spawn: 1
       pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
+    - spawn: 1
+      pattern: {fileID: 11400000, guid: 5a0c5600bd2486643a4ed69ac0499f6d, type: 2}
     - spawn: 0
       pattern: {fileID: 0}
     - spawn: 0

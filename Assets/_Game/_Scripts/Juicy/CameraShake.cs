@@ -46,6 +46,8 @@ public class CameraShake : MonoBehaviour
     [Button]
     public void FireOnce(ShakeForce force)
     {
+        if (!JuiceManager.Instance.IsShakesJuiceOn) return;
+
         if (_fading)
         {
             if (actualPreset <= UpdatePreset(force))
@@ -58,6 +60,7 @@ public class CameraShake : MonoBehaviour
     [Button]
     public void FireOnceWithIndex(int index)
     {
+        if (!JuiceManager.Instance.IsShakesJuiceOn) return;
         if (!_fading)
         {
             actualPreset = index - 1;

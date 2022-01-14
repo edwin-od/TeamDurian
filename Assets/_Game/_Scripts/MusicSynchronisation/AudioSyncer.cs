@@ -37,6 +37,7 @@ public class AudioSyncer : MonoBehaviour
 
 	private void Update()
 	{
+		if (!JuiceManager.Instance.IsSyncJuiceOn) return;
 		OnUpdate();
 	}
 

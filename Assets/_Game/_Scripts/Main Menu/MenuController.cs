@@ -45,7 +45,6 @@ public class MenuController : MonoBehaviour
         foreach(var level in levels.levels)
         {
             i++;
-            Debug.Log("i  " + i);
             int a = i;
             GameObject go = Instantiate(levelButtonPrefab, levelButtonContainer);
             go.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadGameScene(a));

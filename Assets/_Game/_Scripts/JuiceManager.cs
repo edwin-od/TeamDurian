@@ -6,6 +6,7 @@ public class JuiceManager : MonoBehaviour
 {
     [SerializeField] private KeyCode PostProcessToggle = KeyCode.None;
     private bool ppOn = true;
+    public GameObject postprocess;
     public bool IsPostProcessJuiceOn { get { return ppOn; } }
 
     [SerializeField] private KeyCode TimelineToggle = KeyCode.None;
@@ -32,6 +33,14 @@ public class JuiceManager : MonoBehaviour
     private bool shakeOn = true;
     public bool IsShakesJuiceOn { get { return shakeOn; } }
 
+    [SerializeField] private KeyCode SyncToggle = KeyCode.None;
+    private bool syncOn = true;
+    public bool IsSyncJuiceOn { get { return syncOn; } }
+
+    [SerializeField] private KeyCode MovementToggle = KeyCode.None;
+    private bool movementOn = true;
+    public bool IsMovementOn { get { return movementOn; } }
+
 
     private static JuiceManager _instance;
     public static JuiceManager Instance { get { return _instance; } }
@@ -43,13 +52,15 @@ public class JuiceManager : MonoBehaviour
 
     private void Update()
     {
-        if (PostProcessToggle != KeyCode.None && Input.GetKeyDown(PostProcessToggle)) { ppOn = !ppOn; }
+        if (PostProcessToggle != KeyCode.None && Input.GetKeyDown(PostProcessToggle)) { ppOn = !ppOn; postprocess.gameObject.SetActive(ppOn); }
         if (TimelineToggle != KeyCode.None && Input.GetKeyDown(TimelineToggle)) { timelineOn = !timelineOn; }
         if (PlayerToggle != KeyCode.None && Input.GetKeyDown(PlayerToggle)) { playerOn = !playerOn; }
         if (EnemyToggle != KeyCode.None && Input.GetKeyDown(EnemyToggle)) { enemyOn = !enemyOn; }
         if (ComboBarToggle != KeyCode.None && Input.GetKeyDown(ComboBarToggle)) { comboOn = !comboOn; }
         if (GridToggle != KeyCode.None && Input.GetKeyDown(GridToggle)) { gridOn = !gridOn; }
         if (ShakesToggle != KeyCode.None && Input.GetKeyDown(ShakesToggle)) { shakeOn = !shakeOn; }
+        if (SyncToggle != KeyCode.None && Input.GetKeyDown(SyncToggle)) { syncOn = !syncOn; }
+        if (MovementToggle != KeyCode.None && Input.GetKeyDown(MovementToggle)) { movementOn = !movementOn; }
     }
 
 }

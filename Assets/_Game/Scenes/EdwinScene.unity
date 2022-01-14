@@ -299,13 +299,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927d0c14e6fa2744e8411ed483512f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PostProcessToggle: 0
+  PostProcessToggle: 256
+  postprocess: {fileID: 2052565767}
   TimelineToggle: 257
-  PlayerToggle: 0
-  EnemyToggle: 0
-  ComboBarToggle: 0
-  GridToggle: 0
-  ShakesToggle: 0
+  PlayerToggle: 258
+  EnemyToggle: 259
+  ComboBarToggle: 260
+  GridToggle: 261
+  ShakesToggle: 262
+  SyncToggle: 263
+  MovementToggle: 264
 --- !u!1 &35102648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,7 +1435,7 @@ MonoBehaviour:
   timeStep: 0.15
   timeToBeat: 0.05
   restSmoothTime: 2
-  beatScale: {x: 1, y: 1.5, z: 1}
+  beatScale: {x: 1, y: 2, z: 1}
   restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &512684216
 GameObject:

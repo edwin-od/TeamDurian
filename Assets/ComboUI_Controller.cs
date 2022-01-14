@@ -32,6 +32,8 @@ public class ComboUI_Controller : MonoBehaviour
 
     void ComboUpdate()
     {
+        if (!JuiceManager.Instance.IsComboBarJuiceOn) return;
+
         float value = (float)PlayerController.Instance.COMBO / (float)PlayerController.Instance.MAX_COMBP;
 
 

@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Loop_Transition_1_80BPM
   m_EditorClassIdentifier: 
   BPM: 80
-  beatDelay: 0
+  beatDelay: 0.1
   loops:
   - clip: {fileID: 8300000, guid: 79c31d59cf87492488b2309fe112bb8d, type: 3}
     volume: 1
-  transition:
+  transitionIn:
+    clip: {fileID: 0}
+    volume: 1
+  transitionOut:
+    clip: {fileID: 0}
+    volume: 1
+  dropDelay:
     clip: {fileID: 0}
     volume: 1

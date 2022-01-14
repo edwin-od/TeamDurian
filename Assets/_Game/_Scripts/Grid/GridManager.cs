@@ -34,6 +34,7 @@ public class GridManager : TempoTrigger
 
     public override void Beat()
     {
+        if (!JuiceManager.Instance.IsGridJuiceOn) return;
         if (tiles != null)
         {
             for (int y = 0; y < grid.tiles.y; y++)

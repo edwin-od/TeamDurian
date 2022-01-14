@@ -10,20 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11970bc6f11c8f54b9606c2b64f83ed8, type: 3}
-  m_Name: Loop_Wave_4_80BPM
+  m_Name: Loop_Wave_2_130BPM
   m_EditorClassIdentifier: 
-  BPM: 80
+  BPM: 130
   beatDelay: 0.1
   loops:
-  - clip: {fileID: 8300000, guid: b29d70c16e919324e948350df698e3e3, type: 3}
-    volume: 1
-  - clip: {fileID: 8300000, guid: 3fa90290fa996714aa42e9d451826f79, type: 3}
-    volume: 1
-  - clip: {fileID: 8300000, guid: eb7472461371eb34b98966b0548e3b2b, type: 3}
-    volume: 1
-  - clip: {fileID: 8300000, guid: 5c9a60fc826f8c64187b2448efda7730, type: 3}
-    volume: 1
-  - clip: {fileID: 8300000, guid: 836655eb0abb23e4b8aeb91a8ccda74b, type: 3}
+  - clip: {fileID: 8300000, guid: 68048448e9205d2408975c0c16c82e98, type: 3}
     volume: 1
   transitionIn:
     clip: {fileID: 0}

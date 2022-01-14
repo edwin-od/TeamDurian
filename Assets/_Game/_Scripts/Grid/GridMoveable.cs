@@ -59,7 +59,18 @@ public class GridMoveable : TempoTrigger
             loopTargetTilePrevious.y = -1;
         }
 
-        if (!isMoving) { isMoving = true; StartCoroutine(MoveTransition()); }
+        if (!isMoving) 
+        {
+            if (!JuiceManager.Instance.IsMovementOn)
+            {
+
+            isMoving = true; StartCoroutine(MoveTransition());
+            }
+            else
+            {
+                isMoving = false; TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y));
+            }
+        }
     }
 
     private IEnumerator MoveTransition()
