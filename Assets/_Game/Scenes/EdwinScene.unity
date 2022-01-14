@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 35102649}
   - component: {fileID: 35102651}
   - component: {fileID: 35102650}
+  - component: {fileID: 35102652}
   m_Layer: 6
   m_Name: Score Value
   m_TagString: Untagged
@@ -338,11 +339,11 @@ RectTransform:
   m_Father: {fileID: 445926201}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.076000005, y: 0.92300004}
-  m_AnchorMax: {x: 0.1455257, y: 0.99500006}
-  m_AnchoredPosition: {x: 0.020019531, y: 1.2600098}
-  m_SizeDelta: {x: -0.89, y: -0.32}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.032, y: 0.9213134}
+  m_AnchorMax: {x: 0.21352325, y: 0.99500006}
+  m_AnchoredPosition: {x: -6, y: 1.7601929}
+  m_SizeDelta: {x: 4.100006, y: -1.3199997}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &35102650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 'Score: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -440,6 +441,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35102648}
   m_CullTransparentMesh: 1
+--- !u!114 &35102652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35102648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3bfdb26c034b544abbb7933e867fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 25
+  timeStep: 0.15
+  timeToBeat: 0.05
+  restSmoothTime: 2
+  beatScale: {x: 1.2, y: 1.2, z: 1.2}
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &47455379
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,13 +673,14 @@ GameObject:
   - component: {fileID: 364286060}
   - component: {fileID: 364286062}
   - component: {fileID: 364286061}
+  - component: {fileID: 364286063}
   m_Layer: 6
   m_Name: Score Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &364286060
 RectTransform:
   m_ObjectHideFlags: 0
@@ -677,9 +697,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0022296542, y: 0.92700005}
   m_AnchorMax: {x: 0.07652569, y: 0.99600005}
-  m_AnchoredPosition: {x: -0.15917969, y: -0.060058594}
+  m_AnchoredPosition: {x: 0.045776367, y: -0.057495117}
   m_SizeDelta: {x: -0.40999985, y: 0.119999886}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &364286061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,6 +797,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364286059}
   m_CullTransparentMesh: 1
+--- !u!114 &364286063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364286059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3bfdb26c034b544abbb7933e867fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 25
+  timeStep: 0.15
+  timeToBeat: 0.05
+  restSmoothTime: 2
+  beatScale: {x: 1.2, y: 1.2, z: 1.2}
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &425954897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1317,7 @@ GameObject:
   - component: {fileID: 502357307}
   - component: {fileID: 502357308}
   - component: {fileID: 502357309}
+  - component: {fileID: 502357310}
   m_Layer: 6
   m_Name: ComboSlider
   m_TagString: Untagged
@@ -1373,11 +1412,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboSlider: {fileID: 502357308}
   scanlinePropertyName: _ScanlinesX
-  rend: {fileID: 648812367}
   _disableScanline: 0
   scrollDuration: 0.2
   valueLerpDuration: 0.2
   ps: {fileID: 1941135771}
+--- !u!114 &502357310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502357306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3bfdb26c034b544abbb7933e867fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 25
+  timeStep: 0.15
+  timeToBeat: 0.05
+  restSmoothTime: 2
+  beatScale: {x: 1, y: 1.5, z: 1}
+  restScale: {x: 1, y: 1, z: 1}
 --- !u!1 &512684216
 GameObject:
   m_ObjectHideFlags: 0
@@ -13103,12 +13159,9 @@ MonoBehaviour:
   heightAnimationDuration: 0.5
   scaleAnimationMultiplicator: 7
   rotateAnimationForce: 90
-  xPos: 125
+  xPos: 150
   yPos: -30
-  texts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  texts: []
 --- !u!1 &1415658972
 GameObject:
   m_ObjectHideFlags: 0

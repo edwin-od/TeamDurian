@@ -31,6 +31,7 @@ public class UI_ScoreManager : MonoBehaviour
     [Button]
     public void FireTextAnimation(string textContent)
     {
+        textContent = "+" + textContent;
         if (texts.Count > 0)
         {
             foreach (var t in texts)

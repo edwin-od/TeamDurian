@@ -282,8 +282,12 @@ public class PlayerController : GridMoveable
 
     private void scoreComboMultiplier(int valueToAdd)
     {
-        score += valueToAdd * (1 + Mathf.FloorToInt(consecutiveCombos * comboMultiplier));
-        if (UI_Texts.Instance) { UI_Texts.Instance.SetScore(score); }
+        int scorePlus = valueToAdd * (1 + Mathf.FloorToInt(consecutiveCombos * comboMultiplier));
+        score += scorePlus;
+        if (UI_Texts.Instance) { 
+            UI_Texts.Instance.SetScore(score);
+        }
+            UI_ScoreManager.instance.FireTextAnimation(scorePlus.ToString());
     }
 
     public int COMBO { get { return consecutiveCombos; } }
