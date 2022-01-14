@@ -32,8 +32,6 @@ public class ComboUI_Controller : MonoBehaviour
 
     void ComboUpdate()
     {
-        if (!JuiceManager.Instance.IsComboBarJuiceOn) return;
-
         float value = (float)PlayerController.Instance.COMBO / (float)PlayerController.Instance.MAX_COMBP;
 
 
@@ -42,21 +40,28 @@ public class ComboUI_Controller : MonoBehaviour
         {
             //StartCoroutine(UI_Shake.Shake(comboSlider.transform, 0.1f, 0.5f));
             
-            if(ps.isPlaying)
-                ps.Stop();
+            if (JuiceManager.Instance.IsComboBarJuiceOn)
+            {
+                if (ps.isPlaying)
+                    ps.Stop();
 
-            if(!ps.isPlaying)
-                ps.Play();
+                if(!ps.isPlaying)
+                    ps.Play();
 
-            ps.Emit(100);
+                ps.Emit(100);
+            }
+
+
             
             if (PlayerController.Instance.COMBO >= PlayerController.Instance.MAX_COMBP)
             {
-                DistortionController.instance.FireOnce();
+                if(JuiceManager.Instance.IsComboBarJuiceOn)
+                    DistortionController.instance.FireOnce();
             }
             else
             {
-                DistortionController.instance.CloseOnce();
+                if (JuiceManager.Instance.IsComboBarJuiceOn)    
+                    DistortionController.instance.CloseOnce();
             }
         }
 
