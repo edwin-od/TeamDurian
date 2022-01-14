@@ -33,6 +33,8 @@ public class DeathNoteController : MonoBehaviour
     [Button]
     public void FireOnce()
     {
+        if (!JuiceManager.Instance || (JuiceManager.Instance && !JuiceManager.Instance.IsComboBarJuiceOn)) { return; }
+
         transform.localScale = startScale;
         transform.DOScaleX(endScale, duration);
 

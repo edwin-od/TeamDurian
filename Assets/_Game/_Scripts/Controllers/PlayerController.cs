@@ -78,7 +78,7 @@ public class PlayerController : GridMoveable
         animator = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite) { sprite.flipX = false; }
-        if (walkParticleSpawn && JuiceManager.Instance.IsPlayerJuiceOn) { walkParticleSpawn.SetActive(true); }
+        if (walkParticleSpawn && JuiceManager.Instance && JuiceManager.Instance.IsPlayerJuiceOn) { walkParticleSpawn.SetActive(true); }
         gameOverScreen.SetActive(false);
     }
 

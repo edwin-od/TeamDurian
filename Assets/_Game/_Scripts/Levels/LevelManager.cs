@@ -194,6 +194,7 @@ public class LevelManager : MonoBehaviour
         float elapsedTime = 0f;
         if (Tempo.Instance)
         {
+            Tempo.Instance.CanGenerateBeatEvents = false;
             while (elapsedTime < length)
             {
                 if (!Tempo.Instance.IsTempoPaused)
@@ -210,6 +211,7 @@ public class LevelManager : MonoBehaviour
 
                 yield return null;
             }
+            Tempo.Instance.CanGenerateBeatEvents = true;
         }
 
         foreach (AudioSource clip in clips) { clip.Stop(); }
