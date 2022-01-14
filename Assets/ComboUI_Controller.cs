@@ -8,7 +8,7 @@ public class ComboUI_Controller : MonoBehaviour
     public UnityEngine.UI.Slider comboSlider;
     private float _lastValue;
     public string scanlinePropertyName;
-    public UnityEngine.UI.Image rend;
+    //public UnityEngine.UI.Image rend;
     public bool _disableScanline;
 
     public float scrollDuration = .3f;
@@ -21,6 +21,7 @@ public class ComboUI_Controller : MonoBehaviour
         PlayerController.OnComboAdd += ComboUpdate;
         PlayerController.OnComboLost += ComboUpdate;
         comboSlider.value = 0;
+        //rend.material.SetInt(scanlinePropertyName, 0);
     }
 
     private void OnDisable()
@@ -57,8 +58,8 @@ public class ComboUI_Controller : MonoBehaviour
             }
         }
 
-        rend.material.SetInt(scanlinePropertyName, 1);
-        StartCoroutine(DisableScanline());
+        //rend.material.SetInt(scanlinePropertyName, 1);
+        //StartCoroutine(DisableScanline());
 
         StartCoroutine(UpdateSliderValue(value));
         _lastValue = value;
@@ -67,7 +68,7 @@ public class ComboUI_Controller : MonoBehaviour
     IEnumerator DisableScanline()
     {
         yield return new WaitForSeconds(scrollDuration);
-        rend.material.SetInt(scanlinePropertyName, 0);
+        //rend.material.SetInt(scanlinePropertyName, 0);
     }
 
 

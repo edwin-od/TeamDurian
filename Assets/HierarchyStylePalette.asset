@@ -12,47 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: -1043787809, guid: b0f989d266e59fb40a5c42f475c6a4b7, type: 3}
   m_Name: HierarchyStylePalette
   m_EditorClassIdentifier: 
-  saturation: 50
-  value: 50
+  saturation: 60
+  value: 60
   styles:
   - key: _lm
     ignoreSV: 0
-    backgroundColor: {r: 0.5, g: 0.25, b: 0.25, a: 1}
+    backgroundColor: {r: 0.6, g: 0.24, b: 0.24, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
     textAlignement: 4
   - key: _p
     ignoreSV: 0
-    backgroundColor: {r: 0.25, g: 0.5, b: 0.31668806, a: 1}
+    backgroundColor: {r: 0.24, g: 0.6, b: 0.336031, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
     textAlignement: 4
   - key: _tmp
     ignoreSV: 0
-    backgroundColor: {r: 0.25, g: 0.5, b: 0.48547584, a: 1}
+    backgroundColor: {r: 0.24, g: 0.6, b: 0.57908523, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
     textAlignement: 4
   - key: _ui
     ignoreSV: 0
-    backgroundColor: {r: 0.3087603, g: 0.25, b: 0.5, a: 1}
+    backgroundColor: {r: 0.32461482, g: 0.24, b: 0.6, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
     textAlignement: 4
   - key: _c
     ignoreSV: 0
-    backgroundColor: {r: 0.5, g: 0.38849792, b: 0.25, a: 1}
+    backgroundColor: {r: 0.6, g: 0.43943694, b: 0.24, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
     textAlignement: 4
   - key: _g
     ignoreSV: 0
-    backgroundColor: {r: 0.43954986, g: 0.5, b: 0.25, a: 1}
+    backgroundColor: {r: 0.51295197, g: 0.6, b: 0.24, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
@@ -66,7 +66,14 @@ MonoBehaviour:
     textAlignement: 4
   - key: _jm
     ignoreSV: 0
-    backgroundColor: {r: 0.5, g: 0.48978737, b: 0.25, a: 1}
+    backgroundColor: {r: 0.6, g: 0.585294, b: 0.24, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    textSize: 12
+    fontStyle: 1
+    textAlignement: 4
+  - key: _m
+    ignoreSV: 0
+    backgroundColor: {r: 0.6, g: 0.24, b: 0.42607477, a: 1}
     textColor: {r: 1, g: 1, b: 1, a: 1}
     textSize: 12
     fontStyle: 1
