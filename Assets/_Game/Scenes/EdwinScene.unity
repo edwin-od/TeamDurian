@@ -309,7 +309,8 @@ MonoBehaviour:
   ShakesToggle: 262
   SyncToggle: 263
   MovementToggle: 264
-  PrecisionToggle: 0
+  PrecisionToggle: 265
+  ScoreAddToggle: 270
 --- !u!1 &35102648
 GameObject:
   m_ObjectHideFlags: 0
