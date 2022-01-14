@@ -31,6 +31,8 @@ public class UI_ScoreManager : MonoBehaviour
     [Button]
     public void FireTextAnimation(string textContent)
     {
+        if (!JuiceManager.Instance.ScoreAdd) { return; }
+
         textContent = "+" + textContent;
         if (texts.Count > 0)
         {
