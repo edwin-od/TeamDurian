@@ -13,9 +13,9 @@ public class JuiceManager : MonoBehaviour
     private bool timelineOn = false;
     public bool IsTimelineJuiceOn { get { return timelineOn; } }
 
-    [SerializeField] private KeyCode PlayerToggle = KeyCode.None;
-    private bool playerOn = false;
-    public bool IsPlayerJuiceOn { get { return playerOn; } }
+    //[SerializeField] private KeyCode PlayerToggle = KeyCode.None;
+    //private bool playerOn = false;
+    //public bool IsPlayerJuiceOn { get { return playerOn; } }
 
     [SerializeField] private KeyCode EnemyToggle = KeyCode.None;
     private bool enemyOn = false;
@@ -64,7 +64,7 @@ public class JuiceManager : MonoBehaviour
     {
         if (PostProcessToggle != KeyCode.None && Input.GetKeyDown(PostProcessToggle)) { ppOn = !ppOn; postprocess.gameObject.SetActive(ppOn); }
         if (TimelineToggle != KeyCode.None && Input.GetKeyDown(TimelineToggle)) { timelineOn = !timelineOn; }
-        if (PlayerToggle != KeyCode.None && Input.GetKeyDown(PlayerToggle)) { playerOn = !playerOn; }
+        //if (PlayerToggle != KeyCode.None && Input.GetKeyDown(PlayerToggle)) { playerOn = !playerOn; }
         if (EnemyToggle != KeyCode.None && Input.GetKeyDown(EnemyToggle)) { enemyOn = !enemyOn; }
         if (ComboBarToggle != KeyCode.None && Input.GetKeyDown(ComboBarToggle)) { comboOn = !comboOn; }
         if (GridToggle != KeyCode.None && Input.GetKeyDown(GridToggle)) { gridOn = !gridOn; }
