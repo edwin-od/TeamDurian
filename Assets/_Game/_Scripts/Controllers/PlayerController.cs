@@ -12,6 +12,7 @@ public class PlayerController : GridMoveable
     [SerializeField, Range(1, 10000)] private int killEnemyScore = 1;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
+    [SerializeField] private GameObject walkParticleSpawn;
 
     public Vector3 scaleA = new Vector3(0.5f, 1, 0.8f);
     public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
