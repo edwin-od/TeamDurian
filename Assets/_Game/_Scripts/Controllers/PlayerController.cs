@@ -14,6 +14,7 @@ public class PlayerController : GridMoveable
     [SerializeField, Range(1, 10000)] private int greatScore = 2;
     [SerializeField, Range(1, 10000)] private int perfectScore = 3;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject uglyProjectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
     [SerializeField] private GameObject walkParticleSpawn;
 
@@ -229,7 +230,16 @@ public class PlayerController : GridMoveable
         if (GridManager.Instance && Tempo.Instance)
         {
             RotatePlayer(shootDirection);
-            GameObject projectile = Instantiate(projectilePrefab);
+
+            GameObject projectile = null;
+
+            if (JuiceManager.Instance.IsPlayerJuiceOn)
+            {
+                projectile = Instantiate(projectilePrefab);
+            }
+            {
+                projectile = Instantiate(uglyProjectilePrefab);
+            }
             projectile.transform.parent = null;
             projectile.transform.position = projectileSpawn.transform.position;
             projectile.transform.rotation = projectileSpawn.transform.rotation;
