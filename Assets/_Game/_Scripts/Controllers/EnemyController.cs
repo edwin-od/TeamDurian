@@ -10,6 +10,7 @@ public class EnemyController : GridMoveable
 
     [SerializeField, Range(0f, 1f)] private float saturation = 0.5f;
     [SerializeField, Range(0f, 1f)] private float tint = 0.5f;
+    [SerializeField] private GameObject walkParticleSpawn;
 
     [HideInInspector] public EnemyPattern movementPattern;
     public Vector3 scaleA = new Vector3(.5f, 1, .8f);
@@ -42,6 +43,14 @@ public class EnemyController : GridMoveable
     {
         if (animator) { animator.SetBool("IsMoving", IsMoving); }
         if (sprite && sprite.flipX && !IsMoving) { sprite.flipX = false; }
+        if (walkParticleSpawn && IsMoving && !walkParticleSpawn.activeSelf)
+        {
+            walkParticleSpawn.SetActive(true);
+            ParticleSystem walk = walkParticleSpawn.GetComponentInChildren<ParticleSystem>();
+            if (walk.isPlaying) { walk.Stop(); }
+            if (!walk.isPlaying) { walk.Play(); }
+        }
+        else if (walkParticleSpawn && !IsMoving && walkParticleSpawn.activeSelf) { walkParticleSpawn.SetActive(false); }
     }
 
     public override void Beat()

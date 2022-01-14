@@ -10,12 +10,15 @@ public class PlayerController : GridMoveable
     [SerializeField, Range(0.1f, 10f)] private float projectileSpeed = 4f;
     [SerializeField, Range(0.1f, 10f)] private float projectileHitRadius = 0.1f;
     [SerializeField, Range(1, 10000)] private int killEnemyScore = 1;
+    [SerializeField, Range(1, 10000)] private int normalScore = 1;
+    [SerializeField, Range(1, 10000)] private int greatScore = 2;
+    [SerializeField, Range(1, 10000)] private int perfectScore = 3;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawn;
     [SerializeField] private GameObject walkParticleSpawn;
 
-    public Vector3 scaleA = new Vector3(0.5f, 1, 0.8f);
-    public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
+    //public Vector3 scaleA = new Vector3(0.5f, 1, 0.8f);
+    //public Vector3 scaleB = new Vector3(0.8f, 1, 0.5f);
 
     [SerializeField] private bool ignoreBeatRestriction = false;
 
@@ -71,6 +74,7 @@ public class PlayerController : GridMoveable
         animator = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite) { sprite.flipX = false; }
+        if (walkParticleSpawn) { walkParticleSpawn.SetActive(true); }
     }
 
     private void OnEnable()
@@ -112,6 +116,14 @@ public class PlayerController : GridMoveable
 
         if (animator) { animator.SetBool("IsMoving", IsMoving); }
         if (sprite && sprite.flipX && !IsMoving) { sprite.flipX = false; }
+        if (walkParticleSpawn && IsMoving && !walkParticleSpawn.activeSelf)
+        {
+            walkParticleSpawn.SetActive(true);
+            ParticleSystem walk = walkParticleSpawn.GetComponentInChildren<ParticleSystem>();
+            if (walk.isPlaying) { walk.Stop(); }
+            if (!walk.isPlaying) { walk.Play(); }
+        }
+        else if (walkParticleSpawn && !IsMoving && walkParticleSpawn.activeSelf) { walkParticleSpawn.SetActive(false); }
     }
 
     public int Score { get { return score; } }
@@ -283,9 +295,9 @@ public class PlayerController : GridMoveable
         {
             float acceptableInterval = Tempo.Instance.BeatAcceptablePercentage;
             float curPercentage = isBeatInStart ? Tempo.Instance.PercentageToBeat : isBeatInEnd ? (1 - Tempo.Instance.PercentageToBeat) : 0f;
-            if (curPercentage <= acceptableInterval && curPercentage > acceptableInterval * greatThreshold) { OnNormalBeat?.Invoke(); }
-            else if (curPercentage <= acceptableInterval * greatThreshold && curPercentage > acceptableInterval * perfectThreshold) { OnGreatBeat?.Invoke(); }
-            else if (curPercentage <= perfectThreshold * greatThreshold) { OnPerfectBeat?.Invoke(); }
+            if (curPercentage <= acceptableInterval && curPercentage > acceptableInterval * greatThreshold) { OnNormalBeat?.Invoke(); scoreComboMultiplier(normalScore); }
+            else if (curPercentage <= acceptableInterval * greatThreshold && curPercentage > acceptableInterval * perfectThreshold) { OnGreatBeat?.Invoke(); scoreComboMultiplier(greatScore); }
+            else if (curPercentage <= perfectThreshold * greatThreshold) { OnPerfectBeat?.Invoke(); scoreComboMultiplier(perfectScore); }
         }
     }
 

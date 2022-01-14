@@ -170,8 +170,8 @@ public class LevelManager : MonoBehaviour
         }
 
         foreach (AudioSource clip in clips) { clip.Stop(); }
-        if (dropDelaySource && dropDelaySource.clip) { dropDelaySource.Play(); yield return new WaitForSeconds(dropDelaySource.clip.length); }
-        else { yield return new WaitForSeconds(dropDelay); }
+        if (dropDelaySource && dropDelaySource.clip) { dropDelaySource.Play(); Tempo.Instance.CanGenerateBeatEvents = false; yield return new WaitForSeconds(dropDelaySource.clip.length); Tempo.Instance.CanGenerateBeatEvents = true; }
+        else { Tempo.Instance.CanGenerateBeatEvents = false; yield return new WaitForSeconds(dropDelay); Tempo.Instance.CanGenerateBeatEvents = true; }
         NextWave();
     }
 
