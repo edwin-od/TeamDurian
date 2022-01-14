@@ -38,7 +38,14 @@ public class ComboUI_Controller : MonoBehaviour
         if (value != _lastValue)
         {
             StartCoroutine(UI_Shake.Shake(comboSlider.transform, 0.1f, 0.5f));
-            ps.Play();
+
+            if(ps.isPlaying)
+                ps.Stop();
+
+            if(!ps.isPlaying)
+                ps.Play();
+
+            ps.Emit(100);
 
             if (PlayerController.Instance.COMBO >= PlayerController.Instance.MAX_COMBP)
             {

@@ -33,7 +33,6 @@ public class DeathNoteController : MonoBehaviour
     [Button]
     public void FireOnce()
     {
-        Debug.Log("Fire once death note");
         transform.localScale = startScale;
         transform.DOScaleX(endScale, duration);
 

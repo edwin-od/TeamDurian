@@ -33,7 +33,7 @@ public class GridManager : TempoTrigger
     }
 
     public override void Beat()
-    {/*
+    {
         if (tiles != null)
         {
             for (int y = 0; y < grid.tiles.y; y++)
@@ -50,9 +50,9 @@ public class GridManager : TempoTrigger
                         //{ tiles[y][x].GetComponentInChildren<MeshRenderer>().material.DOColor(x % 2 == y % 2 ? tileColor2 : tileColor1, Tempo.Instance.TempoPeriod).SetEase(Ease.OutCubic); }
                     }
                 }
-            }
+            } 
             oddBeat = !oddBeat;
-        }*/
+        }
     }
 
     public void StartLevel(int tilesWidth, int tilesHeight, float tileSizeX, float tileSizeY, float cameraHeight, Color tileColor1, Color tileColor2)
