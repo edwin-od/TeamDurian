@@ -53,7 +53,7 @@ public class UI_PrecisionFeedback : MonoBehaviour
 
     public void PopPrecision(Precision p)
     {
-        //if(JuiceManager.Instance.PrecisionFeedback) { return; }
+        if(JuiceManager.Instance.PrecisionFeedback) { return; }
 
         if (instance) { Destroy(instance.gameObject); if (coroutine != null) { StopCoroutine(coroutine); } }
 
