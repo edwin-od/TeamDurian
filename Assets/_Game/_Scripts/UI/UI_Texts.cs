@@ -19,7 +19,7 @@ public class UI_Texts : MonoBehaviour
 
     public void SetScore(int score)
     {
-        scoreText.text = "Score: " + score.ToString();
+        scoreText.text = score.ToString();
     }
 
 }

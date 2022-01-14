@@ -339,11 +339,11 @@ RectTransform:
   m_Father: {fileID: 445926201}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.032, y: 0.9213134}
-  m_AnchorMax: {x: 0.21352325, y: 0.99500006}
-  m_AnchoredPosition: {x: -6, y: 1.7601929}
-  m_SizeDelta: {x: 4.100006, y: -1.3199997}
-  m_Pivot: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -130}
+  m_SizeDelta: {x: 350.09998, y: 78.68}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &35102650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -13152,15 +13152,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreTextPrefab: {fileID: 6312597277354537502, guid: 58704ca8dffac77468e33dc77a3fb028, type: 3}
   textContainer: {fileID: 1383858795}
-  textLifetime: 3
+  textLifetime: 1.5
   textFadeOutDuration: 1
   popAnimationDuration: 0.6
   heightAnimation: 30
   heightAnimationDuration: 0.5
   scaleAnimationMultiplicator: 7
   rotateAnimationForce: 90
-  xPos: 150
-  yPos: -30
+  xPos: 915
+  yPos: -120
   texts: []
 --- !u!1 &1415658972
 GameObject:

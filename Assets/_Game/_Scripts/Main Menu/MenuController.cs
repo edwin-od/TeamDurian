@@ -26,8 +26,11 @@ public class MenuController : MonoBehaviour
     [Header("Level")]
     public int currentLevel;
 
+    public static MenuController Instance;
+
     public void Awake()
     {
+        Instance = this;
         _GenerateButtonLevels();
 
         Toggle(Panels.Main);
@@ -44,7 +47,7 @@ public class MenuController : MonoBehaviour
             i++;
             GameObject go = Instantiate(levelButtonPrefab, levelButtonContainer);
             go.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadGameScene(i));
-            go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = i.ToString();
+            //go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = i.ToString();
 
             //Je récupèrerai le vrai nom dans level, étant donné que j'ai pas encore le push avec la variable dans le scriptable object..
             //go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = level.name;
@@ -54,7 +57,7 @@ public class MenuController : MonoBehaviour
     void LoadGameScene(int levelIndex)
     {
         Debug.Log("Start level < " + levelIndex + " >");
-        currentLevel = levelIndex;
+        currentLevel = levelIndex - 1;
         SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
     }
 
