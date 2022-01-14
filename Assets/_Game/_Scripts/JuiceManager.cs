@@ -5,44 +5,44 @@ using UnityEngine;
 public class JuiceManager : MonoBehaviour
 {
     [SerializeField] private KeyCode PostProcessToggle = KeyCode.None;
-    private bool ppOn = true;
+    private bool ppOn = false;
     public GameObject postprocess;
     public bool IsPostProcessJuiceOn { get { return ppOn; } }
 
     [SerializeField] private KeyCode TimelineToggle = KeyCode.None;
-    private bool timelineOn = true;
+    private bool timelineOn = false;
     public bool IsTimelineJuiceOn { get { return timelineOn; } }
 
     [SerializeField] private KeyCode PlayerToggle = KeyCode.None;
-    private bool playerOn = true;
+    private bool playerOn = false;
     public bool IsPlayerJuiceOn { get { return playerOn; } }
 
     [SerializeField] private KeyCode EnemyToggle = KeyCode.None;
-    private bool enemyOn = true;
+    private bool enemyOn = false;
     public bool IsEnemyJuiceOn { get { return enemyOn; } }
 
     [SerializeField] private KeyCode ComboBarToggle = KeyCode.None;
-    private bool comboOn = true;
+    private bool comboOn = false;
     public bool IsComboBarJuiceOn { get { return comboOn; } }
 
     [SerializeField] private KeyCode GridToggle = KeyCode.None;
-    private bool gridOn = true;
+    private bool gridOn = false;
     public bool IsGridJuiceOn { get { return gridOn; } }
 
     [SerializeField] private KeyCode ShakesToggle = KeyCode.None;
-    private bool shakeOn = true;
+    private bool shakeOn = false;
     public bool IsShakesJuiceOn { get { return shakeOn; } }
 
     [SerializeField] private KeyCode SyncToggle = KeyCode.None;
-    private bool syncOn = true;
+    private bool syncOn = false;
     public bool IsSyncJuiceOn { get { return syncOn; } }
 
     [SerializeField] private KeyCode MovementToggle = KeyCode.None;
-    private bool movementOn = true;
+    private bool movementOn = false;
     public bool IsMovementOn { get { return movementOn; } }
 
     [SerializeField] private KeyCode PrecisionToggle = KeyCode.None;
-    private bool precisionOn = true;
+    private bool precisionOn = false;
     public bool PrecisionFeedback { get { return precisionOn; } }
 
 
