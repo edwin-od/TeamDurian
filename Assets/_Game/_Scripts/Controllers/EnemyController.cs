@@ -75,8 +75,8 @@ public class EnemyController : GridMoveable
         if (movementPattern.directions.Count == 0)
             return;
 
-        //Move(movementPattern.directions[action], delegate { if (PlayerController.Instance && (int)loopTargetTile.y == 0) { PlayerController.Instance.PlayerHit(); } });
-        Move(movementPattern.directions[action], () => { if (PlayerController.Instance && (int)loopTargetTile.y == 0) { PlayerController.Instance.PlayerHit(); } });
+        Move(movementPattern.directions[action], delegate { if (PlayerController.Instance && (int)loopTargetTile.y == 0) { PlayerController.Instance.PlayerHit(); } });
+        //Move(movementPattern.directions[action], () => { if (PlayerController.Instance && (int)loopTargetTile.y == 0) { PlayerController.Instance.PlayerHit(); } });
         
         if (animator) 
         {
