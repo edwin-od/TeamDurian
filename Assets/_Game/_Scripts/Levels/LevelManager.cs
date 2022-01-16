@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -34,46 +35,60 @@ public class LevelManager : MonoBehaviour
 
     private static LevelManager _instance;
     public static LevelManager Instance { get { return _instance; } }
-    void Awake() { _instance = this; winScreen.SetActive(false); }
+    void Awake()  {  _instance = this; }
 
-    void Start() { if (levels.levels.Count > 0) { StartLevel(MenuController.Instance ? MenuController.Instance.currentLevel : 0); } }
-
-    public void RestartCurrentLevel() 
-    {
-        foreach (EnemyController enemy in enemies) { Destroy(enemy.gameObject); }
-        enemies = new List<EnemyController>();
-        StopLevel(); 
-        StartLevel(levelIndex); 
-    }
+    void Start() { if (levels.levels.Count > 0) { StartLevel(SceneSurvivor.Instance && SceneSurvivor.Instance.level >= 0 && SceneSurvivor.Instance.level < levels.levels.Count ? SceneSurvivor.Instance.level : 0); } }
 
     private void StartLevel(int level)
     {
-        winScreen.SetActive(false);
-        isWin = false;
-        if (PlayerController.Instance) { PlayerController.Instance.RestartPlayer(); }
-
-        levelIndex = level;
-
-        if (levels && levelIndex >= 0 && levelIndex < levels.levels.Count)
+        if(Tempo.Instance)
         {
-            OnLevelStarted?.Invoke();
+            winScreen.SetActive(false);
+            isWin = false;
+            if (PlayerController.Instance) { PlayerController.Instance.RestartPlayer(); }
 
-            if (GridManager.Instance)
+            levelIndex = level;
+
+            if (levels && levelIndex >= 0 && levelIndex < levels.levels.Count)
             {
-                GridManager.Instance.StartLevel(
-                    levels.levels[levelIndex].gridWidth,
-                    levels.levels[levelIndex].gridHeight,
-                    levels.levels[levelIndex].gridTileSizeX,
-                    levels.levels[levelIndex].gridTileSizeY,
-                    levels.levels[levelIndex].cameraHeight,
-                    levels.levels[levelIndex].tileColor1,
-                    levels.levels[levelIndex].tileColor2
-                    );
-            }
+                OnLevelStarted?.Invoke();
 
-            waveIndex = -1;
-            NextWave();
+                if (GridManager.Instance)
+                {
+                    GridManager.Instance.StartLevel(
+                        levels.levels[levelIndex].gridWidth,
+                        levels.levels[levelIndex].gridHeight,
+                        levels.levels[levelIndex].gridTileSizeX,
+                        levels.levels[levelIndex].gridTileSizeY,
+                        levels.levels[levelIndex].cameraHeight,
+                        levels.levels[levelIndex].tileColor1,
+                        levels.levels[levelIndex].tileColor2
+                        );
+                }
+
+                waveIndex = -1;
+                NextWave();
+            }
         }
+    }
+
+    public void StopLevel()
+    {
+        EmptyClips();
+        foreach (EnemyController enemy in enemies) { Destroy(enemy.gameObject); }
+        enemies = new List<EnemyController>();
+        StopLevelLoop();
+    }
+
+    public void RestartCurrentLevel()
+    {
+        StopLevel();
+        StartLevel(levelIndex);
+    }
+
+    private void StartPassiveLoop()
+    {
+        if (loopCoroutine == null && levels.levels[levelIndex].waves[waveIndex].loop.loops.Count > 0) { loopCoroutine = StartCoroutine(PlayPassiveWave()); }
     }
 
     private void StartLoop()
@@ -268,7 +283,7 @@ public class LevelManager : MonoBehaviour
 
             winScreen.SetActive(true);
             isWin = true;
-            StopLevel();
+            StopLevelLoop();
             OnLevelEnded?.Invoke();
             return;
         }
@@ -280,7 +295,7 @@ public class LevelManager : MonoBehaviour
         FillClips();
 
         if (!levels.levels[levelIndex].waves[waveIndex].isPassive) { SpawnEnemies(); StartLoop(); }
-        else { StopLoop(); StartCoroutine(PlayPassiveWave());  }
+        else { StopLoop(); StartPassiveLoop();  }
         
     }
 
@@ -333,7 +348,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void StopLevel()
+    private void StopLevelLoop()
     {
         StopLoop();
         Tempo.Instance.StopTempo();

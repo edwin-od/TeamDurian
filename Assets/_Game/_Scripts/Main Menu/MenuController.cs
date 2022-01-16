@@ -23,19 +23,18 @@ public class MenuController : MonoBehaviour
     [Header("Game Scene")]
     public string gameSceneName;
 
-    [Header("Level")]
-    public int currentLevel;
 
     public static MenuController Instance;
 
     public void Awake()
     {
+        if (Instance != null) Destroy(Instance.gameObject);
+
         Instance = this;
+
         _GenerateButtonLevels();
 
         Toggle(Panels.Main);
-
-        DontDestroyOnLoad(this);
     }
 
     void _GenerateButtonLevels()
@@ -58,7 +57,7 @@ public class MenuController : MonoBehaviour
     void LoadGameScene(int levelIndex)
     {
         Debug.Log("Start level < " + levelIndex + " >");
-        currentLevel = levelIndex - 1;
+        if (SceneSurvivor.Instance) { SceneSurvivor.Instance.level = levelIndex - 1; }
         SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
     }
 

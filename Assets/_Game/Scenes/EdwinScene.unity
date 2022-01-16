@@ -302,7 +302,6 @@ MonoBehaviour:
   PostProcessToggle: 256
   postprocess: {fileID: 2052565767}
   TimelineToggle: 257
-  PlayerToggle: 258
   EnemyToggle: 259
   ComboBarToggle: 260
   GridToggle: 261
@@ -12741,6 +12740,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123275645}
   m_CullTransparentMesh: 1
+--- !u!1 &1141759900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5448147509686360313, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
+  m_PrefabInstance: {fileID: 1474747201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1222368971
 GameObject:
   m_ObjectHideFlags: 0
@@ -13023,7 +13027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatsPerMinute: 60
-  onBeatAcceptablePercentage: 0.25
+  onBeatAcceptablePercentage: 0.4
 --- !u!4 &1269308346
 Transform:
   m_ObjectHideFlags: 0
@@ -13189,6 +13193,7 @@ GameObject:
   - component: {fileID: 1388622126}
   - component: {fileID: 1388622127}
   - component: {fileID: 1388622128}
+  - component: {fileID: 1388622129}
   m_Layer: 0
   m_Name: _uiUI Manager
   m_TagString: Untagged
@@ -13398,6 +13403,38 @@ MonoBehaviour:
   xPos: 915
   yPos: -120
   texts: []
+--- !u!114 &1388622129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388622122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe96468a664fbf647afeb9a492cb2861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalTextPrefab: {fileID: 21300000, guid: 50cc0b7ab1e55e1458d3635c765a55fd, type: 3}
+  normalColor: {r: 1, g: 0, b: 0.8911023, a: 1}
+  normalEmission: 1.5
+  greatTextPrefab: {fileID: 21300000, guid: 2d3f740eb1d049949854daff325e6a93, type: 3}
+  greatColor: {r: 0.36115777, g: 1, b: 0, a: 1}
+  greatEmission: 1.65
+  perfectTextPrefab: {fileID: 21300000, guid: 49b9b2312671d9f43b8ea51642ce46b3, type: 3}
+  perfectColor: {r: 1, g: 0.24827138, b: 0, a: 1}
+  perfectEmission: 1.8
+  missedTextPrefab: {fileID: 21300000, guid: 7e9f94cfd579df2418c88b19a8c0fb1d, type: 3}
+  missedColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+  missedEmission: 1.4
+  feedbackContainer: {fileID: 1141759900}
+  feedbackPrefab: {fileID: 3213033245878383577, guid: 0a94161d4c02d4a488910b709c762a2b, type: 3}
+  scaleAnimationMultiplicator: 2
+  popAnimationDuration: 0.5
+  popupLifetime: 0.75
+  imageFadeOutDuration: 0.5
+  xPos: 0
+  yPos: 0
 --- !u!1 &1415658972
 GameObject:
   m_ObjectHideFlags: 0
@@ -13546,7 +13583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4612205616256255510, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
       propertyPath: perfectThreshold
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4612205616256255510, guid: 579cbfd7232406c47b0c12b321a481d9, type: 3}
       propertyPath: projectileLifetime
@@ -13682,7 +13719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 12.700012, y: -0.7}
+  m_AnchoredPosition: {x: 12.700043, y: -0.7}
   m_SizeDelta: {x: 285, y: 2048}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483343513

@@ -28,7 +28,7 @@ public class GridMoveable : TempoTrigger
     protected float beatLength = 0f;
 
 
-    public void Move(DIRECTION Direction)
+    public void Move(DIRECTION Direction, System.Action callback = null)
     {
         if(isMoving) { TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y)); elapsedTime = 0f; }
 
@@ -64,7 +64,7 @@ public class GridMoveable : TempoTrigger
             if (JuiceManager.Instance.IsMovementOn)
             {
 
-            isMoving = true; StartCoroutine(MoveTransition());
+            isMoving = true; StartCoroutine(MoveTransition(callback));
             }
             else
             {
@@ -73,7 +73,7 @@ public class GridMoveable : TempoTrigger
         }
     }
 
-    private IEnumerator MoveTransition()
+    private IEnumerator MoveTransition(System.Action callback = null)
     {
         if (GridManager.Instance && Tempo.Instance)
         {
@@ -121,6 +121,8 @@ public class GridMoveable : TempoTrigger
             }
 
             TeleportOnGrid(new GridManager.IntVector2((int)loopTargetTile.x, (int)loopTargetTile.y));
+
+            callback?.Invoke();
 
             elapsedTime = 0f;
             isMoving = false;

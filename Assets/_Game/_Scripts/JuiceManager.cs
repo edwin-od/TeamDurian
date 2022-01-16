@@ -5,12 +5,12 @@ using UnityEngine;
 public class JuiceManager : MonoBehaviour
 {
     [SerializeField] private KeyCode PostProcessToggle = KeyCode.None;
-    private bool ppOn = false;
+    private bool ppOn = true;
     public GameObject postprocess;
     public bool IsPostProcessJuiceOn { get { return ppOn; } }
 
     [SerializeField] private KeyCode TimelineToggle = KeyCode.None;
-    private bool timelineOn = false;
+    private bool timelineOn = true;
     public bool IsTimelineJuiceOn { get { return timelineOn; } }
 
     //[SerializeField] private KeyCode PlayerToggle = KeyCode.None;
@@ -18,35 +18,35 @@ public class JuiceManager : MonoBehaviour
     //public bool IsPlayerJuiceOn { get { return playerOn; } }
 
     [SerializeField] private KeyCode EnemyToggle = KeyCode.None;
-    private bool enemyOn = false;
+    private bool enemyOn = true;
     public bool IsEnemyJuiceOn { get { return enemyOn; } }
 
     [SerializeField] private KeyCode ComboBarToggle = KeyCode.None;
-    private bool comboOn = false;
+    private bool comboOn = true;
     public bool IsComboBarJuiceOn { get { return comboOn; } }
 
     [SerializeField] private KeyCode GridToggle = KeyCode.None;
-    private bool gridOn = false;
+    private bool gridOn = true;
     public bool IsGridJuiceOn { get { return gridOn; } }
 
     [SerializeField] private KeyCode ShakesToggle = KeyCode.None;
-    private bool shakeOn = false;
+    private bool shakeOn = true;
     public bool IsShakesJuiceOn { get { return shakeOn; } }
 
     [SerializeField] private KeyCode SyncToggle = KeyCode.None;
-    private bool syncOn = false;
+    private bool syncOn = true;
     public bool IsSyncJuiceOn { get { return syncOn; } }
 
     [SerializeField] private KeyCode MovementToggle = KeyCode.None;
-    private bool movementOn = false;
+    private bool movementOn = true;
     public bool IsMovementOn { get { return movementOn; } }
 
     [SerializeField] private KeyCode PrecisionToggle = KeyCode.None;
-    private bool precisionOn = false;
+    private bool precisionOn = true;
     public bool PrecisionFeedback { get { return precisionOn; } }
 
     [SerializeField] private KeyCode ScoreAddToggle = KeyCode.None;
-    private bool scoreAddOn = false;
+    private bool scoreAddOn = true;
     public bool ScoreAdd { get { return scoreAddOn; } }
 
 

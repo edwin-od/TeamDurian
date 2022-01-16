@@ -5035,8 +5035,11 @@ MonoBehaviour:
   greatScore: 2
   perfectScore: 3
   projectilePrefab: {fileID: 3660727220632822144, guid: e0ccd4b62b3ef8f46a88d5e6226a6b0f, type: 3}
+  uglyProjectilePrefab: {fileID: 0}
   projectileSpawn: {fileID: 6283640611864928250}
   walkParticleSpawn: {fileID: 6691395845785960486}
+  gameOverScreen: {fileID: 0}
+  isDead: 0
   ignoreBeatRestriction: 0
   comboMultiplier: 1
   maxCombo: 15
@@ -5164,7 +5167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5448147509686360313}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.6, y: 0, z: -0.26}
+  m_LocalPosition: {x: 0.6, y: 0, z: -0.468}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4612205616256255505}

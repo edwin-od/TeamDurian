@@ -62,6 +62,8 @@ public class UI_PauseMenu : MonoBehaviour
 
     public void MainMenuButton()
     {
+        UnPauseButton();
+        if (LevelManager.Instance) { LevelManager.Instance.StopLevel(); }
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }
